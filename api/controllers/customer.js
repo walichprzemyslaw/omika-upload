@@ -19,7 +19,6 @@ export const getCustomer = async (req, res, next) => {
 export const getOrdersByCustomerId = async (req, res, next) => {};
 export const createCustomer = async (req, res, next) => {
   const newCustomer = new Customer(req.body);
-  console.log(req.body);
   try {
     const savedCustomer = await newCustomer.save();
     res.status(200).json(savedCustomer);
