@@ -8,12 +8,7 @@ const ProductSchema = new mongoose.Schema({
     required: true,
     enum: ["pizza", "burger", "drink"],
   },
-  price: [
-    {
-      price: { type: Number, required: true },
-      size: { type: String, enum: ["medium", "large"] },
-    },
-  ],
+  price: { type: [Number], required: true },
   ingredients: { type: [String], required: true },
   isAvailable: { type: Boolean, default: true },
 });

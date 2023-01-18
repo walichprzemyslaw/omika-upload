@@ -5,8 +5,7 @@ const CustomerSchema = new mongoose.Schema({
   lastName: { type: String, required: true },
   address: { type: String, required: true },
   city: { type: String, required: true },
-  deliveryZone: { type: String, required: true, enum: ["A", "B", "C"] },
-  phone: { type: String, required: true },
+  phone: { type: String, required: true, unique: true },
 });
 
 export default mongoose.model("Customer", CustomerSchema);
