@@ -1,0 +1,55 @@
+.app.dark {
+  background-color: #111;
+  color: rgb(156, 156, 156);
+
+  .navbar {
+    .wrapper {
+      .items {
+        .item {
+          &:hover {
+            background-color: #333;
+          }
+
+          .icon {
+            color: #999;
+          }
+        }
+      }
+    }
+  }
+
+  .sidebar {
+    background-color: #111;
+    border-color: #333;
+
+    .top {
+      ul {
+        .item {
+          &:hover {
+            background-color: #333;
+          }
+          li {
+            .icon {
+              color: #999;
+            }
+          }
+        }
+      }
+    }
+
+    .bottom {
+      ul {
+        .item {
+          &:hover {
+            background-color: #333;
+          }
+          li {
+            .icon {
+              color: #999;
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,14 @@
+.menu {
+    display: flex; 
+  
+    .menuContainer {
+      flex: 19;
+  
+      .menuWrapper{
+        align-items: center;
+        display: flex;
+        justify-content: center;
+        height: 90vh;
+      }
+    }
+  }

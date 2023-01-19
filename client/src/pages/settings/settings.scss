@@ -1,0 +1,14 @@
+.settings {
+    display: flex; 
+  
+    .settingsContainer {
+      flex: 19;
+  
+      .settingsWrapper{
+        align-items: center;
+        display: flex;
+        justify-content: center;
+        height: 90vh;
+      }
+    }
+  }

@@ -1,0 +1,15 @@
+.home {
+  display: flex; 
+
+  .homeContainer {
+    flex: 19;
+
+    .homeWrapper{
+      align-items: center;
+      display: flex;
+      justify-content: center;
+      height: 90vh;
+    }
+  }
+}
+
