@@ -3,12 +3,23 @@
   
     .menuContainer {
       flex: 19;
+      margin-left: 95px;
+      margin-right: 20px;
+      margin-bottom: 30px;
+      align-items: center;
+
+      hr {
+        margin-top: 10px;
+        height: 0;
+        border: 0.5px solid #efecec;
+      }
   
       .menuWrapper{
         align-items: center;
         display: flex;
-        justify-content: center;
-        height: 90vh;
+        flex-wrap: wrap;
+        justify-content:center;
+        // height: 90vh;
       }
     }
   }

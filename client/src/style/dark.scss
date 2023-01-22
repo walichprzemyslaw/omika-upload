@@ -52,4 +52,112 @@
       }
     }
   }
+
+  .cardContainer {
+    flex: 1;
+    margin: 5px 10px;
+    padding: 10px 20px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    border: 2px solid #999;
+    border-radius: 10px;
+
+    &:hover {
+      background-color: #333;
+    }
+  }
+
+  .categories {
+    .categoryItem {
+      li {
+        .icon {
+          color: #999;
+
+          &:hover {
+            background-color: #333;
+          }
+        }
+      }
+    }
+
+    // .active {
+    //   li {
+    //     cursor:initial;
+    //     .icon {
+    //       color: white;
+    //       background-color: black;
+
+    //       &:hover {
+    //         background-color: black;
+    //       }
+    //     }
+    //   }
+    //   .categoryTitle {
+    //     color: white;
+    //   } 
+    // }
+  }
+
+  .modal{
+    background-color: rgba(153, 153, 153, 0.85);
+    color: #dbdbdb;
+    .modalContainer{
+      .details{
+        .detailsLeft{
+          .active{
+            background-color: #333;
+          }
+          .sizeOption{
+            border: 2px solid white;
+            .medium{
+              color:#fff
+            }
+            .large{
+              color: #fff;
+            }
+          }
+          .sizeTitle{
+            color:#fff;
+          }
+          .addToCart{
+            .quantityContainer{
+              border: 1px solid white;
+              background-color: #333;
+              .icon{
+                color:#fff
+              }
+              .quantity{
+                color:#fff
+              }
+            }
+          }
+          .addToCartButton{
+            background-color: rgba(158, 0, 0, 0.5);
+            &:hover {
+              background-color: rgba(158, 0, 0, 0.75);
+            }
+          }
+        }
+        .detailsRight{}
+      }
+      .options{
+      ul.ingredients li label {
+        background-color: transparent;
+        border: 2px solid white;
+        color: #ffffff;
+      }
+
+      ul.ingredients li input[type="checkbox"]:checked + label {
+        border: 2px solid #333;
+        background-color: #333;
+        color: #ffffff;
+        transition: all 0.2s;
+      }
+      ul.ingredients li input[type="checkbox"]:focus + label {
+        border: 2px solid #333;
+      }
+      }
+    }
+  }
 }

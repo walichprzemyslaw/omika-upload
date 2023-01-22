@@ -3,7 +3,6 @@ import HomeIcon from "@mui/icons-material/Home";
 import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
 import SettingsIcon from "@mui/icons-material/Settings";
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
-import LocalPizzaIcon from "@mui/icons-material/LocalPizza";
 import FastfoodIcon from "@mui/icons-material/Fastfood";
 import { Link } from "react-router-dom";
 
