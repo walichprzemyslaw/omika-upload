@@ -22,6 +22,7 @@
         display: flex;
         align-items: center;
         cursor: pointer;
+        position: relative;
 
         &:hover {
           background-color: #ffe8e8;
@@ -31,6 +32,21 @@
           padding: 10px;
           font-size: 20px;
           color: #dd1414;
+        }
+
+        span {
+          font-size: 12px;
+          width: 20px;
+          height: 20px;
+          border-radius: 50%;
+          background-color: #dd1414;
+          color:white;
+          position: absolute;
+          right: 10px;
+          top: 10px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
         }
       }
     }

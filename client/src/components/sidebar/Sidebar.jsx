@@ -5,8 +5,11 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
 import FastfoodIcon from "@mui/icons-material/Fastfood";
 import { Link } from "react-router-dom";
+import { useState } from "react";
 
 const Sidebar = () => {
+  const [openPower, setOpenPower] = useState(false);
+
   return (
     <div className="sidebar"> 
       <div className="top">
@@ -50,12 +53,13 @@ const Sidebar = () => {
           <Link to="/" style={{ textDecoration: "none" }}>
             <div className="item">
               <li>
-                <PowerSettingsNewIcon className="icon" />
+                <PowerSettingsNewIcon className="icon" onClick={()=>setOpenPower(!openPower)} />
               </li>
             </div>
           </Link>
         </ul>
       </div>
+      {openPower && <div className="power"><span>Wyloguj</span></div>}
     </div>
   );
 };

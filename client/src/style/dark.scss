@@ -53,6 +53,113 @@
     }
   }
 
+  .home {
+    .homeWrapper {
+      .left {
+        p {
+          color: #999;
+        }
+      }
+    }
+  }
+
+  .settings {
+    .settingsContainer {
+      .settingsWrapper {
+        .settingsLeft {
+          .formInput {
+            input {
+              background: transparent;
+              color: #999;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .cart {
+    .cartContainer {
+      background-color: #333;
+      .cartTop {
+        .cartHeader {
+          .cartHeaderRight {
+            .closeButton {
+              color: #999;
+              &:hover {
+                color: #dd1414;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .checkout {
+    .checkoutContainer {
+      background-color: #333;
+      .checkoutTop {
+        .checkoutHeader {
+          .checkoutHeaderLeft {
+            h1 {
+              color: #999;
+            }
+          }
+          .checkoutHeaderRight {
+            .closeButton {
+              color: #999;
+              &:hover {
+                color: #dd1414;
+              }
+            }
+          }
+        }
+      }
+      .checkoutBottom {
+        .bottomLeft {
+          .checkoutForm {
+            form {
+              .formInput {
+                input {
+                  background: transparent;
+                  color: #999;
+                }
+                textarea {
+                  color: #999;
+                  background: transparent;
+                  &:active {
+                    outline: #dd1414;
+                  }
+                }
+              }
+            }
+          }
+        }
+        .bottomRight {
+          h1 {
+            color: #999;
+          }
+          
+          .totalPrice{
+            color:#999;
+          }
+
+          .deliveryMethod{
+            .title{
+              color: #999;
+            }
+          }
+          .paymentMethod{
+            .title{
+              color: #999;
+            }
+          }
+        }
+      }
+    }
+  }
+
   .cardContainer {
     flex: 1;
     margin: 5px 10px;
@@ -95,68 +202,69 @@
     //   }
     //   .categoryTitle {
     //     color: white;
-    //   } 
+    //   }
     // }
   }
 
-  .modal{
+  .modal {
     background-color: rgba(153, 153, 153, 0.85);
     color: #dbdbdb;
-    .modalContainer{
-      .details{
-        .detailsLeft{
-          .active{
+    .modalContainer {
+      .details {
+        .detailsLeft {
+          .active {
             background-color: #333;
           }
-          .sizeOption{
+          .sizeOption {
             border: 2px solid white;
-            .medium{
-              color:#fff
+            .medium {
+              color: #fff;
             }
-            .large{
+            .large {
               color: #fff;
             }
           }
-          .sizeTitle{
-            color:#fff;
+          .sizeTitle {
+            color: #fff;
           }
-          .addToCart{
-            .quantityContainer{
+          .addToCart {
+            .quantityContainer {
               border: 1px solid white;
               background-color: #333;
-              .icon{
-                color:#fff
+              .icon {
+                color: #fff;
               }
-              .quantity{
-                color:#fff
+              .quantity {
+                color: #fff;
               }
             }
           }
-          .addToCartButton{
+          .addToCartButton {
             background-color: rgba(158, 0, 0, 0.5);
             &:hover {
               background-color: rgba(158, 0, 0, 0.75);
             }
           }
         }
-        .detailsRight{}
+        .detailsRight {
+        }
       }
-      .options{
-      ul.ingredients li label {
-        background-color: transparent;
-        border: 2px solid white;
-        color: #ffffff;
-      }
+      .options {
+        ul.ingredients li label {
+          background-color: transparent;
+          border: 2px solid white;
+          color: #ffffff;
+        }
 
-      ul.ingredients li input[type="checkbox"]:checked + label {
-        border: 2px solid #333;
-        background-color: #333;
-        color: #ffffff;
-        transition: all 0.2s;
-      }
-      ul.ingredients li input[type="checkbox"]:focus + label {
-        border: 2px solid #333;
-      }
+        ul.ingredients li input[type="checkbox"]:checked + label {
+          border: 2px solid #333;
+          background-color: #333;
+          color: #ffffff;
+          transition: all 0.2s;
+        }
+        ul.ingredients li input[type="checkbox"]:focus + label {
+          border: 2px solid #333;
+        }
       }
     }
   }

@@ -193,7 +193,7 @@ const Modal = ({ closeModal }) => {
           <h4>Dodatki:</h4>
           <ul className="ingredients">
             {addons.map((addon) => (
-              <li key={addon.id}>
+              <li key={addon?.id}>
                 <input
                   className="addons"
                   type="checkbox"
