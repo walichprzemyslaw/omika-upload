@@ -9,12 +9,16 @@ import {
 import Home from "./pages/home/Home";
 import List from "./pages/list/List";
 import Login from "./pages/login/Login";
-import NewUser from "./pages/newUser/NewUser";
-import NewCustomer from "./pages/newCustomer/NewCustomer";
-import NewOrder from "./pages/newOrder/NewOrder";
-import NewProduct from "./pages/newProduct/NewProduct";
-import NewEmployee from "./pages/newEmployee/NewEmployee";
-import Single from "./pages/single/Single";
+import NewUser from "./pages/user/newUser/NewUser";
+import EditUser from "./pages/user/editUser/EditUser";
+import NewCustomer from "./pages/customer/newCustomer/NewCustomer";
+import EditCustomer from "./pages/customer/editCustomer/EditCustomer";
+import NewOrder from "./pages/order/newOrder/NewOrder";
+import EditOrder from "./pages/order/editOrder/EditOrder";
+import NewProduct from "./pages/product/newProduct/NewProduct";
+import EditProduct from "./pages/product/editProduct/EditProduct";
+import NewEmployee from "./pages/employee/newEmployee/NewEmployee";
+import EditEmployee from "./pages/employee/editEmployee/EditEmployee";
 import "./style/dark.scss";
 
 import { customerInputs, employeeInputs, orderInputs, productInputs, userInputs } from "./formSource";
@@ -55,7 +59,7 @@ function App() {
                   </ProtectedRoute>}/>
               <Route path=":userId" element={
                   <ProtectedRoute>
-                    <Single />
+                    <EditUser />
                   </ProtectedRoute>}/>
               <Route path="new" element={
                   <ProtectedRoute>
@@ -71,7 +75,7 @@ function App() {
                   </ProtectedRoute>}/>
               <Route path=":productId" element={
                   <ProtectedRoute>
-                    <Single />
+                    <EditProduct />
                   </ProtectedRoute>}/>
               <Route path="new" element={
                   <ProtectedRoute>
@@ -87,7 +91,7 @@ function App() {
                   </ProtectedRoute>}/>
               <Route path=":customerId" element={
                   <ProtectedRoute>
-                    <Single />
+                    <EditCustomer />
                   </ProtectedRoute>}/>
               <Route path="new" element={
                   <ProtectedRoute>
@@ -103,7 +107,7 @@ function App() {
                   </ProtectedRoute>}/>
               <Route path=":orderId" element={
                   <ProtectedRoute>
-                    <Single />
+                    <EditOrder />
                   </ProtectedRoute>}/>
               <Route path="new" element={
                   <ProtectedRoute>
@@ -119,7 +123,7 @@ function App() {
                   </ProtectedRoute>}/>
               <Route path=":employeeId" element={
                   <ProtectedRoute>
-                    <Single />
+                    <EditEmployee />
                   </ProtectedRoute>}/>
               <Route path="new" element={
                   <ProtectedRoute>

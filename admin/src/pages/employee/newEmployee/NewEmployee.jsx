@@ -1,11 +1,11 @@
-import "./newCustomer.scss";
-import Sidebar from "../../components/sidebar/Sidebar";
-import Navbar from "../../components/navbar/Navbar";
+import "./newEmployee.scss";
+import Sidebar from "../../../components/sidebar/Sidebar";
+import Navbar from "../../../components/navbar/Navbar";
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-const NewCustomer = ({ inputs, title }) => {
+const NewEmployee = ({ inputs, title }) => {
   const [info, setInfo] = useState({});
 
   const navigate = useNavigate();
@@ -17,8 +17,8 @@ const NewCustomer = ({ inputs, title }) => {
   const handleClick = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("/customers", {...info});
-      navigate("/customers/");
+      await axios.post("/employees", { ...info });
+      navigate("/employees/");
     } catch (error) {
       console.log(error);
     }
@@ -54,5 +54,4 @@ const NewCustomer = ({ inputs, title }) => {
     </div>
   );
 };
-
-export default NewCustomer;
+export default NewEmployee;

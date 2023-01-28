@@ -1,8 +1,7 @@
 import React from "react";
 import Navbar from "../../components/navbar/Navbar";
 import Sidebar from "../../components/sidebar/Sidebar";
-import Widget from "../../components/widget/Widget";
-import Table from "../../components/table/Table";
+import Workday from "../../components/workday/Workday";
 import "./home.scss";
 
 const Home = () => {
@@ -11,16 +10,7 @@ const Home = () => {
       <Sidebar />
       <div className="homeContainer">
         <Navbar />
-        <div className="widgets">
-          <Widget type="user" />
-          <Widget type="order" />
-          <Widget type="earning" />
-          <Widget type="balance" />
-        </div>
-        <div className="listContainer">
-          <div className="listTitle">Ostatnie zamówienia</div>
-          <Table />
-        </div>
+        <Workday />
       </div>
     </div>
   );

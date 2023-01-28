@@ -1,0 +1,56 @@
+.workday {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+
+  .workdayLeft {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    .addOrderButton {
+      height: 30px;
+      display: flex;
+      align-items: center;
+      background-color: #dd1414;
+      color: white;
+      border: none;
+      font-weight: 500;
+      padding: 10px;
+      border-radius: 15px;
+      cursor: pointer;
+      width: fit-content;
+
+      &:hover {
+        background-color: #ff1c1c;
+      }
+    }
+  }
+
+  .workdayRight {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    .workdayStats {
+      height: 30px;
+    }
+  }
+
+  .orderItem {
+    cursor: pointer;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    border: 1px solid #333;
+    border-radius: 10px;
+    padding: 5px;
+    margin: 10px auto;
+  }
+}
