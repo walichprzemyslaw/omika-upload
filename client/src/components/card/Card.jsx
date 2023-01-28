@@ -1,8 +1,9 @@
 import { useState } from "react";
+import useFetch from "../../hooks/useFetch";
 import Modal from "../modal/Modal";
 import "./card.scss";
 
-const Card = () => {
+const Card = ({item}) => {
   const [openModal, setOpenModal] = useState(false);
 
   return (
@@ -15,15 +16,15 @@ const Card = () => {
       >
         <img
           className="cardImage"
-          src="https://www.seekpng.com/png/full/924-9241545_circle-pizza-clip-art.png"
-          alt="pizza"
+          src={item.img}
+          alt={item.name}
         />
         <div className="details">
-          <p className="title">Pepperoni</p>
-          <p className="price">35.95zł</p>
+          <p className="title">{item.name}</p>
+          <p className="price">{item.price[0]}zł</p>
         </div>
       </div>
-      {openModal && <Modal closeModal={setOpenModal} />}
+      {openModal && <Modal item={item} closeModal={setOpenModal} key={item._id} />}
     </div>
   );
 };

@@ -16,6 +16,23 @@ export const getProduct = async (req, res, next) => {
     next(error);
   }
 };
+
+export const getByCategory = async (req, res, next) => {
+  try {
+    const cat = req.params.id;
+    const products = await Product.find({category: cat});
+    const list = await Promise.all(
+      products.map((product) => {
+        return product
+      })
+    );
+
+    res.status(200).json(list);
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const createProduct = async (req, res, next) => {
   const newProduct = new Product(req.body);
 

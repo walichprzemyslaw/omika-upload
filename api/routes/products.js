@@ -5,6 +5,7 @@ import {
   getProduct,
   getProducts,
   updateProduct,
+  getByCategory
 } from "../controllers/product.js";
 import { verifyAdmin } from "../utils/verifyToken.js";
 
@@ -15,6 +16,9 @@ router.get("/", getProducts);
 
 // GET PRODUCT BY PRODUCT ID
 router.get("/find/:id", getProduct);
+
+// GET PRODUCTS BY CATEGORY
+router.get("/category/:id", getByCategory);
 
 // CREATE PRODUCT
 router.post("/", verifyAdmin, createProduct); 

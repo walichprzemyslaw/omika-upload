@@ -11,8 +11,8 @@ const Menu = () => {
       <Sidebar />
       <div className="menuContainer">
         <Navbar />
-        <Categories />
-        <hr />
+        {/* <Categories />
+        <hr /> */}
         <div className="menuWrapper">
           <List />
         </div>
