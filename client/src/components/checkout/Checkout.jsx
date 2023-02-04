@@ -1,9 +1,24 @@
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import "./checkout.scss";
 
 const Checkout = ({ closeCheckout }) => {
   const [delivery, setDelivery] = useState(true);
   const [shippingAddress, setShippingAddress] = useState(false);
+
+  const products = useSelector((state) => state.cart.products);
+
+  const cartTotal = () => {
+    let cartTotal = 0;
+    products.forEach((item) => (cartTotal += item.quantity * item.price));
+    return cartTotal.toFixed(2);
+  };
+
+  const dispatch = useDispatch();
+
+  console.log(products);
+  console.log(delivery);
+  
 
   return (
     <div className="checkout">
@@ -13,7 +28,7 @@ const Checkout = ({ closeCheckout }) => {
             <div className="checkoutHeaderLeft">
               <h1>Podsumowanie</h1>
             </div>
-            <div className="checkoutHeaderRight"> 
+            <div className="checkoutHeaderRight">
               <button
                 className="closeButton"
                 onClick={() => closeCheckout(false)}
@@ -81,23 +96,28 @@ const Checkout = ({ closeCheckout }) => {
           <div className="bottomRight">
             <h1>Twoje zamówienie:</h1>
             <ul>
-              <li className="item">
-                <p className="quantity">1x</p>
-                <p className="name">Pepperoni</p>
-                <p className="price">34.95zł</p>
-              </li>
-              <li className="item">
-                <p className="quantity">2x</p>
-                <p className="name">Salami</p>
-                <p className="price">34.95zł</p>
-              </li>
-              <li className="item">
-                <p className="quantity">1x</p>
-                <p className="name">Vesuvio</p>
-                <p className="price">34.95zł</p>
-              </li>
+              {products?.map((cartItem) => (
+                <li className="item" key={cartItem.id+cartItem.addedIngredients+cartItem.excludedIngredients}>
+                  <div className="itemTitle">
+                    <h1>{cartItem.quantity}x</h1>
+                    <h2>
+                      {cartItem.category === "pizza" &&
+                        (cartItem.size === "large" ? "⌀40cm " : "⌀30cm ")}
+                      {cartItem.name}
+                    </h2>
+                  </div>
+                  <div className="itemDetails">
+                    {cartItem.addedIngredients.length > 0 && (
+                      <p>Dodatki: {cartItem.addedIngredients.join(", ")}</p>
+                    )}
+                    {cartItem.excludedIngredients.length > 0 && (
+                      <p>Minus: {cartItem.excludedIngredients.join(", ")}</p>
+                    )}
+                  </div>
+                </li>
+              ))}
             </ul>
-            <p className="totalPrice">Łączny koszt: 104.85zł</p>
+            <p className="totalPrice">Łączny koszt: {cartTotal()}zł</p>
             <div className="deliveryMethod">
               <p className="title">Wybierz metodę odbioru zamówienia:</p>
               <select id="deliveryMethod" className="select">
@@ -105,7 +125,10 @@ const Checkout = ({ closeCheckout }) => {
                 <option value="pickUp">Odbiór osobisty</option>
               </select>
             </div>
-            <div className="shippingAddress" onClick={()=>setShippingAddress(!shippingAddress)}>
+            <div
+              className="shippingAddress"
+              onClick={() => setShippingAddress(!shippingAddress)}
+            >
               <input
                 type="checkbox"
                 id="shippingAddress"
@@ -114,27 +137,27 @@ const Checkout = ({ closeCheckout }) => {
               />
               <label htmlFor="shippingAddress">Dostawa na inny adres?</label>
             </div>
-            
+
             {shippingAddress && (
-                  <>
-                    <div className="formInput">
-                      <label>Ulica</label>
-                      <input type="text" placeholder="Ulica" id="" />
-                    </div>
-                    <div className="formInput">
-                      <label>Numer domu</label>
-                      <input type="number" placeholder="Numer domu" id="" />
-                    </div>
-                    <div className="formInput">
-                      <label>Miasto</label>
-                      <input type="text" placeholder="Miasto" id="" />
-                    </div>
-                    <div className="formInput">
-                      <label>Kod pocztowy</label>
-                      <input type="number" placeholder="Kod pocztowy" id="" />
-                    </div>
-                  </>
-                )}
+              <>
+                <div className="formInput">
+                  <label>Ulica</label>
+                  <input type="text" placeholder="Ulica" id="" />
+                </div>
+                <div className="formInput">
+                  <label>Numer domu</label>
+                  <input type="number" placeholder="Numer domu" id="" />
+                </div>
+                <div className="formInput">
+                  <label>Miasto</label>
+                  <input type="text" placeholder="Miasto" id="" />
+                </div>
+                <div className="formInput">
+                  <label>Kod pocztowy</label>
+                  <input type="number" placeholder="Kod pocztowy" id="" />
+                </div>
+              </>
+            )}
             <div className="paymentMethod">
               <p className="title">Wybierz metodę płatności:</p>
               <select id="paymentMethod" className="select">

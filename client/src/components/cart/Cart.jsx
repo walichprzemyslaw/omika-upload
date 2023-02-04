@@ -2,33 +2,21 @@ import { useState } from "react";
 import "./cart.scss";
 import DeleteForeverOutlinedIcon from "@mui/icons-material/DeleteForeverOutlined";
 import Checkout from "../checkout/Checkout";
+import { useDispatch, useSelector } from "react-redux";
+import { removeItem, resetCart } from "../../redux/cartReducer";
 
 const Cart = ({ closeCart }) => {
   const [openCheckout, setOpenCheckout] = useState(false);
 
-  //temporary data
-  const cartItems = [
-    {
-      id: 1,
-      name: "pepperoni",
-      img: "https://www.seekpng.com/png/full/924-9241545_circle-pizza-clip-art.png",
-    },
-    {
-      id: 2,
-      name: "rimini",
-      img: "https://www.seekpng.com/png/full/924-9241545_circle-pizza-clip-art.png",
-    },
-    {
-      id: 3,
-      name: "vesuvio",
-      img: "https://www.seekpng.com/png/full/924-9241545_circle-pizza-clip-art.png",
-    },
-    {
-      id: 4,
-      name: "salami",
-      img: "https://www.seekpng.com/png/full/924-9241545_circle-pizza-clip-art.png",
-    },
-  ];
+  const products = useSelector((state) => state.cart.products);
+
+  const cartTotal = () => {
+    let cartTotal = 0;
+    products.forEach((item) => (cartTotal += item.quantity * item.price));
+    return cartTotal.toFixed(2);
+  };
+
+  const dispatch = useDispatch();
 
   return (
     <div className="cart">
@@ -38,7 +26,10 @@ const Cart = ({ closeCart }) => {
           <div className="cartHeader">
             <div className="cartHeaderLeft">
               <h1>Twój koszyk</h1>
-              <DeleteForeverOutlinedIcon className="cartDelete" />
+              <DeleteForeverOutlinedIcon
+                className="cartDelete"
+                onClick={() => dispatch(resetCart())}
+              />
             </div>
             <div className="cartHeaderRight">
               <button className="closeButton" onClick={() => closeCart(false)}>
@@ -48,18 +39,43 @@ const Cart = ({ closeCart }) => {
           </div>
           <hr />
           <ul className="cartItems">
-            {cartItems?.map((cartItem) => (
-              <li className="cartItem" key={cartItem.id}>
+            {products?.map((cartItem) => (
+              <li className="cartItem" key={cartItem.id+cartItem.addedIngredients+cartItem.excludedIngredients}>
                 <div className="itemLeft">
                   <img src={cartItem.img} alt="" />
                   <div className="details">
-                    <h1>{cartItem.name}</h1>
-                    <p className="cartDetailsSize">Medium</p>
-                    <div className="price">34.95zł</div>
+                    <h1>
+                      {cartItem.category === "pizza" &&
+                        (cartItem.size === "large" ? "⌀40cm " : "⌀30cm ")}
+                      {cartItem.name}
+                    </h1>
+                    <div className="cartDetails">
+                      {cartItem.addedIngredients.length > 0 && (
+                        <p>Dodatki: {cartItem.addedIngredients.join(", ")}</p>
+                      )}
+                      {cartItem.excludedIngredients.length > 0 && (
+                        <p>Minus: {cartItem.excludedIngredients.join(", ")}</p>
+                      )}
+                    </div>
+                    <div className="price">
+                      {cartItem.quantity}x {cartItem.price.toFixed(2)}zł
+                    </div>
                   </div>
                 </div>
                 <div className="itemRight">
-                  <DeleteForeverOutlinedIcon className="cartDelete" />
+                  <DeleteForeverOutlinedIcon
+                    className="cartDelete"
+                    onClick={() =>
+                      dispatch(
+                        removeItem({
+                          id: cartItem.id,
+                          addedIngredients: cartItem.addedIngredients,
+                          excludedIngredients: cartItem.excludedIngredients,
+                          size: cartItem.size,
+                        })
+                      )
+                    }
+                  />
                 </div>
               </li>
             ))}
@@ -69,7 +85,7 @@ const Cart = ({ closeCart }) => {
           <hr />
           <div className="total">
             <span>Łącznie do zapłaty:</span>
-            <span>104.85zł</span>
+            <span>{cartTotal()}zł</span>
           </div>
           <div className="button">
             <button

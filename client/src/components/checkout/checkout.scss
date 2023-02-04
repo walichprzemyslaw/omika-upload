@@ -104,19 +104,31 @@
       .bottomRight {
         flex: 1;
         h1 {
-          font-size: 18px;
+          font-size: 20px;
           color: #333;
         }
         ul {
           padding: 0;
           list-style: none;
-          li {
+          .item {
             display: flex;
-            flex-direction: row;
-            align-items: center;
-            gap: 5px;
-            p {
-              font-size: 14px;
+            flex-direction: column;
+            margin-bottom: 5px;
+            .itemTitle {
+              display: flex;
+              gap: 5px;
+              align-items: center;
+              h1 {
+                font-size: 16px;
+              }
+              h2 {
+                font-size: 16px;
+                text-transform: capitalize;
+              }
+            }
+            .itemDetails {
+              font-size: 12px;
+              color: #333;
             }
           }
         }

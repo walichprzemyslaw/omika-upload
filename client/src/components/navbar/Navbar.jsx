@@ -4,9 +4,12 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { useContext, useState } from "react";
 import { DarkModeContext } from "../../context/DarkmodeContext";
 import Cart from "../cart/Cart";
+import { useSelector } from "react-redux";
 
 const Navbar = () => {
   const [openCart, setOpenCart] = useState(false);  
+
+  const products = useSelector((state) => state.cart.products);
 
   const { dispatchMode } = useContext(DarkModeContext);
 
@@ -22,7 +25,7 @@ const Navbar = () => {
           </div>
           <div className="item" onClick={(e)=>setOpenCart(!openCart)}>
             <ShoppingCartIcon className="icon" />
-            <span>0</span>
+            <span>{products.length}</span>
           </div>
         </div>
       </div>

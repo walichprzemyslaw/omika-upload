@@ -4,6 +4,8 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { useState } from "react";
 import useFetch from "../../hooks/useFetch";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../../redux/cartReducer";
 
 const Modal = ({ closeModal, item }) => {
   const [price, setPrice] = useState(item.price[0]);
@@ -17,6 +19,8 @@ const Modal = ({ closeModal, item }) => {
   const { data, loading, error } = useFetch(
     `/ingredients/category/${item.category}/${rest}`
   );
+
+  const dispatch = useDispatch();
 
   //null error po otwarciu i kliknięciu ilości
   const number = document.querySelector("input.quantity");
@@ -117,7 +121,7 @@ const Modal = ({ closeModal, item }) => {
                   className="icon"
                   onClick={() => {
                     number.stepDown();
-                    setQuantity(number.value);
+                    setQuantity(parseInt(number.value));
                   }}
                 />
                 <input
@@ -131,13 +135,27 @@ const Modal = ({ closeModal, item }) => {
                   className="icon"
                   onClick={() => {
                     number.stepUp();
-                    setQuantity(number.value);
+                    setQuantity(parseInt(number.value));
                   }}
                 />
               </div>
               <button
                 className="addToCartButton"
-                onClick={() => closeModal(false)}
+                onClick={() =>
+                  dispatch(
+                    addToCart({
+                      id: item._id,
+                      name: item.name,
+                      img:item.img,
+                      category:item.category,
+                      addedIngredients,
+                      excludedIngredients,
+                      size,
+                      price,
+                      quantity,
+                    })
+                  )
+                }
               >
                 <p className="price">+{totalPrice.toFixed(2)}zł</p>Dodaj do
                 koszyka
