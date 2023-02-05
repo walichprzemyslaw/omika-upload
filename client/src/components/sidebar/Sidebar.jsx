@@ -4,15 +4,36 @@ import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
 import SettingsIcon from "@mui/icons-material/Settings";
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
 import FastfoodIcon from "@mui/icons-material/Fastfood";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
+import axios from "axios";
 
 const Sidebar = () => {
   const [openPower, setOpenPower] = useState(false);
 
-  const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
 
+  const { user, loading, error, dispatch } = useContext(AuthContext);
+
+  const handleLogout = async (e) =>{
+    e.preventDefault();
+    if (user){
+      const res = await axios.put("/auth/logout");
+      if (res.data) {
+        dispatch({ type: "LOGOUT" });
+        navigate("/");
+        setOpenPower(false);
+      } else {
+        dispatch({
+          type: "LOGIN_FAILURE",
+          payload: { message: "Something went wrong" },
+        });
+      }
+    }else{
+      navigate("/login");
+    }
+  }
 
   return (
     <div className="sidebar"> 
@@ -54,16 +75,14 @@ const Sidebar = () => {
               <p className="title">KONTO</p>
             </div>
           </Link>
-          <Link to="/" style={{ textDecoration: "none" }}>
-            <div className="item">
+            <div className="item" onClick={()=>setOpenPower(!openPower)}>
               <li>
-                <PowerSettingsNewIcon className="icon" onClick={()=>setOpenPower(!openPower)} />
+                <PowerSettingsNewIcon className="icon" />
               </li>
             </div>
-          </Link>
         </ul>
       </div>
-      {openPower && <div className="power"><span>Wyloguj</span></div>}
+      {openPower && <div className="power"><span onClick={handleLogout}>{user ? "Wyloguj" : "Zaloguj"}</span></div>}
     </div>
   );
 };

@@ -11,6 +11,7 @@ import { DarkModeContext } from "./context/DarkmodeContext";
 import Home from "./pages/home/Home";
 import Login from "./pages/login/Login";
 import Menu from "./pages/menu/Menu";
+import Register from "./pages/register/Register";
 import Settings from "./pages/settings/Settings";
 import "./style/dark.scss";
 
@@ -33,6 +34,7 @@ function App() {
         <Routes>
           <Route path="/">
             <Route path="login" element={<Login />} />
+            <Route path="register" element={<Register />} />
             <Route index element={<Home />} />
             <Route path="menu" element={<Menu />} />
             <Route path="settings/:id" element={<ProtectedRoute><Settings /></ProtectedRoute>} />

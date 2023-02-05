@@ -1,0 +1,40 @@
+.register {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.rContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  input[type="number"] {
+    -moz-appearance: textfield;
+  }
+}
+
+.rInput {
+  height: 30px;
+  padding: 10px;
+}
+
+.rButton {
+  border: none;
+  padding: 10px 20px;
+  background-color: #dd1414;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.rButton:disabled {
+  background-color: #5e0909;
+  cursor: not-allowed;
+}
