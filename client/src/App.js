@@ -35,7 +35,7 @@ function App() {
             <Route path="login" element={<Login />} />
             <Route index element={<Home />} />
             <Route path="menu" element={<Menu />} />
-            <Route path="settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
+            <Route path="settings/:id" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
           </Route>
         </Routes>
       </Router>

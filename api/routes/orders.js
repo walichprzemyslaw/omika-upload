@@ -4,6 +4,7 @@ import {
   deleteOrder,
   getOrder,
   getOrders,
+  getOrdersByUser,
   updateOrder,
 } from "../controllers/order.js";
 import { verifyAdmin, verifyUser } from "../utils/verifyToken.js";
@@ -15,6 +16,9 @@ router.get("/", verifyAdmin, getOrders);
 
 // GET ORDER BY ORDER ID
 router.get("/find/:id", getOrder);
+
+// GET ORDERS BY USER ID
+router.get("/user/:id", getOrdersByUser)
 
 // CREATE ORDER
 router.post("/", createOrder);

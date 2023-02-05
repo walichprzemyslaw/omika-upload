@@ -5,10 +5,14 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
 import FastfoodIcon from "@mui/icons-material/Fastfood";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { AuthContext } from "../../context/AuthContext";
 
 const Sidebar = () => {
   const [openPower, setOpenPower] = useState(false);
+
+  const { user } = useContext(AuthContext);
+
 
   return (
     <div className="sidebar"> 
@@ -42,7 +46,7 @@ const Sidebar = () => {
       </div>
       <div className="bottom">
         <ul>
-          <Link to="/settings" style={{ textDecoration: "none" }}>
+          <Link to={`/settings/${user?._id}`} style={{ textDecoration: "none" }}>
             <div className="item">
               <li>
                 <SettingsIcon className="icon" />
