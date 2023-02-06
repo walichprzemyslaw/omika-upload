@@ -39,7 +39,7 @@ const List = () => {
         </div>
       </div>
       <div className="listWrapper">
-        {loading ? "loading..." : data.map((item) => (
+        {loading ? "ładowanie..." : data.map((item) => (
           <Card item={item} key={item._id} />
         ))}
       </div>

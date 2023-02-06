@@ -60,7 +60,7 @@ const Login = () => {
         <div className="registerLink">
           <Link
             to="/register"
-            style={{ textDecoration: "none", color: "#333" }}
+            style={{ textDecoration: "none", color: "#999" }}
           >
             <span>Nie masz konta? Zarejestruj się</span>
           </Link>

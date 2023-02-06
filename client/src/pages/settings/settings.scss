@@ -51,13 +51,31 @@
             font-size: 12px;
           }
         }
+
+        .settingsButton {
+          border: none;
+          padding: 10px 20px;
+          background-color: #dd1414;
+          color: white;
+          font-weight: bold;
+          cursor: pointer;
+          border-radius: 5px;
+        }
       }
       .settingsRight {
         flex: 1;
-         overflow-y: auto;
+        overflow-y: auto;
         max-height: 65vh;
 
         .orders {
+          margin: 5px auto;
+          display: flex;
+          flex-direction: column;
+
+          tbody{
+            display: flex;
+            flex-direction: column;
+          }
           .orderItem {
             padding: 10px 0;
             th {

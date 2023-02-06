@@ -3,11 +3,16 @@ import Sidebar from "../../components/sidebar/Sidebar";
 import ReceiptLongRoundedIcon from "@mui/icons-material/ReceiptLongRounded";
 import "./settings.scss";
 import useFetch from "../../hooks/useFetch";
-import { useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { AuthContext } from "../../context/AuthContext";
+import axios from "axios";
+import bcrypt from "bcryptjs";
+
 
 const Settings = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const id = location.pathname.split("/")[2];
   const { data, loading, error } = useFetch(`/users/find/${id}`);
   const {
@@ -16,8 +21,34 @@ const Settings = () => {
     error: ordersError,
   } = useFetch(`/orders/user/${id}`);
 
-  console.log(data);
-  console.log(ordersData);
+  const [info, setInfo] = useState({});
+
+  useEffect(() => {
+    setInfo(data);
+  }, [data]);
+
+  console.log(info);
+
+  const handleChange = (e) => {
+    setInfo((prev) => ({ ...prev, [e.target.id]: e.target.value }));
+  };
+
+  const handleClick = async (e) => {
+    e.preventDefault();
+    try {
+      // const salt = bcrypt.genSaltSync(10);
+      // const hash = bcrypt.hashSync(info.password, salt);
+  
+      const updateUser = {
+        ...info,
+        // password: hash,
+      };
+      console.log(updateUser);
+      await axios.put(`/users/${id}`, updateUser);
+      navigate("/");
+    } catch (error) {
+    }
+  };
 
   return (
     <div className="settings">
@@ -36,6 +67,7 @@ const Settings = () => {
                 type="text"
                 placeholder="Nazwa użytkownika"
                 defaultValue={data.username}
+                onChange={handleChange}
                 id="username"
               />
             </div>
@@ -45,19 +77,26 @@ const Settings = () => {
                 type="email"
                 placeholder="Email"
                 defaultValue={data.email}
+                onChange={handleChange}
                 id="email"
               />
             </div>
-            <div className="formInput">
+            {/* <div className="formInput">
               <label>Hasło</label>
-              <input type="password" placeholder="Haslo" id="password" />
-            </div>
+              <input
+                type="password"
+                placeholder="Haslo"
+                onChange={handleChange}
+                id="password"
+              />
+            </div> */}
             <div className="formInput">
               <label>Imię</label>
               <input
                 type="text"
                 placeholder="Imię"
                 defaultValue={data.firstName}
+                onChange={handleChange}
                 id="firstName"
               />
             </div>
@@ -67,6 +106,7 @@ const Settings = () => {
                 type="text"
                 placeholder="Nazwisko"
                 defaultValue={data.lastName}
+                onChange={handleChange}
                 id="lastName"
               />
             </div>
@@ -76,6 +116,7 @@ const Settings = () => {
                 type="text"
                 placeholder="Ulica"
                 defaultValue={data.street}
+                onChange={handleChange}
                 id="street"
               />
             </div>
@@ -85,6 +126,7 @@ const Settings = () => {
                 type="text"
                 placeholder="Numer domu"
                 defaultValue={data.homeNumber}
+                onChange={handleChange}
                 id="homeNumber"
               />
             </div>
@@ -94,6 +136,7 @@ const Settings = () => {
                 type="text"
                 placeholder="Miasto"
                 defaultValue={data.city}
+                onChange={handleChange}
                 id="city"
               />
             </div>
@@ -103,29 +146,26 @@ const Settings = () => {
                 type="number"
                 placeholder="Numer telefonu"
                 defaultValue={data.phone}
+                onChange={handleChange}
                 id="phone"
               />
             </div>
+            <button className="settingsButton" onClick={handleClick}>Aktualizuj</button>
           </div>
           <div className="settingsRight">
             <h2 className="settingsTitle">Historia zamówień:</h2>
             <table className="orders">
-              <thead>
-                <tr>
-                  <th></th>
-                  <th>Data</th>
-                  <th>Cena</th>
-                </tr>
-              </thead>
               <tbody>
                 {ordersData.map((order) => (
-                  <tr className="orderItem" key={order.id}>
+                  <Link to={`/order/${order._id}`} style={{ textDecoration: "none", color:"#333"}}>
+                  <tr className="orderItem" key={order._id}>
                     <th>
                       <ReceiptLongRoundedIcon className="icon" />
                     </th>
                     <th>{new Date(order.createdAt).toLocaleString()}</th>
                     <th>{order.totalPrice} zł</th>
                   </tr>
+                  </Link>
                 ))}
               </tbody>
             </table>

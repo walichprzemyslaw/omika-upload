@@ -6,7 +6,6 @@ import usersRoute from "./routes/users.js";
 import ordersRoute from "./routes/orders.js";
 import productsRoute from "./routes/products.js";
 import employeesRoute from "./routes/employees.js";
-import customersRoute from "./routes/customers.js";
 import ingredientsRoute from "./routes/ingredients.js";
 import cookieParser from "cookie-parser";
 
@@ -36,7 +35,6 @@ app.use("/api/users", usersRoute);
 app.use("/api/orders", ordersRoute);
 app.use("/api/products", productsRoute);
 app.use("/api/employees", employeesRoute);
-app.use("/api/customers", customersRoute);
 app.use("/api/ingredients", ingredientsRoute);
 
 app.use((err, req, res, next) => {

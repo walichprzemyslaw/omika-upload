@@ -1,0 +1,106 @@
+.order {
+  display: flex;
+
+  .orderContainer {
+    flex: 19;
+    margin-left: 95px;
+    margin-right: 20px;
+    margin-bottom: 30px;
+    align-items: center;
+    min-height: 100vh;
+
+    .orderWrapper {
+      // align-items: center;
+      display: flex;
+      flex-direction: column;
+      // flex-wrap: wrap;
+      justify-content: center;
+      -webkit-box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
+      box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
+      padding: 50px 10px;
+      margin: 0 10vw;
+      // height: 90vh;
+
+      h1 {
+        font-size: 18px;
+        text-align: center;
+      }
+
+      hr {
+        border: 0.25px solid #999;
+        width: 80%;
+        margin: 10px auto;
+      }
+
+      .orderItems {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-top: 10px;
+        .orderItem {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          gap: 5px;
+          margin: 0 10%;
+
+          .orderItemTitle {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 10px;
+            .orderITLeft {
+              img {
+                width: 40px;
+                height: 40px;
+                object-fit: contain;
+              }
+            }
+            .orderITCenter {
+              display: flex;
+              flex-direction: column;
+              // align-items: center;
+              h1 {
+                text-align: left;
+                font-size: 18px;
+                text-transform: capitalize;
+              }
+            }
+          }
+
+          .orderITRight {
+            h1 {
+              font-size: 16px;
+            }
+            h2 {
+              font-size: 12px;
+            }
+          }
+        }
+      }
+
+      .orderDetails {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        margin: 0 10%;
+        .orderDetailsLeft {
+          display: flex;
+          flex-direction: column;
+          gap: 5px;
+          h2 {
+            font-size: 14px;
+          }
+        }
+        .orderDetailsRight {
+          display: flex;
+          flex-direction: column;
+          gap: 5px;
+          h2 {
+            font-size: 14px;
+          }
+        }
+      }
+    }
+  }
+}

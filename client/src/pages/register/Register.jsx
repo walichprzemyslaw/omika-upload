@@ -116,7 +116,7 @@ const Register = () => {
           Załóż konto
         </button>
         <div className="loginLink">
-          <Link to="/login" style={{ textDecoration: "none", color: "#333" }}>
+          <Link to="/login" style={{ textDecoration: "none", color: "#999" }}>
             <span>Masz już konto? Zaloguj się</span>
           </Link>
         </div>
