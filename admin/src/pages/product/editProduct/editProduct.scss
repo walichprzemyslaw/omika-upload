@@ -1,0 +1,170 @@
+.editProduct {
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: #25242482;
+  height: 100%;
+  width: 100vw;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+
+  .editProductContainer {
+    background-color: white;
+    height: 75vh;
+    max-width: 80vw;
+    margin: 0 auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+    overflow-y: auto;
+
+    .top,
+    .bottom {
+      -webkit-box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
+      box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
+      padding: 10px;
+      margin: 20px;
+      display: flex;
+      justify-content: space-between;
+
+      h1 {
+        color: lightgray;
+        font-size: 20px;
+      }
+
+      .closeButton {
+        background-color: transparent;
+        border: none;
+        font-size: 25px;
+        cursor: pointer;
+        &:hover {
+          color: #dd1414;
+        }
+      }
+
+      .left {
+        flex: 1;
+        text-align: center;
+
+        img {
+          width: 100px;
+          height: 100px;
+          border-radius: 50%;
+          object-fit: cover;
+        }
+      }
+
+      .right {
+        flex: 2;
+        padding: 10px 30px;
+
+        form {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 30px;
+          justify-content: space-between;
+
+          .options {
+            ul.ingredients {
+              list-style: none;
+              padding: 20px;
+            }
+            ul.ingredients li {
+              display: inline;
+              margin-right: 5px;
+            }
+            ul.ingredients li label {
+              display: inline-block;
+              background-color: rgba(255, 255, 255, 0.9);
+              border: 2px solid rgba(139, 139, 139, 0.3);
+              color: #adadad;
+              border-radius: 25px;
+              white-space: nowrap;
+              margin: 3px 0px;
+              -webkit-touch-callout: none;
+              -webkit-user-select: none;
+              -moz-user-select: none;
+              -ms-user-select: none;
+              user-select: none;
+              -webkit-tap-highlight-color: transparent;
+              transition: all 0.2s;
+            }
+      
+            ul.ingredients li label {
+              padding: 8px 12px;
+              cursor: pointer;
+            }
+      
+            ul.ingredients li label::before {
+              display: inline-block;
+              font-style: normal;
+              font-variant: normal;
+              text-rendering: auto;
+              -webkit-font-smoothing: antialiased;
+              font-weight: 900;
+              font-size: 12px;
+              padding: 2px 6px 2px 2px;
+              transition: transform 0.3s ease-in-out;
+            }
+      
+            ul.ingredients li input[type="checkbox"]:checked + label::before {
+              transition: transform 0.3s ease-in-out;
+            }
+      
+            ul.ingredients li input[type="checkbox"]:checked + label {
+              border: 2px solid #dd1414;
+              background-color: #dd1414;
+              color: #fff;
+              transition: all 0.2s;
+            }
+      
+            ul.ingredients li input[type="checkbox"] {
+              display: absolute;
+            }
+            ul.ingredients li input[type="checkbox"] {
+              position: absolute;
+              opacity: 0;
+            }
+            ul.ingredients li input[type="checkbox"]:focus + label {
+              border: 2px solid #ff1c1c;
+            }
+          }
+
+          .formInput {
+            width: 40%;
+
+            label {
+              display: flex;
+              align-items: center;
+              gap: 10px;
+
+              .icon {
+                cursor: pointer;
+              }
+            }
+
+            input {
+              width: 100%;
+              padding: 5px;
+              border: none;
+              border-bottom: 1px solid gray;
+            }
+          }
+
+          button {
+            width: 150px;
+            padding: 10px;
+            border: none;
+            background-color: teal;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+          }
+        }
+      }
+    }
+  }
+}

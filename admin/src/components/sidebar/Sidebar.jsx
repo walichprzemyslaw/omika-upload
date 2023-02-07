@@ -40,11 +40,11 @@ const Sidebar = () => {
               <span>Dashboard</span>
             </li>
           </Link>
-          <p className="title">SKRÓTY</p>
-          <Link to="/customers" style={{ textDecoration: "none" }}>
+          <p className="title">ZARZĄDZAJ</p>
+          <Link to="/orders" style={{ textDecoration: "none" }}>
             <li>
-              <PersonOutlineIcon className="icon" />
-              <span>Klienci</span>
+              <CreditCardIcon className="icon" />
+              <span>Zamówienia</span>
             </li>
           </Link>
           <Link to="/products" style={{ textDecoration: "none" }}>
@@ -53,25 +53,6 @@ const Sidebar = () => {
               <span>Produkty</span>
             </li>
           </Link>
-          <Link to="/orders" style={{ textDecoration: "none" }}>
-            <li>
-              <CreditCardIcon className="icon" />
-              <span>Zamówienia</span>
-            </li>
-          </Link>
-          <li>
-            <LocalShippingIcon className="icon" />
-            <span>Strefy dostaw</span>
-          </li>
-          <p className="title">ZAPLECZE</p>
-          <li>
-            <InsertChartIcon className="icon" />
-            <span>Raporty</span>
-          </li>
-          <li>
-            <StoreIcon className="icon" />
-            <span>Magazyn</span>
-          </li>
           <Link to="/employees" style={{ textDecoration: "none" }}>
             <li>
               <BadgeIcon className="icon" />
@@ -84,6 +65,19 @@ const Sidebar = () => {
               <span>Użytkownicy</span>
             </li>
           </Link>
+          <p className="title">ZAPLECZE</p>
+          <li>
+            <InsertChartIcon className="icon" />
+            <span>Raporty</span>
+          </li>
+          <li>
+            <StoreIcon className="icon" />
+            <span>Magazyn</span>
+          </li>
+          <li>
+            <LocalShippingIcon className="icon" />
+            <span>Strefy dostaw</span>
+          </li>
           <li>
             <SettingsApplicationsIcon className="icon" />
             <span>Ustawienia</span>

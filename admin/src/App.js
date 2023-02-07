@@ -11,21 +11,20 @@ import List from "./pages/list/List";
 import Login from "./pages/login/Login";
 import NewUser from "./pages/user/newUser/NewUser";
 import EditUser from "./pages/user/editUser/EditUser";
-import NewCustomer from "./pages/customer/newCustomer/NewCustomer";
-import EditCustomer from "./pages/customer/editCustomer/EditCustomer";
 import NewOrder from "./pages/order/newOrder/NewOrder";
 import EditOrder from "./pages/order/editOrder/EditOrder";
 import NewProduct from "./pages/product/newProduct/NewProduct";
 import EditProduct from "./pages/product/editProduct/EditProduct";
 import NewEmployee from "./pages/employee/newEmployee/NewEmployee";
 import EditEmployee from "./pages/employee/editEmployee/EditEmployee";
+import ShowProduct from "./pages/product/showProduct/ShowProduct";
 import "./style/dark.scss";
 
-import { customerInputs, employeeInputs, orderInputs, productInputs, userInputs } from "./formSource";
+import { employeeInputs, orderInputs, productInputs, userInputs } from "./formSource";
 import { useContext } from "react";
 import { DarkModeContext } from "./context/darkModeContext";
 import { AuthContext } from "./context/AuthContext";
-import { customerColumns, employeeColumns, orderColumns, productColumns, userColumns } from "./datatablesource";
+import { employeeColumns, orderColumns, productColumns, userColumns } from "./datatablesource";
 
 function App() {
   const { darkMode } = useContext(DarkModeContext);
@@ -59,7 +58,7 @@ function App() {
                   </ProtectedRoute>}/>
               <Route path=":userId" element={
                   <ProtectedRoute>
-                    <EditUser />
+                    <EditUser inputs={userInputs} title="Edytuj użytkownika"/>
                   </ProtectedRoute>}/>
               <Route path="new" element={
                   <ProtectedRoute>
@@ -75,27 +74,11 @@ function App() {
                   </ProtectedRoute>}/>
               <Route path=":productId" element={
                   <ProtectedRoute>
-                    <EditProduct />
+                    <ShowProduct inputs={productInputs} title="Edytuj produkt"/>
                   </ProtectedRoute>}/>
               <Route path="new" element={
                   <ProtectedRoute>
                     <NewProduct inputs={productInputs} title="Dodaj nowy produkt"/>
-                  </ProtectedRoute>}/>
-            </Route>
-
-            {/* klienci  */}
-            <Route path="customers">
-              <Route index element={
-                  <ProtectedRoute>
-                    <List columns={customerColumns} title="Klienci"/>
-                  </ProtectedRoute>}/>
-              <Route path=":customerId" element={
-                  <ProtectedRoute>
-                    <EditCustomer />
-                  </ProtectedRoute>}/>
-              <Route path="new" element={
-                  <ProtectedRoute>
-                    <NewCustomer inputs={customerInputs} title="Dodaj nowego klienta"/>
                   </ProtectedRoute>}/>
             </Route>
 
@@ -107,7 +90,7 @@ function App() {
                   </ProtectedRoute>}/>
               <Route path=":orderId" element={
                   <ProtectedRoute>
-                    <EditOrder />
+                    <EditOrder inputs={orderInputs} title="Edytuj zamówienie"/>
                   </ProtectedRoute>}/>
               <Route path="new" element={
                   <ProtectedRoute>
@@ -123,7 +106,7 @@ function App() {
                   </ProtectedRoute>}/>
               <Route path=":employeeId" element={
                   <ProtectedRoute>
-                    <EditEmployee />
+                    <EditEmployee inputs={employeeInputs} title="Edytuj pracownika"/>
                   </ProtectedRoute>}/>
               <Route path="new" element={
                   <ProtectedRoute>

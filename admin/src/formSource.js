@@ -6,10 +6,22 @@ export const userInputs = [
     placeholder: "john_doe",
   },
   {
-    id: "email",
+    id: "email", 
     label: "Email",
     type: "email",
     placeholder: "john_doe@gmail.com",
+  },
+  {
+    id: "firstName", 
+    label: "Imię",
+    type: "text",
+    placeholder: "Jan",
+  },
+  {
+    id: "lastName", 
+    label: "Naziwsko",
+    type: "text",
+    placeholder: "Kowalski",
   },
   {
     id: "phone",
@@ -23,10 +35,16 @@ export const userInputs = [
     type: "password",
   },
   {
-    id: "address",
+    id: "street",
     label: "Ulica",
     type: "text",
-    placeholder: "os. Konstytucji 3 Maja 13A",
+    placeholder: "os. Konstytucji 3 Maja",
+  },
+  {
+    id: "homeNumber",
+    label: "Numer domu",
+    type: "text",
+    placeholder: "13/11",
   },
   {
     id: "city",
@@ -54,31 +72,22 @@ export const productInputs = [
 export const orderInputs = [
   {
     id: "customerId",
+    label: "Numer klienta",
+    type: "text",
+    placeholder: "ID klienta",
+  },
+  {
+    id: "phone",
     label: "Numer telefonu",
     type: "number",
-    placeholder: "+515 682 850",
+    placeholder: "515682850",
   },
-  {
-    id: "deliveryAddress",
-    label: "Adres dostawy",
-    type: "text",
-    placeholder: "ul. Poznańska 2137",
-  },
-  {
-    id: "deliveryTown",
-    label: "Miasto",
-    type: "text",
-    placeholder: "Kościan",
-  },
-];
-
-export const customerInputs = [
   {
     id: "firstName",
     label: "Imię",
     type: "text",
     placeholder: "Jan",
-  },
+  }, 
   {
     id: "lastName",
     label: "Nazwisko",
@@ -86,16 +95,16 @@ export const customerInputs = [
     placeholder: "Kowalski",
   },
   {
-    id: "phone",
-    label: "Telefon",
-    type: "text",
-    placeholder: "+1 234 567 89",
-  },
-  {
-    id: "address",
+    id: "street",
     label: "Ulica",
     type: "text",
-    placeholder: "os. Konstytucji 3 Maja 13A",
+    placeholder: "Poznańska",
+  },
+  {
+    id: "homeNumber",
+    label: "Numer domu",
+    type: "text",
+    placeholder: "13/11",
   },
   {
     id: "city",

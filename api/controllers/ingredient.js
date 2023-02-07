@@ -21,7 +21,6 @@ export const getByCategory = async (req, res, next) => {
   try {
     const cat = req.params.id;
     const iList = req.params.list;
-    console.log(iList);
     const ingredients = await Ingredient.find({category: cat});
     const list = await Promise.all(
       ingredients.map((ingredient) => {

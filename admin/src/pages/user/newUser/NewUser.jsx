@@ -7,7 +7,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const NewUser = ({ inputs, title }) => {
-  const [file, setFile] = useState("");
+  // const [file, setFile] = useState("");
   const [info, setInfo] = useState({});
 
   const navigate = useNavigate();
@@ -18,18 +18,18 @@ const NewUser = ({ inputs, title }) => {
 
   const handleClick = async (e) => {
     e.preventDefault();
-    const data = new FormData();
-    data.append("file", file);
-    data.append("upload_preset", "upload");
+    // const data = new FormData();
+    // data.append("file", file);
+    // data.append("upload_preset", "upload");
     try {
-      const uploadRes = await axios.post(
-        "https://api.cloudinary.com/v1_1/dqknlkpku/image/upload",
-        data
-      );
-      const { url } = uploadRes.data;
+      // const uploadRes = await axios.post(
+      //   "https://api.cloudinary.com/v1_1/dqknlkpku/image/upload",
+      //   data
+      // );
+      // const { url } = uploadRes.data;
       const newUser = {
         ...info,
-        img: url,
+        // img: url,
       };
 
       await axios.post("/auth/register", newUser);
@@ -49,18 +49,18 @@ const NewUser = ({ inputs, title }) => {
         </div>
         <div className="bottom">
           <div className="left">
-            <img
+            {/* <img
               src={
                 file
                   ? URL.createObjectURL(file)
                   : "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
               }
               alt=""
-            />
+            /> */}
           </div>
           <div className="right">
             <form>
-              <div className="formInput">
+              {/* <div className="formInput">
                 <label htmlFor="file">
                   Zdjęcie: <DriveFolderUploadOutlinedIcon className="icon" />
                 </label>
@@ -70,7 +70,7 @@ const NewUser = ({ inputs, title }) => {
                   onChange={(e) => setFile(e.target.files[0])}
                   style={{ display: "none" }}
                 />
-              </div>
+              </div> */}
 
               {inputs.map((input) => (
                 <div className="formInput" key={input.id}>

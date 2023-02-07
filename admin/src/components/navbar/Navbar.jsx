@@ -5,9 +5,12 @@ import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import ListOutlinedIcon from "@mui/icons-material/ListOutlined";
 import { DarkModeContext } from "../../context/darkModeContext";
 import { useContext } from "react";
+import { AuthContext } from "../../context/AuthContext";
 
 const Navbar = () => {
   const { dispatchMode } = useContext(DarkModeContext);
+  const { user } = useContext(AuthContext);
+  console.log(user);
   return (
     <div className="navbar">
       <div className="wrapper">
@@ -19,19 +22,20 @@ const Navbar = () => {
             />
           </div>
           <div className="item">
-            <img
-              src="https://images.pexels.com/photos/941693/pexels-photo-941693.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
+            {/* <img
+              src={user.img}
               alt=""
               className="avatar"
-            />
+            /> */}
             <div className="details">
-              <span className="name">John Doe</span>
+              <span className="name">{user.firstName} {user.lastName}</span>
+              {/* <span className="position">{user.isAdmin ? "Administrator" : "Pracownik"}</span> */}
               <span className="position">Administrator</span>
             </div>
           </div>
-          <div className="item">
+          {/* <div className="item">
             <ListOutlinedIcon className="icon" />
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

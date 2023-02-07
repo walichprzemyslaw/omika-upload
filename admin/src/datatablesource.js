@@ -1,32 +1,37 @@
 export const userColumns = [
   { field: "_id", headerName: "ID", width: 70 },
   {
-    field: "user",
+    field: "username",
     headerName: "Użytkownik",
-    width: 150,
-    renderCell: (params) => {
-      return (
-        <div className="cellWithImg">
-          <img
-            className="cellImg"
-            src={params.row.img || "https://i.ibb.co/MBtjqXQ/no-avatar.gif"}
-            alt="avatar"
-          />
-          {params.row.username}
-        </div>
-      );
-    },
+    width: 100,
   },
   {
     field: "email",
     headerName: "Email",
+    width: 150,
+  },
+  {
+    field: "firstName",
+    headerName: "Imię",
     width: 100,
   },
-
+  {
+    field: "lastName",
+    headerName: "Nazwisko",
+    width: 120,
+  },
   {
     field: "address",
     headerName: "Adres",
     width: 200,
+    renderCell: (params) => {
+      return (
+        <div className="cellWithImg">
+          {params.row.street}&nbsp;
+          {params.row.homeNumber}
+        </div>
+      );
+    },
   },
   {
     field: "city",
@@ -46,90 +51,111 @@ export const productColumns = [
     field: "name",
     headerName: "Nazwa",
     width: 150,
+    renderCell: (params) => {
+      return (
+        <div className="cellWithImg">
+          <img
+            className="cellImg"
+            src={params.row.img || "https://i.ibb.co/MBtjqXQ/no-avatar.gif"}
+            alt="avatar"
+          />
+          {params.row.name}
+        </div>
+      );
+    },
   },
   {
     field: "category",
     headerName: "Kategoria",
-    width: 150,
+    width: 100,
   },
   {
     field: "ingredients",
     headerName: "Składniki",
+    width: 250,
+  },
+  {
+    field: "price",
+    headerName: "Cena",
     width: 150,
+    renderCell: (params) => {
+      return (
+        <span>{params.row.price ? params.row.price.length > 1
+          ? params.row.price[0] + " zł | " + params.row.price[1] + " zł"
+          : params.row.price + " zł" : "loading..."}
+        </span>
+      );
+    },
   },
   {
     field: "isAvailable",
     headerName: "Dostępny",
     width: 150,
-  },
-];
-
-export const customerColumns = [
-  { field: "_id", headerName: "ID", width: 70 },
-   {
-    field: "firstName",
-    headerName: "Imię",
-    width: 80,
-  },
-  {
-    field: "lastName",
-    headerName: "Nazwisko",
-    width: 80,
-  },
-  {
-    field: "address",
-    headerName: "Adres",
-    width: 380,
     renderCell: (params) => {
-      return (
-        <div className="cellWithImg">
-          {params.row.address},&nbsp;
-          {params.row.city}
-        </div>
-      );
+      return <span>{params.row.isAvailable ? "dostępny" : "niedostępny"}</span>;
     },
-  },
-  {
-    field: "phone",
-    headerName: "Telefon",
-    width: 180,
   },
 ];
 
 export const orderColumns = [
   { field: "_id", headerName: "ID", width: 40 },
+  {
+    field: "createdAt",
+    headerName: "Data",
+    width: 150,
+    renderCell: (params) => {
+      return new Date(params.row.createdAt).toLocaleString();
+    },
+  },
   { field: "customerId", headerName: "ID klienta", width: 110 },
-  { field: "orderedProducts", headerName: "Produkty", width: 120 },
+  { field: "phone", headerName: "Numer telefonu", width: 140 },
+  {
+    field: "delivery",
+    headerName: "Dostawa",
+    width: 80,
+    renderCell: (params) => {
+      return (
+        <span className={`delivery ${params.row.delivery}`}>
+          {params.row.delivery ? "dostawa" : "odbiór"}
+        </span>
+      );
+    },
+  },
+  {
+    field: "address",
+    headerName: "Adres",
+    width: 150,
+    renderCell: (params) => {
+      return (
+        <div className="cellWithImg">
+          {params.row.street}&nbsp;
+          {params.row.homeNumber}
+        </div>
+      );
+    },
+  },
   {
     field: "totalPrice",
     headerName: "Suma",
     width: 80,
     renderCell: (params) => {
-      return (
-        <div className="cellWithImg">
-          {params.row.totalPrice}&nbsp;zł 
-        </div>
-      );
+      return <div className="cellWithImg">{params.row.totalPrice}&nbsp;zł</div>;
     },
   },
   { field: "paymentMethod", headerName: "Płatność", width: 100 },
+  { field: "paymentReciver", headerName: "Pracownik", width: 100 },
   {
     field: "status",
     headerName: "Status",
     width: 100,
     renderCell: (params) => {
       return (
-        <div className={`cellWithStatus ${params.row.status}`}>{params.row.status}</div>
+        <div className={`cellWithStatus ${params.row.status}`}>
+          {params.row.status}
+        </div>
       );
     },
   },
-  { field: "delivery", headerName: "Dostawa", width: 80, renderCell: (params) => {
-    return (<span className={`delivery ${params.row.delivery}`}>
-    {params.row.delivery ? "dostawa" : "odbiór"}
-  </span>)
-  } 
-  },
-  { field: "deliveryAddress", headerName: "Adres dostawy", width: 150 },
 ];
 
 export const employeeColumns = [
@@ -150,3 +176,4 @@ export const employeeColumns = [
     width: 150,
   },
 ];
+
