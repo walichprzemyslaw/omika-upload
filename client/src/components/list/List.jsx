@@ -11,7 +11,6 @@ const List = () => {
     { id: 3, name: "zapiekanki" },
     { id: 4, name: "sałatki" },
     { id: 5, name: "dodatki" },
-    { id: 6, name: "napoje" },
   ];
 
   const [category, setCategory] = useState("pizza");

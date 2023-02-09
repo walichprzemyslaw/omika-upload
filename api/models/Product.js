@@ -7,7 +7,7 @@ const ProductSchema = new mongoose.Schema({
   category: {
     type: String,
     required: true,
-    enum: ["pizza", "burgery", "zapiekanki","sałatki","dodatki","napoje"],
+    enum: ["pizza", "burgery", "zapiekanki","sałatki","dodatki"],
   },
   price: { type: [Number], required: true },
   ingredients: { type: [String], required: true },

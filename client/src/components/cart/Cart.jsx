@@ -16,6 +16,36 @@ const Cart = ({ closeCart }) => {
     return cartTotal.toFixed(2);
   };
 
+  const handleSwitchMedium = (e) => {
+    switch (e.name) {
+      case "nuggetsy":
+        return "5 sztuk ";
+      case "sosy":
+        return "25g ";
+      case "napoje":
+        return "0,33L ";
+      case "frytki":
+        return "";
+      default:
+        return "⌀30cm ";
+    }
+  };
+
+  const handleSwitchLarge = (e) => {
+    switch (e.name) {
+      case "nuggetsy":
+        return "10 sztuk ";
+      case "sosy":
+        return "100g ";
+      case "napoje":
+        return "0,5L ";
+      case "frytki":
+        return "";
+      default:
+        return "⌀40cm ";
+    }
+  };
+
   const dispatch = useDispatch();
 
   return (
@@ -40,13 +70,27 @@ const Cart = ({ closeCart }) => {
           <hr />
           <ul className="cartItems">
             {products?.map((cartItem) => (
-              <li className="cartItem" key={cartItem.id+cartItem.addedIngredients+cartItem.excludedIngredients}>
+              <li
+                className="cartItem"
+                key={
+                  cartItem.id +
+                  cartItem.addedIngredients +
+                  cartItem.excludedIngredients + 
+                  cartItem.size +
+                  cartItem.taste
+                }
+              >
                 <div className="itemLeft">
                   <img src={cartItem.img} alt="" />
                   <div className="details">
                     <h1>
-                      {cartItem.category === "pizza" &&
-                        (cartItem.size === "large" ? "⌀40cm " : "⌀30cm ")}
+                      {(cartItem.category === "pizza" ||
+                        cartItem.category === "dodatki") &&
+                        (cartItem.size === "xlarge"
+                          ? "0,85L "
+                          : cartItem.size === "large"
+                          ? handleSwitchLarge(cartItem)
+                          : handleSwitchMedium(cartItem))}
                       {cartItem.name}
                     </h1>
                     <div className="cartDetails">
@@ -55,6 +99,9 @@ const Cart = ({ closeCart }) => {
                       )}
                       {cartItem.excludedIngredients.length > 0 && (
                         <p>Minus: {cartItem.excludedIngredients.join(", ")}</p>
+                      )}
+                      {cartItem.taste.length > 0 && (
+                        <p>Smak: {cartItem.taste}</p>
                       )}
                     </div>
                     <div className="price">
@@ -72,6 +119,7 @@ const Cart = ({ closeCart }) => {
                           addedIngredients: cartItem.addedIngredients,
                           excludedIngredients: cartItem.excludedIngredients,
                           size: cartItem.size,
+                          taste: cartItem.taste,
                         })
                       )
                     }

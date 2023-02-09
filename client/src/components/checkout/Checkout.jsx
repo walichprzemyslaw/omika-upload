@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import "./checkout.scss";
 import { AuthContext } from "../../context/AuthContext";
+import { resetCart } from "../../redux/cartReducer";
 
 const Checkout = ({ closeCheckout }) => {
   const { user } = useContext(AuthContext);
@@ -50,8 +51,39 @@ const Checkout = ({ closeCheckout }) => {
       console.log(newOrder);
       await axios.post("/orders", newOrder);
       navigate("/");
+      dispatch(resetCart());
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  const handleSwitchMedium = (e) => {
+    switch (e.name) {
+      case "nuggetsy":
+        return "5 sztuk ";
+      case "sosy":
+        return "25g ";
+      case "napoje":
+        return "0,33L ";
+      case "frytki":
+        return "";
+      default:
+        return "⌀30cm ";
+    }
+  };
+
+  const handleSwitchLarge = (e) => {
+    switch (e.name) {
+      case "nuggetsy":
+        return "10 sztuk ";
+      case "sosy":
+        return "100g ";
+      case "napoje":
+        return "0,5L ";
+      case "frytki":
+        return "";
+      default:
+        return "⌀40cm ";
     }
   };
 
@@ -185,14 +217,21 @@ const Checkout = ({ closeCheckout }) => {
                   key={
                     cartItem.id +
                     cartItem.addedIngredients +
-                    cartItem.excludedIngredients
+                    cartItem.excludedIngredients +
+                    cartItem.size +
+                    cartItem.taste
                   }
                 >
                   <div className="itemTitle">
                     <h1>{cartItem.quantity}x</h1>
                     <h2>
-                      {cartItem.category === "pizza" &&
-                        (cartItem.size === "large" ? "⌀40cm " : "⌀30cm ")}
+                      {(cartItem.category === "pizza" ||
+                        cartItem.category === "dodatki") &&
+                        (cartItem.size === "xlarge"
+                          ? "0,85L "
+                          : cartItem.size === "large"
+                          ? handleSwitchLarge(cartItem)
+                          : handleSwitchMedium(cartItem))}
                       {cartItem.name}
                     </h2>
                   </div>
@@ -203,6 +242,9 @@ const Checkout = ({ closeCheckout }) => {
                     {cartItem.excludedIngredients.length > 0 && (
                       <p>Minus: {cartItem.excludedIngredients.join(", ")}</p>
                     )}
+                    {cartItem.taste.length > 0 && (
+                        <p>Smak: {cartItem.taste}</p>
+                      )}
                   </div>
                 </li>
               ))}

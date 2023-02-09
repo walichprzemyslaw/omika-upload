@@ -8,11 +8,13 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import axios from "axios";
 import bcrypt from "bcryptjs";
-
+import Order from "../../components/order/Order";
 
 const Settings = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const [openOrder, setOpenOrder] = useState(false);
+  const [order, setOrder] = useState({});
   const id = location.pathname.split("/")[2];
   const { data, loading, error } = useFetch(`/users/find/${id}`);
   const {
@@ -38,7 +40,7 @@ const Settings = () => {
     try {
       // const salt = bcrypt.genSaltSync(10);
       // const hash = bcrypt.hashSync(info.password, salt);
-  
+
       const updateUser = {
         ...info,
         // password: hash,
@@ -46,9 +48,10 @@ const Settings = () => {
       console.log(updateUser);
       await axios.put(`/users/${id}`, updateUser);
       navigate("/");
-    } catch (error) {
-    }
+    } catch (error) {}
   };
+
+  const handleOrder = (order) => {};
 
   return (
     <div className="settings">
@@ -150,28 +153,38 @@ const Settings = () => {
                 id="phone"
               />
             </div>
-            <button className="settingsButton" onClick={handleClick}>Aktualizuj</button>
+            <button className="settingsButton" onClick={handleClick}>
+              Aktualizuj
+            </button>
           </div>
           <div className="settingsRight">
             <h2 className="settingsTitle">Historia zamówień:</h2>
             <table className="orders">
               <tbody>
                 {ordersData.map((order) => (
-                  <Link to={`/order/${order._id}`} style={{ textDecoration: "none", color:"#333"}}>
-                  <tr className="orderItem" key={order._id}>
-                    <th>
-                      <ReceiptLongRoundedIcon className="icon" />
-                    </th>
-                    <th>{new Date(order.createdAt).toLocaleString()}</th>
-                    <th>{order.totalPrice} zł</th>
-                  </tr>
-                  </Link>
+                  <>
+                    <tr
+                      className="orderItem"
+                      key={order._id}
+                      onClick={() => {
+                        setOpenOrder(true);
+                        setOrder(order);
+                      }}
+                    >
+                      <th>
+                        <ReceiptLongRoundedIcon className="icon" />
+                      </th>
+                      <th>{new Date(order.createdAt).toLocaleString()}</th>
+                      <th>{order.totalPrice} zł</th>
+                    </tr>
+                  </>
                 ))}
               </tbody>
             </table>
           </div>
         </div>
       </div>
+      {openOrder && <Order item={order} closeOrder={setOpenOrder} />}
     </div>
   );
 };

@@ -77,12 +77,12 @@
             flex-direction: column;
           }
           .orderItem {
-            padding: 10px 0;
+            cursor: pointer;
+            padding-bottom: 5px;
             th {
               font-size: 12px;
               text-align: center;
               .icon {
-                cursor: pointer;
                 color: #dd1414;
               }
             }

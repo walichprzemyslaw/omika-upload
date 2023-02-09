@@ -12,9 +12,24 @@ const Modal = ({ closeModal, item }) => {
   const [size, setSize] = useState("medium");
   const [addedIngredients, setAddedIngredients] = useState([]);
   const [excludedIngredients, setExcludedIngredients] = useState([]);
+  const [taste, setTaste] = useState("");
   const [quantity, setQuantity] = useState(1);
 
   const [sos, ...rest] = item.ingredients;
+
+  const tasteData = [
+    "czosnkowy",
+    "ketchup",
+    "meksykański",
+    "1000 wysp",
+    "słodko-kwaśny",
+    "amerykański",
+    "bazyliowy",
+    "sriracha",
+    "serowy-chili",
+  ];
+
+  const drinkData = ["pepsi", "7up", "mirinda"];
 
   const { data, loading, error } = useFetch(
     `/ingredients/category/${item.category}/${rest}`
@@ -45,6 +60,11 @@ const Modal = ({ closeModal, item }) => {
     setAddedIngredients([]);
   };
 
+  const handleXLargeSize = (e) => {
+    setSize("xlarge");
+    setPrice(item.price[2]);
+  };
+
   const handleClick = (e, addon) => {
     const checked = e.target.checked;
     if (checked) {
@@ -69,6 +89,52 @@ const Modal = ({ closeModal, item }) => {
     }
   };
 
+  const handleSwitchLarge = (e) => {
+    switch (e.name) {
+      case "nuggetsy":
+        return <div className="sizeTitle">10 sztuk</div>;
+      case "sosy":
+        return <div className="sizeTitle">100g</div>;
+      case "napoje":
+        return <div className="sizeTitle">0,5L</div>;
+      default:
+        return (
+          <>
+            <LocalPizzaIcon className="large" />
+            <p className="sizeTitle">40cm</p>
+          </>
+        );
+    }
+  };
+
+  const handleSwitchMedium = (e) => {
+    switch (e.name) {
+      case "nuggetsy":
+        return <div className="sizeTitle">5 sztuk</div>;
+      case "sosy":
+        return <div className="sizeTitle">25g</div>;
+      case "napoje":
+        return <div className="sizeTitle">0,33L</div>;
+      default:
+        return (
+          <>
+            <LocalPizzaIcon className="medium" />
+            <p className="sizeTitle">30cm</p>
+          </>
+        );
+    }
+  };
+
+  const handleTaste = (e, ingredient) => {
+    document.querySelectorAll("input.taste").forEach((el) => {
+      if (el.value !== ingredient) {
+        el.checked = false;
+      }
+    });
+    setTaste(ingredient);
+  };
+
+  console.log(taste);
   console.log(addedIngredients);
   console.log(excludedIngredients);
   const totalPrice = price * quantity;
@@ -83,20 +149,29 @@ const Modal = ({ closeModal, item }) => {
             {item.price.length > 1 && (
               <>
                 <h4>Wybierz rozmiar:</h4>
+               {item.price.length > 2 && <div
+                  className={
+                    size === "xlarge" ? "sizeOption active" : "sizeOption"
+                  }
+                  onClick={handleXLargeSize}
+                >
+                  0,85L
+                </div>}
                 <div
                   className={
                     size === "large" ? "sizeOption active" : "sizeOption"
                   }
                   onClick={handleLargeSize}
                 >
-                  {item.name === "nuggetsy" ? (
+                  {/* {item.name === "nuggetsy" ? (
                     <div className="sizeTitle">10 sztuk</div>
                   ) : (
                     <>
                       <LocalPizzaIcon className="large" />
                       <p className="sizeTitle">40cm</p>
                     </>
-                  )}
+                  )} */}
+                  {handleSwitchLarge(item)}
                 </div>
                 <div
                   className={
@@ -104,14 +179,15 @@ const Modal = ({ closeModal, item }) => {
                   }
                   onClick={handleMediumSize}
                 >
-                  {item.name === "nuggetsy" ? (
+                  {/* {item.name === "nuggetsy" ? (
                     <div className="sizeTitle">5 sztuk</div>
                   ) : (
                     <>
                       <LocalPizzaIcon className="medium" />
                       <p className="sizeTitle">30cm</p>
                     </>
-                  )}
+                  )} */}
+                  {handleSwitchMedium(item)}
                 </div>
               </>
             )}
@@ -146,10 +222,11 @@ const Modal = ({ closeModal, item }) => {
                     addToCart({
                       id: item._id,
                       name: item.name,
-                      img:item.img,
-                      category:item.category,
+                      img: item.img,
+                      category: item.category,
                       addedIngredients,
                       excludedIngredients,
+                      taste,
                       size,
                       price,
                       quantity,
@@ -170,23 +247,25 @@ const Modal = ({ closeModal, item }) => {
             </div>
           </div>
         </div>
-        <div className="options">
-          <h4>Składniki:</h4>
-          <ul className="ingredients">
-            {item.ingredients.map((ingredient, index) => (
-              <li key={index}>
-                <input
-                  type="checkbox"
-                  id={ingredient}
-                  value={ingredient}
-                  defaultChecked={true}
-                  onClick={(e) => handleExclude(e, ingredient)}
-                />
-                <label htmlFor={ingredient}>{ingredient}</label>
-              </li>
-            ))}
-          </ul>
-        </div>
+        {item.ingredients.length > 0 && (
+          <div className="options">
+            <h4>Składniki:</h4>
+            <ul className="ingredients">
+              {item.ingredients.map((ingredient, index) => (
+                <li key={index}>
+                  <input
+                    type="checkbox"
+                    id={ingredient}
+                    value={ingredient}
+                    defaultChecked={true}
+                    onClick={(e) => handleExclude(e, ingredient)}
+                  />
+                  <label htmlFor={ingredient}>{ingredient}</label>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
         {data.length > 0 && (
           <>
             <div className="options">
@@ -207,6 +286,44 @@ const Modal = ({ closeModal, item }) => {
               </ul>
             </div>
           </>
+        )}
+        {item.name === "sosy" && (
+          <div className="options">
+            <h4>Smak:</h4>
+            <ul className="ingredients">
+              {tasteData.map((ingredient, index) => (
+                <li key={index}>
+                  <input
+                    className="taste"
+                    type="checkbox"
+                    id={ingredient}
+                    value={ingredient}
+                    onChange={(e) => handleTaste(e, ingredient)}
+                  />
+                  <label htmlFor={ingredient}>{ingredient}</label>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+        {item.name === "napoje" && (
+          <div className="options">
+            <h4>Smak:</h4>
+            <ul className="ingredients">
+              {drinkData.map((ingredient, index) => (
+                <li key={index}>
+                  <input
+                    className="taste"
+                    type="checkbox"
+                    id={ingredient}
+                    value={ingredient}
+                    onChange={(e) => handleTaste(e, ingredient)}
+                  />
+                  <label htmlFor={ingredient}>{ingredient}</label>
+                </li>
+              ))}
+            </ul>
+          </div>
         )}
       </div>
     </div>

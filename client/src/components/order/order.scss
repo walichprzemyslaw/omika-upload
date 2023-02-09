@@ -1,13 +1,50 @@
 .order {
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: #25242482;
+  height: 100%;
+  width: 100vw;
+  z-index: 9999;
   display: flex;
+  align-items: center;
 
   .orderContainer {
-    flex: 19;
-    margin-left: 95px;
-    margin-right: 20px;
-    margin-bottom: 30px;
-    align-items: center;
-    min-height: 100vh;
+    background-color: white;
+    height: 75vh;
+    max-width: 80vw;
+    margin: 0 auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+    overflow-y: auto;
+
+    .top{
+      padding: 10px;
+      margin: 20px;
+      display: flex;
+      justify-content: space-between;
+
+      .info{
+        display: flex;
+        flex-direction: column;
+
+        h1{
+          font-size: 20px;
+        }
+      }
+
+      .closeButton {
+        background-color: transparent;
+        border: none;
+        font-size: 25px;
+        cursor: pointer;
+        &:hover {
+          color: #dd1414;
+        }
+      }
+    }
 
     .orderWrapper {
       // align-items: center;
@@ -17,9 +54,10 @@
       justify-content: center;
       -webkit-box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
       box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
-      padding: 50px 10px;
-      margin: 0 10vw;
+      margin: 0 7.5vw;
+      padding: 20px 0;
       // height: 90vh;
+
 
       h1 {
         font-size: 18px;
@@ -83,6 +121,7 @@
         display: flex;
         flex-direction: row;
         justify-content: space-between;
+        gap:10vw;
         margin: 0 10%;
         .orderDetailsLeft {
           display: flex;

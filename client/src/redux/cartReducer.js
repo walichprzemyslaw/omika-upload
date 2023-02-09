@@ -14,6 +14,7 @@ export const cartSlice = createSlice({
         (item) =>
           item.id === action.payload.id &&
           item.size === action.payload.size &&
+          item.taste === action.payload.taste &&
           JSON.stringify(item.addedIngredients) ===
             JSON.stringify(action.payload.addedIngredients) &&
           JSON.stringify(item.excludedIngredients) ===
@@ -27,10 +28,12 @@ export const cartSlice = createSlice({
     },
     removeItem: (state, action) => {
       console.log(action.payload);
+      console.log(state.products);
       state.products = state.products.filter(
         (item) =>
           item.id !== action.payload.id ||
           item.size !== action.payload.size ||
+          item.taste !== action.payload.taste ||
           JSON.stringify(item.addedIngredients) !==
             JSON.stringify(action.payload.addedIngredients) ||
           JSON.stringify(item.excludedIngredients) !==

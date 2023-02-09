@@ -5,7 +5,7 @@ const IngredientSchema = new mongoose.Schema({
   category: {
     type: String,
     required: true,
-    enum: ["pizza", "burger"],
+    enum: ["pizza", "burgery","zapiekanki","sałatki"],
   },
   price: { type: [Number], required: true },
   isAvailable: { type: Boolean, default: true },
