@@ -77,7 +77,8 @@ const Cart = ({ closeCart }) => {
                   cartItem.addedIngredients +
                   cartItem.excludedIngredients + 
                   cartItem.size +
-                  cartItem.taste
+                  cartItem.taste +
+                  cartItem.crust
                 }
               >
                 <div className="itemLeft">
@@ -103,6 +104,9 @@ const Cart = ({ closeCart }) => {
                       {cartItem.taste.length > 0 && (
                         <p>Smak: {cartItem.taste}</p>
                       )}
+                       {cartItem.crust.length > 0 && (
+                        <p>Ciasto: {cartItem.crust}</p>
+                      )}
                     </div>
                     <div className="price">
                       {cartItem.quantity}x {cartItem.price.toFixed(2)}zł
@@ -120,6 +124,7 @@ const Cart = ({ closeCart }) => {
                           excludedIngredients: cartItem.excludedIngredients,
                           size: cartItem.size,
                           taste: cartItem.taste,
+                          crust: cartItem.crust
                         })
                       )
                     }

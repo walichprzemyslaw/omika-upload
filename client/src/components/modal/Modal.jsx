@@ -13,6 +13,7 @@ const Modal = ({ closeModal, item }) => {
   const [addedIngredients, setAddedIngredients] = useState([]);
   const [excludedIngredients, setExcludedIngredients] = useState([]);
   const [taste, setTaste] = useState("");
+  const [crust, setCrust] = useState("");
   const [quantity, setQuantity] = useState(1);
 
   const [sos, ...rest] = item.ingredients;
@@ -29,6 +30,8 @@ const Modal = ({ closeModal, item }) => {
     "serowy-chili",
   ];
 
+  // const crustData = ["cienkie", "tradycyjne", "grube"];
+
   const drinkData = ["pepsi", "7up", "mirinda"];
 
   const { data, loading, error } = useFetch(
@@ -42,6 +45,9 @@ const Modal = ({ closeModal, item }) => {
 
   const handleLargeSize = (e) => {
     setSize("large");
+    if (item.category === "pizza") {
+      setCrust("tradycyjne");
+    }
     setPrice(item.price[1]);
     console.log(size);
     document
@@ -52,6 +58,9 @@ const Modal = ({ closeModal, item }) => {
 
   const handleMediumSize = (e) => {
     setSize("medium");
+    if (item.category === "pizza") {
+      setCrust("tradycyjne");
+    }
     setPrice(item.price[0]);
     console.log(size);
     document
@@ -134,6 +143,30 @@ const Modal = ({ closeModal, item }) => {
     setTaste(ingredient);
   };
 
+  const handleCrust = (e) => {
+    console.log(e.target.dataset.value);
+    setCrust(e.target.dataset.value);
+    let index;
+    if (size === "medium") {
+      index = 0;
+    } else {
+      index = 1;
+    }
+    setPrice(item.price[index]);
+    if (e.target.dataset.value === "grube") {
+      if (size === "medium") {
+        setPrice(item.price[index] + 3);
+      } else {
+        setPrice(item.price[index] + 5);
+      }
+    }
+    document
+      .querySelectorAll("input.addons")
+      .forEach((el) => (el.checked = false));
+    setAddedIngredients([]);
+  };
+
+  console.log(crust);
   console.log(taste);
   console.log(addedIngredients);
   console.log(excludedIngredients);
@@ -144,19 +177,44 @@ const Modal = ({ closeModal, item }) => {
   return (
     <div className="modal">
       <div className="modalContainer">
+        {item.category === "pizza" && !crust && setCrust("tradycyjne")}
+        {item.name === "sosy" && !taste && setTaste("czosnkowy")}
+        {item.name === "napoje" && !taste && setTaste("pepsi")}
+
+        {/* {item.category === "pizza" && (
+          <div className="options">
+            <h4>Wybierz ciasto:</h4>
+            <ul className="ingredients">
+              {crustData.map((crust, index) => (
+                <li key={index}>
+                  <input
+                    className="crust"
+                    type="checkbox"
+                    id={crust}
+                    value={crust}
+                    onChange={(e) => handleCrust(e, crust)}
+                  />
+                  <label htmlFor={crust}>{crust}</label>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )} */}
         <div className="details">
           <div className="detailsLeft">
             {item.price.length > 1 && (
               <>
                 <h4>Wybierz rozmiar:</h4>
-               {item.price.length > 2 && <div
-                  className={
-                    size === "xlarge" ? "sizeOption active" : "sizeOption"
-                  }
-                  onClick={handleXLargeSize}
-                >
-                  0,85L
-                </div>}
+                {item.price.length > 2 && (
+                  <div
+                    className={
+                      size === "xlarge" ? "sizeOption active" : "sizeOption"
+                    }
+                    onClick={handleXLargeSize}
+                  >
+                    0,85L
+                  </div>
+                )}
                 <div
                   className={
                     size === "large" ? "sizeOption active" : "sizeOption"
@@ -191,6 +249,38 @@ const Modal = ({ closeModal, item }) => {
                 </div>
               </>
             )}
+              {item.category === "pizza" && (
+              <>
+                <h4>Wybierz ciasto:</h4>
+                <div
+                  className={
+                    crust === "cienkie" ? "sizeOption active" : "sizeOption"
+                  }
+                  data-value="cienkie"
+                  onClick={(e) => handleCrust(e)}
+                >
+                  Cienkie
+                </div>
+                <div
+                  className={
+                    crust === "tradycyjne" ? "sizeOption active" : "sizeOption"
+                  }
+                  data-value="tradycyjne"
+                  onClick={(e) => handleCrust(e)}
+                >
+                  Tradycyjne
+                </div>
+                <div
+                  className={
+                    crust === "grube" ? "sizeOption active" : "sizeOption"
+                  }
+                  data-value="grube"
+                  onClick={(e) => handleCrust(e)}
+                >
+                  Grube
+                </div>
+              </>
+            )}
             <div className="addToCart">
               <div className="quantityContainer">
                 <KeyboardArrowDownIcon
@@ -217,7 +307,7 @@ const Modal = ({ closeModal, item }) => {
               </div>
               <button
                 className="addToCartButton"
-                onClick={() =>
+                onClick={() => {
                   dispatch(
                     addToCart({
                       id: item._id,
@@ -227,12 +317,13 @@ const Modal = ({ closeModal, item }) => {
                       addedIngredients,
                       excludedIngredients,
                       taste,
+                      crust,
                       size,
                       price,
                       quantity,
                     })
-                  )
-                }
+                  );
+                }}
               >
                 <p className="price">+{totalPrice.toFixed(2)}zł</p>Dodaj do
                 koszyka

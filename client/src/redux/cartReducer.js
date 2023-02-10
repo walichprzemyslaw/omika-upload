@@ -15,6 +15,7 @@ export const cartSlice = createSlice({
           item.id === action.payload.id &&
           item.size === action.payload.size &&
           item.taste === action.payload.taste &&
+          item.crust === action.payload.crust &&
           JSON.stringify(item.addedIngredients) ===
             JSON.stringify(action.payload.addedIngredients) &&
           JSON.stringify(item.excludedIngredients) ===
@@ -34,6 +35,7 @@ export const cartSlice = createSlice({
           item.id !== action.payload.id ||
           item.size !== action.payload.size ||
           item.taste !== action.payload.taste ||
+          item.crust !== action.payload.crust ||
           JSON.stringify(item.addedIngredients) !==
             JSON.stringify(action.payload.addedIngredients) ||
           JSON.stringify(item.excludedIngredients) !==

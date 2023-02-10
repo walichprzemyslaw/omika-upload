@@ -14,6 +14,7 @@ const OrderSchema = new mongoose.Schema(
         name: { type: String, required: true },
         size: { type: String },
         taste: { type: String },
+        crust: {type: String},
         price: { type: Number },
         quantity: { type: Number },
         category: { type: String },

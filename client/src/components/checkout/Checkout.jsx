@@ -219,7 +219,8 @@ const Checkout = ({ closeCheckout }) => {
                     cartItem.addedIngredients +
                     cartItem.excludedIngredients +
                     cartItem.size +
-                    cartItem.taste
+                    cartItem.taste +
+                    cartItem.crust
                   }
                 >
                   <div className="itemTitle">
@@ -242,9 +243,8 @@ const Checkout = ({ closeCheckout }) => {
                     {cartItem.excludedIngredients.length > 0 && (
                       <p>Minus: {cartItem.excludedIngredients.join(", ")}</p>
                     )}
-                    {cartItem.taste.length > 0 && (
-                        <p>Smak: {cartItem.taste}</p>
-                      )}
+                    {cartItem.taste.length > 0 && <p>Smak: {cartItem.taste}</p>}
+                    {cartItem.crust.length > 0 && <p>Ciasto: {cartItem.crust}</p>}
                   </div>
                 </li>
               ))}

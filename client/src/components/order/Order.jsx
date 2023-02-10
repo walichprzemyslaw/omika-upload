@@ -89,6 +89,7 @@ const Order = ({item, closeOrder}) => {
                       <p>Minus: {cartItem.excludedIngredients.join(", ")}</p>
                     )}
                     {cartItem.taste.length > 0 && <p>Smak: {cartItem.taste}</p>}
+                    {cartItem.crust.length > 0 && <p>Ciasto: {cartItem.crust}</p>}
                   </div>
                 </div>
                 <div className="orderITRight">
