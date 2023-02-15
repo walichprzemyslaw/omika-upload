@@ -3,11 +3,11 @@ import mongoose from "mongoose";
 const OrderSchema = new mongoose.Schema(
   {
     customerId: { type: String },
-    firstName: { type: String, required: true },
-    lastName: { type: String, required: true },
-    street: { type: String, required: true },
-    homeNumber: { type: String, required: true },
-    city: { type: String, required: true },
+    firstName: { type: String, },
+    lastName: { type: String, },
+    street: { type: String, },
+    homeNumber: { type: String,},
+    city: { type: String,},
     phone: { type: Number, required: true },
     products: [
       {
@@ -37,6 +37,7 @@ const OrderSchema = new mongoose.Schema(
     paymentReciver: { type: String },
     delivery: { type: Boolean, required: true },
     deliveryZone: { type: String, required: true, enum: ["A", "B", "C"] },
+    comments: { type: String, }
   },
   { timestamps: true }
 );

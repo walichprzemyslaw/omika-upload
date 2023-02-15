@@ -1,0 +1,219 @@
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: #25242482;
+  height: 100%;
+  width: 100vw;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+
+  .modalContainer {
+    background-color: white;
+    height: 75vh;
+    max-width: 80vw;
+    min-width: 70vw;
+    margin: 0 auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+    overflow-y: auto;
+
+    .top {
+      padding: 10px;
+      margin: 20px;
+      display: flex;
+      justify-content: space-between;
+
+      .info {
+        display: flex;
+        flex-direction: column;
+
+        h1 {
+          font-size: 20px;
+        }
+      }
+
+      .closeButton {
+        background-color: transparent;
+        border: none;
+        font-size: 25px;
+        cursor: pointer;
+        &:hover {
+          color: #dd1414;
+        }
+      }
+    }
+
+    .editButton {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .editOrderButton {
+        display: flex;
+        align-items: center;
+        background-color: #dd1414;
+        color: white;
+        border: none;
+        font-size: 20px;
+        font-weight: 500;
+        padding: 10px;
+        border-radius: 15px;
+        cursor: pointer;
+        width: fit-content;
+
+        &:hover {
+          background-color: #ff1c1c;
+        }
+      }
+    }
+
+    .modalWrapper {
+      // align-items: center;
+      display: flex;
+      flex-direction: column;
+      // flex-wrap: wrap;
+      justify-content: center;
+      -webkit-box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
+      box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
+      margin: 0 7.5vw;
+      padding: 20px 0;
+      // height: 90vh;
+
+      h1 {
+        font-size: 18px;
+        text-align: center;
+      }
+
+      hr {
+        border: 0.25px solid #999;
+        width: 80%;
+        margin: 10px auto;
+      }
+
+      .modalItems {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-top: 10px;
+        .modalItem {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          gap: 5px;
+          margin: 0 10%;
+
+          .modalItemTitle {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 10px;
+            .modalITLeft {
+              img {
+                width: 40px;
+                height: 40px;
+                object-fit: contain;
+              }
+            }
+            .modalITCenter {
+              display: flex;
+              flex-direction: column;
+              // align-items: center;
+              h1 {
+                text-align: left;
+                font-size: 18px;
+                text-transform: capitalize;
+              }
+            }
+          }
+
+          .modalITRight {
+            h1 {
+              font-size: 16px;
+            }
+            h2 {
+              font-size: 12px;
+            }
+          }
+        }
+      }
+
+      .modalDetails {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        gap: 10vw;
+        margin: 0 10%;
+        .modalDetailsLeft {
+          display: flex;
+          flex-direction: column;
+          gap: 5px;
+          h2 {
+            font-size: 14px;
+          }
+          form {
+            display: flex;
+            flex-wrap: wrap;
+            padding-top: 20px;
+            gap: 30px;
+            justify-content: space-between;
+            .formInput {
+              width: 40%;
+
+              label {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+
+                .icon {
+                  cursor: pointer;
+                }
+              }
+
+              input {
+                width: 100%;
+                padding: 5px;
+                border: none;
+                border-bottom: 1px solid gray;
+              }
+              textarea{
+                width: 100%;
+              }
+            }
+            .checkoutButton {
+              display: flex;
+              justify-content: center;
+              width: 100%;
+              margin-top: 20px;
+    
+              button {
+                background-color: #dd1414;
+                color: white;
+                border: none;
+                font-weight: 500;
+                padding: 10px;
+                border-radius: 15px;
+                cursor: pointer;
+                width: fit-content;
+    
+                &:hover {
+                  background-color: #ff1c1c;
+                }
+              }
+            }
+          }
+        }
+        .modalDetailsRight {
+          display: flex;
+          flex-direction: column;
+          gap: 5px;
+          h2 {
+            font-size: 14px;
+          }
+        }
+      }
+    }
+  }
+}

@@ -20,10 +20,32 @@ export const getOrder = async (req, res, next) => {
 export const getOrdersByUser = async (req, res, next) => {
   try {
     const userId = req.params.id;
-    const orders = await Order.find({customerId: userId});
+    const orders = await Order.find({ customerId: userId });
     const list = await Promise.all(
       orders.map((order) => {
-        return order
+        return order;
+      })
+    );
+
+    res.status(200).json(list);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getOrdersByDate = async (req, res, next) => {
+  try {
+    const date = new Date();
+    // date.setUTCDate(14);
+    // date.setUTCHours(0,0,0);
+    // ROZJEŻDŻA SIĘ O GODZINĘ!!!!!!!
+    console.log(date);
+    const orders = await Order.find({
+      createdAt: { $gte: date.setUTCHours(0, 0, 0) },
+    });
+    const list = await Promise.all(
+      orders.map((order) => {
+        return order;
       })
     );
 

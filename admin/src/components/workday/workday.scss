@@ -12,12 +12,12 @@
     gap: 10px;
     margin-bottom: 20px;
     .addOrderButton {
-      height: 30px;
       display: flex;
       align-items: center;
       background-color: #dd1414;
       color: white;
       border: none;
+      font-size: 20px;
       font-weight: 500;
       padding: 10px;
       border-radius: 15px;
@@ -27,6 +27,14 @@
       &:hover {
         background-color: #ff1c1c;
       }
+    }
+
+    .activeOrders {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
     }
   }
 

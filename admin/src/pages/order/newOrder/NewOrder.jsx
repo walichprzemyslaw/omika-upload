@@ -19,7 +19,7 @@ const NewOrder = ({ inputs, title }) => {
   const {
     data: employeeData,
     loading: employeeLoading,
-    error: employeeErorr,
+    error: employeeError,
   } = useFetch(`/employees`);
 
   const {
