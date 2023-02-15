@@ -222,7 +222,7 @@ const Editor = ({ order, closeEditor, closeModal }) => {
                 </div>
                 <div className="formInput">
                   <label htmlFor="paymentReciver">Pracownik</label>
-                  <select id="paymentReciver" onChange={handleChange}>
+                  <select id="paymentReciver" onChange={handleChange} defaultValue={order.paymentReciver}>
                     <option value="wybierz pracownika">
                       Wybierz pracownika
                     </option>
@@ -245,6 +245,7 @@ const Editor = ({ order, closeEditor, closeModal }) => {
                     id="delivery"
                     className="select"
                     onChange={handleChange}
+                    defaultValue={order.delivery}
                   >
                     <option value={true} selected={order.delivery && true}>
                       Dostawa
@@ -259,6 +260,7 @@ const Editor = ({ order, closeEditor, closeModal }) => {
                   <select
                     id="paymentMethod"
                     className="select"
+                    defaultValue={order.paymentMethod}
                     onChange={handleChange}
                   >
                     <option value="cash">Gotówka</option>

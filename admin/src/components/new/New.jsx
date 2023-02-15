@@ -1,10 +1,25 @@
 import { useState } from "react";
 import useFetch from "../../hooks/useFetch";
+import DeleteForeverOutlinedIcon from "@mui/icons-material/DeleteForeverOutlined";
 import { useNavigate } from "react-router-dom";
 import "./new.scss";
 import Item from "../item/Item";
+import LocalPizzaIcon from "@mui/icons-material/LocalPizza";
+import { useDispatch, useSelector } from "react-redux";
+import { removeItem, resetCart } from "../../redux/cartReducer";
+import axios from "axios";
 
 const New = ({ closeNew }) => {
+  const products = useSelector((state) => state.cart.products);
+  const dispatch = useDispatch();
+
+  const categories = [
+    { id: 1, name: "pizza" },
+    { id: 2, name: "burgery" },
+    { id: 3, name: "zapiekanki" },
+    { id: 4, name: "sałatki" },
+    { id: 5, name: "dodatki" },
+  ];
   const [category, setCategory] = useState("pizza");
   const { data, loading, error } = useFetch(`/products/category/${category}`);
   const {
@@ -20,24 +35,63 @@ const New = ({ closeNew }) => {
   });
   const navigate = useNavigate();
   const [customer, setCustomer] = useState(false);
-//   const [products, setProducts] = useState(false);
+  //   const [products, setProducts] = useState(false);
 
   const handleChange = (e) => {
     setInfo((prev) => ({ ...prev, [e.target.id]: e.target.value }));
+  };
+  const cartTotal = () => {
+    let cartTotal = 0;
+    products.forEach((item) => (cartTotal += item.quantity * item.price));
+    return cartTotal.toFixed(2);
   };
 
   const handleClick = async (e) => {
     e.preventDefault();
     try {
+      const totalPrice = cartTotal();
       const newOrder = {
         ...info,
+        products,
+        totalPrice
       };
       console.log(newOrder);
-      //   await axios.post(`/orders/`, newOrder);
-      //   closeNew(false);
-      //   navigate("/");
+        await axios.post(`/orders/`, newOrder);
+        closeNew(false);
+        navigate("/");
+        dispatch(resetCart());
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  const handleSwitchMedium = (e) => {
+    switch (e.name) {
+      case "nuggetsy":
+        return "5 sztuk ";
+      case "sosy":
+        return "25g ";
+      case "napoje":
+        return "0,33L ";
+      case "frytki":
+        return "";
+      default:
+        return "⌀30cm ";
+    }
+  };
+
+  const handleSwitchLarge = (e) => {
+    switch (e.name) {
+      case "nuggetsy":
+        return "10 sztuk ";
+      case "sosy":
+        return "100g ";
+      case "napoje":
+        return "0,5L ";
+      case "frytki":
+        return "";
+      default:
+        return "⌀40cm ";
     }
   };
 
@@ -142,7 +196,7 @@ const New = ({ closeNew }) => {
                 </div>
                 <div className="formInput">
                   <label htmlFor="paymentReciver">Pracownik</label>
-                  <select id="paymentReciver" onChange={handleChange}>
+                  <select id="paymentReciver" onChange={handleChange} defaultValue={info.paymentReciver}>
                     <option value="wybierz pracownika">
                       Wybierz pracownika
                     </option>
@@ -185,8 +239,92 @@ const New = ({ closeNew }) => {
             </div>
           </div>
         )}
+        <div className="cartNewContainer">
+          {products.length > 0 && <h1>Zamówione produkty:</h1>}
+          <ul className="cartItems">
+            {products?.map((cartItem) => (
+              <li
+                className="cartItem"
+                key={
+                  cartItem.id +
+                  cartItem.addedIngredients +
+                  cartItem.excludedIngredients +
+                  cartItem.size +
+                  cartItem.taste +
+                  cartItem.crust
+                }
+              >
+                <div className="itemLeft">
+                  <img src={cartItem.img} alt="" />
+                  <div className="details">
+                    <h1>
+                      {(cartItem.category === "pizza" ||
+                        cartItem.category === "dodatki") &&
+                        (cartItem.size === "xlarge"
+                          ? "0,85L "
+                          : cartItem.size === "large"
+                          ? handleSwitchLarge(cartItem)
+                          : handleSwitchMedium(cartItem))}
+                      {cartItem.name}
+                    </h1>
+                    <div className="cartDetails">
+                      {cartItem.addedIngredients.length > 0 && (
+                        <p>Dodatki: {cartItem.addedIngredients.join(", ")}</p>
+                      )}
+                      {cartItem.excludedIngredients.length > 0 && (
+                        <p>Minus: {cartItem.excludedIngredients.join(", ")}</p>
+                      )}
+                      {cartItem.taste.length > 0 && (
+                        <p>Smak: {cartItem.taste}</p>
+                      )}
+                      {cartItem.crust.length > 0 && (
+                        <p>Ciasto: {cartItem.crust}</p>
+                      )}
+                    </div>
+                    <div className="price">
+                      {cartItem.quantity}x {cartItem.price.toFixed(2)}zł
+                    </div>
+                  </div>
+                </div>
+                <div className="itemRight">
+                  <DeleteForeverOutlinedIcon
+                    className="cartDelete"
+                    onClick={() =>
+                      dispatch(
+                        removeItem({
+                          id: cartItem.id,
+                          addedIngredients: cartItem.addedIngredients,
+                          excludedIngredients: cartItem.excludedIngredients,
+                          size: cartItem.size,
+                          taste: cartItem.taste,
+                          crust: cartItem.crust,
+                        })
+                      )
+                    }
+                  />
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
         <div className="productsContainer">
           <h1>WYBIERZ PRODUKTY</h1>
+        </div>
+        <div className="categoriesContainer">
+          <ul className="categories">
+            {categories.map((category) => (
+              <div
+                className="categoryItem"
+                key={category.id}
+                onClick={() => setCategory(category.name)}
+              >
+                <li>
+                  <LocalPizzaIcon className="icon" />
+                </li>
+                <p className="categoryTitle">{category.name}</p>
+              </div>
+            ))}
+          </ul>
         </div>
         <div className="productsWrapper">
           {loading
