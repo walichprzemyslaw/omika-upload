@@ -79,7 +79,9 @@ const OrderPage = () => {
                         cartItem.addedIngredients +
                         cartItem.excludedIngredients +
                         cartItem.size +
-                        cartItem.taste
+                        cartItem.taste +
+                        cartItem.firstHalf.name +
+                        cartItem.secondHalf.name
                       }
                     >
                       <div className="orderItemTitle">
@@ -171,6 +173,13 @@ const OrderPage = () => {
                   ))}
             </div>
             <hr />
+            {item.comments && (
+              <div className="comments">
+                <h1>Uwagi do zamówienia:</h1>
+                <span>{item.comments}</span>
+                <hr />
+              </div>
+            )}
             <div className="orderDetails">
               <div className="orderDetailsLeft">
                 <h2>Dane osobowe:</h2>
@@ -188,6 +197,7 @@ const OrderPage = () => {
                 <span>
                   Sposób zapłaty: {item.paymentMethod && handleMethod(item)}
                 </span>
+                <span>Przybliżony czas {item.delivery ? "dostawy" : "odbioru"}: {item.deliveryTime}</span>
               </div>
             </div>
           </div>

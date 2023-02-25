@@ -46,7 +46,7 @@ const OrderSchema = new mongoose.Schema(
     },
     paymentReciver: { type: String },
     delivery: { type: Boolean, required: true },
-    deliveryZone: { type: String, required: true, enum: ["A", "B", "C"] },
+    deliveryTime: { type: String, required: true},
     comments: { type: String },
   },
   { timestamps: true }

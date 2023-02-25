@@ -75,7 +75,9 @@ const Order = ({ item, closeOrder }) => {
                   cartItem.addedIngredients +
                   cartItem.excludedIngredients +
                   cartItem.size +
-                  cartItem.taste
+                  cartItem.taste +
+                  cartItem.firstHalf.name +
+                  cartItem.secondHalf.name
                 }
               >
                 <div className="orderItemTitle">
@@ -167,6 +169,7 @@ const Order = ({ item, closeOrder }) => {
               <span>
                 Sposób zapłaty: {item.paymentMethod && handleMethod(item)}
               </span>
+              <span>Przybliżony czas {item.delivery ? "dostawy" : "odbioru"}: {item.deliveryTime}</span>
             </div>
           </div>
         </div>

@@ -8,7 +8,47 @@ import { resetCart } from "../../redux/cartReducer";
 
 const Checkout = ({ closeCheckout }) => {
   const { user } = useContext(AuthContext);
+  const [delivery, setDelivery] = useState(true);
+  // const [deliveryTime, setDeliveryTime] = useState("jak najszybciej");
   // const [shippingAddress, setShippingAddress] = useState(false);
+  const getTimeRange = (delivery, startTime) => {
+    const start = new Date(startTime);
+    const end = new Date();
+    end.setHours(21, 0, 0);
+
+    if (delivery === "false") {
+      start.setMinutes(start.getMinutes() + 20);
+    } else {
+      start.setMinutes(start.getMinutes() + 50);
+    }
+
+    let timeRange = [];
+    while (start <= end) {
+      let x = start.getMinutes();
+      let y = 0;
+      while (x > y && x < 60) {
+        start.setMinutes(y + 5);
+        y = y + 5;
+      }
+      // start.setMinutes(start.getMinutes() + 5);
+
+      timeRange.push(
+        new Date(start).toLocaleTimeString("pl-PL", {
+          hour: "2-digit",
+          minute: "2-digit",
+        }) +
+          " - " +
+          new Date(
+            start.setMinutes(start.getMinutes() + 10)
+          ).toLocaleTimeString("pl-PL", {
+            hour: "2-digit",
+            minute: "2-digit",
+          })
+      );
+    }
+    return timeRange;
+  };
+  let timeRange = getTimeRange(delivery, new Date());
   const [info, setInfo] = useState({
     customerId: user?._id || undefined,
     firstName: user?.firstName || undefined,
@@ -18,9 +58,9 @@ const Checkout = ({ closeCheckout }) => {
     homeNumber: user?.homeNumber || undefined,
     city: user?.city || undefined,
     phone: user?.phone || undefined,
-    deliveryZone: "A",
+    deliveryTime: "jak najszybciej",
     paymentMethod: "cash",
-    delivery: true,
+    // delivery: true,
     status: "pending",
   });
   const [orderId, setOrderId] = useState();
@@ -40,6 +80,12 @@ const Checkout = ({ closeCheckout }) => {
     setInfo((prev) => ({ ...prev, [e.target.id]: e.target.value }));
   };
 
+  const handleDelivery = (e) => {
+    setDelivery(e.target.value);
+    timeRange = getTimeRange(e.target.value, new Date());
+    setInfo((prev) => ({ ...prev, deliveryTime: timeRange[0] }));
+  };
+
   const handleClick = async (e) => {
     e.preventDefault();
     try {
@@ -48,6 +94,7 @@ const Checkout = ({ closeCheckout }) => {
         ...info,
         totalPrice,
         products,
+        delivery,
       };
       console.log(newOrder);
       const response = await axios.post("/orders", newOrder);
@@ -293,44 +340,33 @@ const Checkout = ({ closeCheckout }) => {
             <p className="totalPrice">Łączny koszt: {cartTotal()}zł</p>
             <div className="deliveryMethod">
               <p className="title">Wybierz metodę odbioru zamówienia:</p>
-              <select id="delivery" className="select" onChange={handleChange}>
+              <select
+                id="delivery"
+                className="select"
+                onChange={handleDelivery}
+              >
                 <option value={true}>Dostawa</option>
                 <option value={false}>Odbiór osobisty</option>
               </select>
             </div>
-            {/* <div
-              className="shippingAddress"
-              onClick={() => setShippingAddress(!shippingAddress)}
-            >
-              <input
-                type="checkbox"
-                id="shippingAddress"
-                name="shippingAddress"
-                value="shippingAddress"
-              />
-              <label htmlFor="shippingAddress">Dostawa na inny adres?</label>
+            <div className="deliveryTime">
+              <p className="title">Wybierz czas {delivery !== "false" ? "dostawy" : "odbioru"}:</p>
+              <select
+                id="deliveryTime"
+                className="select"
+                onChange={handleChange}
+                value={info.deliveryTime}
+              >
+                {delivery !== "false" && (
+                  <option value="jak najszybciej">Jak najszybciej</option>
+                )}
+                {timeRange.map((option) => (
+                  <option value={option} key={option}>
+                    {option}
+                  </option>
+                ))}
+              </select>
             </div>
-
-            {shippingAddress && (
-              <>
-                <div className="formInput">
-                  <label>Ulica</label>
-                  <input type="text" placeholder="Ulica" id="street" onChange={handleChange} />
-                </div>
-                <div className="formInput">
-                  <label>Numer domu</label>
-                  <input type="text" placeholder="Numer domu" id="homeNumber" onChange={handleChange} />
-                </div>
-                <div className="formInput">
-                  <label>Miasto</label>
-                  <input type="text" placeholder="Miasto" id="city" onChange={handleChange} />
-                </div>
-               <div className="formInput">
-                  <label>Kod pocztowy</label>
-                  <input type="text" placeholder="Kod pocztowy" id="postalCode" />
-                </div>
-              </>
-            )} */}
             <div className="paymentMethod">
               <p className="title">Wybierz metodę płatności:</p>
               <select
