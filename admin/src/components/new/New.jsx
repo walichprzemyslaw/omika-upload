@@ -306,6 +306,7 @@ const New = ({ closeNew }) => {
               </li>
             ))}
           </ul>
+          {products.length > 0 && <h1>Łączna kwota: {cartTotal()}</h1>}
         </div>
         <div className="productsContainer">
           <h1>WYBIERZ PRODUKTY</h1>

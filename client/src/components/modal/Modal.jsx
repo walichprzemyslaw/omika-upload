@@ -201,6 +201,13 @@ const Modal = ({ closeModal, item }) => {
           </div>
         )} */}
         <div className="details">
+          <div className="detailsRight">
+            <div className="close">
+              <button className="closeButton" onClick={() => closeModal(false)}>
+                &times;
+              </button>
+            </div>
+          </div>
           <div className="detailsLeft">
             {item.price.length > 1 && (
               <>
@@ -249,7 +256,7 @@ const Modal = ({ closeModal, item }) => {
                 </div>
               </>
             )}
-              {item.category === "pizza" && (
+            {item.category === "pizza" && (
               <>
                 <h4>Wybierz ciasto:</h4>
                 <div
@@ -323,17 +330,11 @@ const Modal = ({ closeModal, item }) => {
                       quantity,
                     })
                   );
+                  closeModal(false);
                 }}
               >
                 <p className="price">+{totalPrice.toFixed(2)}zł</p>Dodaj do
                 koszyka
-              </button>
-            </div>
-          </div>
-          <div className="detailsRight">
-            <div className="close">
-              <button className="closeButton" onClick={() => closeModal(false)}>
-                &times;
               </button>
             </div>
           </div>

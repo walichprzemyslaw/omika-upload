@@ -4,7 +4,7 @@ import Sidebar from "../sidebar/Sidebar";
 import { useLocation } from "react-router-dom";
 import useFetch from "../../hooks/useFetch";
 
-const Order = ({item, closeOrder}) => {
+const Order = ({ item, closeOrder }) => {
   // const location = useLocation();
   // const id = location.pathname.split("/")[2];
   // const { data, loading, error } = useFetch(`/orders/find/${id}`);
@@ -42,18 +42,29 @@ const Order = ({item, closeOrder}) => {
     }
   };
 
+  const handleMethod = (order) => {
+    switch (order.paymentMethod) {
+      case "cash":
+        return "płatność gotówką";
+      case "online":
+        return "płatność online";
+      case "terminal":
+        return "płatność kartą";
+    }
+  };
+
   return (
     <div className="order">
       <div className="orderContainer">
-      <div className="top">
-            <div className="info">
-              <h1>Zamówienie nr {item._id}</h1>
-              <p>{new Date(item.createdAt).toLocaleString()}</p>
-            </div>
-            <button className="closeButton" onClick={() => closeOrder(false)}>
-              &times;
-            </button>
+        <div className="top">
+          <div className="info">
+            <h1>Zamówienie nr {item._id}</h1>
+            <p>{new Date(item.createdAt).toLocaleString()}</p>
           </div>
+          <button className="closeButton" onClick={() => closeOrder(false)}>
+            &times;
+          </button>
+        </div>
         <div className="orderWrapper">
           <div className="orderItems">
             {item.products.map((cartItem) => (
@@ -82,6 +93,46 @@ const Order = ({item, closeOrder}) => {
                           : handleSwitchMedium(cartItem))}
                       {cartItem.name}
                     </h1>
+                    {cartItem.crust.length > 0 && (
+                      <p>Ciasto: {cartItem.crust}</p>
+                    )}
+                    {cartItem.firstHalf && (
+                      <>
+                        <h5>Pierwsza połowa: {cartItem.firstHalf.name}</h5>
+                        {cartItem.firstHalf.addedIngredients.length > 0 && (
+                          <p>
+                            Dodatki:
+                            {cartItem.firstHalf.addedIngredients.join(", ")}
+                          </p>
+                        )}
+                        {cartItem.firstHalf.excludedIngredients.length > 0 && (
+                          <p>
+                            Minus:
+                            {cartItem.firstHalf.excludedIngredients.join(", ")}
+                          </p>
+                        )}
+                      </>
+                    )}
+                    {cartItem.secondHalf && (
+                      <>
+                        <h5>Druga połowa: {cartItem.secondHalf.name}</h5>
+                        {cartItem.secondHalf.addedIngredients2.length > 0 && (
+                          <p>
+                            Dodatki:
+                            {cartItem.secondHalf.addedIngredients2.join(", ")}
+                          </p>
+                        )}
+                        {cartItem.secondHalf.excludedIngredients2.length >
+                          0 && (
+                          <p>
+                            Minus:
+                            {cartItem.secondHalf.excludedIngredients2.join(
+                              ", "
+                            )}
+                          </p>
+                        )}
+                      </>
+                    )}
                     {cartItem.addedIngredients.length > 0 && (
                       <p>Dodatki: {cartItem.addedIngredients.join(", ")}</p>
                     )}
@@ -89,7 +140,6 @@ const Order = ({item, closeOrder}) => {
                       <p>Minus: {cartItem.excludedIngredients.join(", ")}</p>
                     )}
                     {cartItem.taste.length > 0 && <p>Smak: {cartItem.taste}</p>}
-                    {cartItem.crust.length > 0 && <p>Ciasto: {cartItem.crust}</p>}
                   </div>
                 </div>
                 <div className="orderITRight">
@@ -114,7 +164,9 @@ const Order = ({item, closeOrder}) => {
             <div className="orderDetailsRight">
               <h2>Szczegóły:</h2>
               <span>Łącznie: {item.totalPrice}zł</span>
-              <span>Sposób zapłaty: {item.paymentMethod}</span>
+              <span>
+                Sposób zapłaty: {item.paymentMethod && handleMethod(item)}
+              </span>
             </div>
           </div>
         </div>

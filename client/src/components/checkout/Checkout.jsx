@@ -23,6 +23,7 @@ const Checkout = ({ closeCheckout }) => {
     delivery: true,
     status: "pending",
   });
+  const [orderId, setOrderId] = useState();
 
   const products = useSelector((state) => state.cart.products);
 
@@ -49,8 +50,9 @@ const Checkout = ({ closeCheckout }) => {
         products,
       };
       console.log(newOrder);
-      await axios.post("/orders", newOrder);
-      navigate("/");
+      const response = await axios.post("/orders", newOrder);
+      console.log(response.data._id);
+      navigate(`/order/${response.data._id}`);
       dispatch(resetCart());
     } catch (error) {
       console.log(error);
@@ -237,6 +239,46 @@ const Checkout = ({ closeCheckout }) => {
                     </h2>
                   </div>
                   <div className="itemDetails">
+                    {cartItem.crust.length > 0 && (
+                      <p>Ciasto: {cartItem.crust}</p>
+                    )}
+                    {cartItem.firstHalf && (
+                      <>
+                        <h5>Pierwsza połowa: {cartItem.firstHalf.name}</h5>
+                        {cartItem.firstHalf.addedIngredients.length > 0 && (
+                          <p>
+                            Dodatki:
+                            {cartItem.firstHalf.addedIngredients.join(", ")}
+                          </p>
+                        )}
+                        {cartItem.firstHalf.excludedIngredients.length > 0 && (
+                          <p>
+                            Minus:
+                            {cartItem.firstHalf.excludedIngredients.join(", ")}
+                          </p>
+                        )}
+                      </>
+                    )}
+                    {cartItem.secondHalf && (
+                      <>
+                        <h5>Druga połowa: {cartItem.secondHalf.name}</h5>
+                        {cartItem.secondHalf.addedIngredients2.length > 0 && (
+                          <p>
+                            Dodatki:
+                            {cartItem.secondHalf.addedIngredients2.join(", ")}
+                          </p>
+                        )}
+                        {cartItem.secondHalf.excludedIngredients2.length >
+                          0 && (
+                          <p>
+                            Minus:
+                            {cartItem.secondHalf.excludedIngredients2.join(
+                              ", "
+                            )}
+                          </p>
+                        )}
+                      </>
+                    )}
                     {cartItem.addedIngredients.length > 0 && (
                       <p>Dodatki: {cartItem.addedIngredients.join(", ")}</p>
                     )}
@@ -244,7 +286,6 @@ const Checkout = ({ closeCheckout }) => {
                       <p>Minus: {cartItem.excludedIngredients.join(", ")}</p>
                     )}
                     {cartItem.taste.length > 0 && <p>Smak: {cartItem.taste}</p>}
-                    {cartItem.crust.length > 0 && <p>Ciasto: {cartItem.crust}</p>}
                   </div>
                 </li>
               ))}

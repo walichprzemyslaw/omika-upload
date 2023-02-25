@@ -11,6 +11,14 @@
     align-items: center;
     gap: 10px;
     margin-bottom: 20px;
+
+    .workdayData{
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      padding:20px;
+      gap:10px;
+    }
     .addOrderButton {
       display: flex;
       align-items: center;

@@ -75,7 +75,7 @@ const Cart = ({ closeCart }) => {
                 key={
                   cartItem.id +
                   cartItem.addedIngredients +
-                  cartItem.excludedIngredients + 
+                  cartItem.excludedIngredients +
                   cartItem.size +
                   cartItem.taste +
                   cartItem.crust
@@ -95,6 +95,49 @@ const Cart = ({ closeCart }) => {
                       {cartItem.name}
                     </h1>
                     <div className="cartDetails">
+                      {cartItem.crust.length > 0 && (
+                        <p>Ciasto: {cartItem.crust}</p>
+                      )}
+                      {cartItem.firstHalf && (
+                        <>
+                          <h5>Pierwsza połowa: {cartItem.firstHalf.name}</h5>
+                          {cartItem.firstHalf.addedIngredients.length > 0 && (
+                            <p>
+                              Dodatki:
+                              {cartItem.firstHalf.addedIngredients.join(", ")}
+                            </p>
+                          )}
+                          {cartItem.firstHalf.excludedIngredients.length >
+                            0 && (
+                            <p>
+                              Minus:
+                              {cartItem.firstHalf.excludedIngredients.join(
+                                ", "
+                              )}
+                            </p>
+                          )}
+                        </>
+                      )}
+                      {cartItem.secondHalf && (
+                        <>
+                          <h5>Druga połowa: {cartItem.secondHalf.name}</h5>
+                          {cartItem.secondHalf.addedIngredients2.length > 0 && (
+                            <p>
+                              Dodatki:
+                              {cartItem.secondHalf.addedIngredients2.join(", ")}
+                            </p>
+                          )}
+                          {cartItem.secondHalf.excludedIngredients2.length >
+                            0 && (
+                            <p>
+                              Minus:
+                              {cartItem.secondHalf.excludedIngredients2.join(
+                                ", "
+                              )}
+                            </p>
+                          )}
+                        </>
+                      )}
                       {cartItem.addedIngredients.length > 0 && (
                         <p>Dodatki: {cartItem.addedIngredients.join(", ")}</p>
                       )}
@@ -103,9 +146,6 @@ const Cart = ({ closeCart }) => {
                       )}
                       {cartItem.taste.length > 0 && (
                         <p>Smak: {cartItem.taste}</p>
-                      )}
-                       {cartItem.crust.length > 0 && (
-                        <p>Ciasto: {cartItem.crust}</p>
                       )}
                     </div>
                     <div className="price">
@@ -124,7 +164,7 @@ const Cart = ({ closeCart }) => {
                           excludedIngredients: cartItem.excludedIngredients,
                           size: cartItem.size,
                           taste: cartItem.taste,
-                          crust: cartItem.crust
+                          crust: cartItem.crust,
                         })
                       )
                     }

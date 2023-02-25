@@ -1,9 +1,11 @@
 import { useState } from "react";
+import useFetch from "../../hooks/useFetch";
 import Modal from "../modal/Modal";
 import "./card.scss";
 
 const Card = ({ order, index }) => {
   const [openModal, setOpenModal] = useState(false);
+  const { data, loading, error } = useFetch(`/employees`);
 
   return (
     <div className="card">
@@ -35,6 +37,29 @@ const Card = ({ order, index }) => {
               "Odbiór osobisty"
             )}
           </p>
+          <hr />
+
+          {order.paymentReciver && (
+            <>
+              {data.map((employee) => {
+                return (
+                  employee._id === order.paymentReciver && (
+                    <p key={employee._id}>
+                      Pracownik: {employee.firstName} {employee.lastName}
+                    </p>
+                  )
+                );
+              })}
+            </>
+          )}
+          <p className="method">
+            {order.paymentMethod === "cash"
+              ? "gotówka"
+              : order.paymentMethod === "terminal"
+              ? "terminal"
+              : "online"}
+          </p>
+
           {/* <hr />
           <p className="price">
             Łącznie: {order.totalPrice}zł | {order.paymentMethod}

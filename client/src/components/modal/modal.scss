@@ -115,6 +115,8 @@
         }
       }
       .detailsRight {
+        display: flex;
+        justify-content: flex-end;
         .close {
           display: flex;
           justify-content: flex-end;

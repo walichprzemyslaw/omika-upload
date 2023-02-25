@@ -3,6 +3,7 @@ import useFetch from "../../hooks/useFetch";
 import Card from "../card/Card";
 import "./list.scss";
 import LocalPizzaIcon from "@mui/icons-material/LocalPizza";
+import Duo from "../duo/Duo";
 
 const List = () => {
   const categories = [
@@ -15,7 +16,7 @@ const List = () => {
 
   const [category, setCategory] = useState("pizza");
   const { data, loading, error } = useFetch(`/products/category/${category}`);
-
+  const [openDuo, setOpenDuo] = useState(false);
 
   return (
     <div className="list">
@@ -38,10 +39,26 @@ const List = () => {
         </div>
       </div>
       <div className="listWrapper">
-        {loading ? "ładowanie..." : data.map((item) => (
-          <Card item={item} key={item._id} />
-        ))}
+        {category === "pizza" && (
+          <div className="card">
+            <div className="cardContainer" onClick={() => setOpenDuo(true)}>
+              <img
+                className="cardImage"
+                src="http://res.cloudinary.com/dqknlkpku/image/upload/v1675902485/upload/yhli9sounakp2iymdmyx.png"
+                alt="duo"
+              />
+              <div className="details">
+                <p className="title">pół na pół</p>
+                <p className="price">25.95zł</p>
+              </div>
+            </div>
+          </div>
+        )}
+        {loading
+          ? "ładowanie..."
+          : data.map((item) => <Card item={item} key={item._id} />)}
       </div>
+      {openDuo && <Duo closeDuo={setOpenDuo}/>}
     </div>
   );
 };

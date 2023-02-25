@@ -1,0 +1,146 @@
+.order {
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: #25242482;
+    height: 100%;
+    width: 100vw;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+  
+    .orderContainer {
+      background-color: white;
+      height: 75vh;
+      max-width: 80vw;
+      margin: 0 auto;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 50px;
+      overflow-y: auto;
+  
+      .top{
+        padding: 10px;
+        margin: 20px;
+        display: flex;
+        justify-content: space-between;
+  
+        .info{
+          display: flex;
+          flex-direction: column;
+  
+          h1{
+            font-size: 20px;
+          }
+        }
+  
+        .closeButton {
+          background-color: transparent;
+          border: none;
+          font-size: 25px;
+          cursor: pointer;
+          &:hover {
+            color: #dd1414;
+          }
+        }
+      }
+  
+      .orderWrapper {
+        // align-items: center;
+        display: flex;
+        flex-direction: column;
+        // flex-wrap: wrap;
+        justify-content: center;
+        -webkit-box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
+        box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
+        margin: 0 7.5vw;
+        padding: 20px 0;
+        // height: 90vh;
+  
+  
+        h1 {
+          font-size: 18px;
+          text-align: center;
+        }
+  
+        hr {
+          border: 0.25px solid #999;
+          width: 80%;
+          margin: 10px auto;
+        }
+  
+        .orderItems {
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+          margin-top: 10px;
+          .orderItem {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            gap: 5px;
+            margin: 0 10%;
+  
+            .orderItemTitle {
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+              gap: 10px;
+              .orderITLeft {
+                img {
+                  width: 40px;
+                  height: 40px;
+                  object-fit: contain;
+                }
+              }
+              .orderITCenter {
+                display: flex;
+                flex-direction: column;
+                // align-items: center;
+                h1 {
+                  text-align: left;
+                  font-size: 18px;
+                  text-transform: capitalize;
+                }
+              }
+            }
+  
+            .orderITRight {
+              h1 {
+                font-size: 16px;
+              }
+              h2 {
+                font-size: 12px;
+              }
+            }
+          }
+        }
+  
+        .orderDetails {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          gap:10vw;
+          margin: 0 10%;
+          .orderDetailsLeft {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            h2 {
+              font-size: 14px;
+            }
+          }
+          .orderDetailsRight {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            h2 {
+              font-size: 14px;
+            }
+          }
+        }
+      }
+    }
+  }
+  
