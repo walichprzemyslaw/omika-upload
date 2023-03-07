@@ -19,21 +19,29 @@ const Modal = ({ closeItemModal, item }) => {
 
   const [sos, ...rest] = item.ingredients;
 
-  const tasteData = [
-    "czosnkowy",
-    "ketchup",
-    "meksykański",
-    "1000 wysp",
-    "słodko-kwaśny",
-    "amerykański",
-    "bazyliowy",
-    "sriracha",
-    "serowy-chili",
-  ];
+  // const tasteData = [
+  //   "czosnkowy",
+  //   "ketchup",
+  //   "meksykański",
+  //   "1000 wysp",
+  //   "słodko-kwaśny",
+  //   "amerykański",
+  //   "bazyliowy",
+  //   "sriracha",
+  //   "serowy-chili",
+  // ];
+
+  const { data: tasteData, loading: tasteLoading, error: tasteError } = useFetch(
+    `/ingredients/category/sosy/a`
+  );
+
+  const { data: drinkData, loading: drinkLoading, error: drinkError } = useFetch(
+    `/ingredients/category/napoje/a`
+  );
 
   // const crustData = ["cienkie", "tradycyjne", "grube"];
 
-  const drinkData = ["pepsi", "7up", "mirinda"];
+  // const drinkData = ["pepsi", "7up", "mirinda"];
 
   const { data, loading, error } = useFetch(
     `/ingredients/category/${item.category}/${rest}`
@@ -309,7 +317,7 @@ const Modal = ({ closeItemModal, item }) => {
               <button
                 className="addToCartButton"
                 onClick={() => {
-                  dispatch(
+                  dispatch( 
                     addToCart({
                       id: item._id,
                       name: item.name,
@@ -317,6 +325,8 @@ const Modal = ({ closeItemModal, item }) => {
                       category: item.category,
                       addedIngredients,
                       excludedIngredients,
+                      firstHalf: {addedIngredients: [], excludedIngredients:[]},
+                      secondHalf: {addedIngredients2: [], excludedIngredients2:[]},
                       taste,
                       crust,
                       size,
@@ -392,11 +402,11 @@ const Modal = ({ closeItemModal, item }) => {
                   <input
                     className="taste"
                     type="checkbox"
-                    id={ingredient}
-                    value={ingredient}
-                    onChange={(e) => handleTaste(e, ingredient)}
+                    id={ingredient.name}
+                    value={ingredient.name}
+                    onChange={(e) => handleTaste(e, ingredient.name)}
                   />
-                  <label htmlFor={ingredient}>{ingredient}</label>
+                  <label htmlFor={ingredient.name}>{ingredient.name}</label>
                 </li>
               ))}
             </ul>
@@ -411,11 +421,11 @@ const Modal = ({ closeItemModal, item }) => {
                   <input
                     className="taste"
                     type="checkbox"
-                    id={ingredient}
-                    value={ingredient}
-                    onChange={(e) => handleTaste(e, ingredient)}
+                    id={ingredient.name}
+                    value={ingredient.name}
+                    onChange={(e) => handleTaste(e, ingredient.name)}
                   />
-                  <label htmlFor={ingredient}>{ingredient}</label>
+                  <label htmlFor={ingredient.name}>{ingredient.name}</label>
                 </li>
               ))}
             </ul>

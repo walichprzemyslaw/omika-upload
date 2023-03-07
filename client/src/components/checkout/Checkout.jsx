@@ -14,6 +14,11 @@ const Checkout = ({ closeCheckout }) => {
   const getTimeRange = (delivery, startTime) => {
     const start = new Date(startTime);
     const end = new Date();
+    if (start.getHours() < 13) {
+      start.setHours(13);
+      start.setMinutes(0);
+    }
+    console.log(start);
     end.setHours(21, 0, 0);
 
     if (delivery === "false") {
@@ -289,7 +294,7 @@ const Checkout = ({ closeCheckout }) => {
                     {cartItem.crust.length > 0 && (
                       <p>Ciasto: {cartItem.crust}</p>
                     )}
-                    {cartItem.firstHalf && (
+                    {cartItem.firstHalf.name && (
                       <>
                         <h5>Pierwsza połowa: {cartItem.firstHalf.name}</h5>
                         {cartItem.firstHalf.addedIngredients.length > 0 && (
@@ -306,7 +311,7 @@ const Checkout = ({ closeCheckout }) => {
                         )}
                       </>
                     )}
-                    {cartItem.secondHalf && (
+                    {cartItem.secondHalf.name && (
                       <>
                         <h5>Druga połowa: {cartItem.secondHalf.name}</h5>
                         {cartItem.secondHalf.addedIngredients2.length > 0 && (
@@ -350,7 +355,9 @@ const Checkout = ({ closeCheckout }) => {
               </select>
             </div>
             <div className="deliveryTime">
-              <p className="title">Wybierz czas {delivery !== "false" ? "dostawy" : "odbioru"}:</p>
+              <p className="title">
+                Wybierz czas {delivery !== "false" ? "dostawy" : "odbioru"}:
+              </p>
               <select
                 id="deliveryTime"
                 className="select"
@@ -380,7 +387,13 @@ const Checkout = ({ closeCheckout }) => {
               </select>
             </div>
             <div className="checkoutButton">
-              <button onClick={handleClick}>ZAMAWIAM</button>
+              {new Date().getHours < 21 && new Date().getHours > 12 ? (
+                <button onClick={handleClick}>ZAMAWIAM</button>
+              ) : (
+                <span>
+                  Zamówienia można składać tylko w godzinach działania lokalu.
+                </span>
+              )}
             </div>
           </div>
         </div>

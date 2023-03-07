@@ -135,4 +135,13 @@ export const employeeInputs = [
   },
 ];
 
+export const ingredientInputs = [
+  {
+    id: "name",
+    label: "Nazwa",
+    type: "text",
+    placeholder: "nazwa",
+  },
+];
+
 

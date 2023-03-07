@@ -1,8 +1,10 @@
 import { useState } from "react";
 import useFetch from "../../hooks/useFetch";
-import Editor from "../editor/Editor";
 import "./modal.scss";
 import axios from "axios";
+import Edit from "../edit/Edit";
+import { useDispatch } from "react-redux";
+import { addToCart, resetCart } from "../../redux/cartReducer";
 
 const Modal = ({ order, closeModal }) => {
   const [openEditor, setOpenEditor] = useState(false);
@@ -10,7 +12,12 @@ const Modal = ({ order, closeModal }) => {
     `/employees/find/${order.paymentReciver}`
   );
   console.log(data);
-  console.log(order);
+  console.log(order.products);
+  order.products.map((product) => console.log(product));
+
+
+  const dispatch = useDispatch();
+
   const handleSwitchMedium = (e) => {
     switch (e.name) {
       case "nuggetsy":
@@ -105,6 +112,43 @@ const Modal = ({ order, closeModal }) => {
                     {cartItem.crust.length > 0 && (
                       <p>Ciasto: {cartItem.crust}</p>
                     )}
+                    {cartItem.firstHalf.name && (
+                      <>
+                        <h5>Pierwsza połowa: {cartItem.firstHalf.name}</h5>
+                        {cartItem.firstHalf.addedIngredients.length > 0 && (
+                          <p>
+                            Dodatki:
+                            {cartItem.firstHalf.addedIngredients.join(", ")}
+                          </p>
+                        )}
+                        {cartItem.firstHalf.excludedIngredients.length > 0 && (
+                          <p>
+                            Minus:
+                            {cartItem.firstHalf.excludedIngredients.join(", ")}
+                          </p>
+                        )}
+                      </>
+                    )}
+                    {cartItem.secondHalf.name && (
+                      <>
+                        <h5>Druga połowa: {cartItem.secondHalf.name}</h5>
+                        {cartItem.secondHalf.addedIngredients2.length > 0 && (
+                          <p>
+                            Dodatki:
+                            {cartItem.secondHalf.addedIngredients2.join(", ")}
+                          </p>
+                        )}
+                        {cartItem.secondHalf.excludedIngredients2.length >
+                          0 && (
+                          <p>
+                            Minus:
+                            {cartItem.secondHalf.excludedIngredients2.join(
+                              ", "
+                            )}
+                          </p>
+                        )}
+                      </>
+                    )}
                     {cartItem.addedIngredients.length > 0 && (
                       <p>Dodatki: {cartItem.addedIngredients.join(", ")}</p>
                     )}
@@ -153,6 +197,10 @@ const Modal = ({ order, closeModal }) => {
               <span>
                 {data.firstName} {data.lastName}
               </span>
+              <span>
+                Czas {order.delivery === true ? "dostawy" : "odbioru"}:{" "}
+                {order.deliveryTime}
+              </span>
             </div>
           </div>
         </div>
@@ -160,7 +208,10 @@ const Modal = ({ order, closeModal }) => {
           <button
             className="editOrderButton"
             onClick={() => {
+              dispatch(resetCart()); 
               setOpenEditor(true);
+              order.products.map((product) => dispatch(addToCart({id:product._id, ...product})));
+              // closeModal(false);
             }}
           >
             EDYTUJ
@@ -173,8 +224,16 @@ const Modal = ({ order, closeModal }) => {
           </button>
         </div>
       </div>
-      {openEditor && (
+      {/* {openEditor && (
         <Editor
+          order={order}
+          closeEditor={setOpenEditor}
+          closeModal={closeModal}
+          key={order._id}
+        />
+      )} */}
+      {openEditor && (
+        <Edit
           order={order}
           closeEditor={setOpenEditor}
           closeModal={closeModal}

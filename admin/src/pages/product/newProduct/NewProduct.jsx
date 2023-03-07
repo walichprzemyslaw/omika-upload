@@ -175,7 +175,6 @@ const NewProduct = ({ inputs, title }) => {
                   <option value="zapiekanki">Zapiekanki</option>
                   <option value="sałatki">Sałatki</option>
                   <option value="dodatki">Dodatki</option>
-                  <option value="napoje">Napoje</option>
                 </select>
               </div>
               {category === "pizza" ? (

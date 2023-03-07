@@ -1,13 +1,18 @@
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import useFetch from "../../hooks/useFetch";
+import { resetCart } from "../../redux/cartReducer";
 import Card from "../card/Card";
 import New from "../new/New";
+import WorkdayInfo from "../workdayInfo/WorkdayInfo";
 import "./workday.scss";
 
 const Workday = () => {
   const [openNew, setOpenNew] = useState(false);
   const [list, setList] = useState();
   const { data, loading, error } = useFetch(`/employees`);
+
+  const dispatch = useDispatch();
 
   const dayTotal = list?.reduce(
     (total, currentValue) => (total = total + currentValue.totalPrice),
@@ -94,7 +99,39 @@ const Workday = () => {
     <div className="workday">
       <div className="workdayLeft">
         <div className="workdayData">
-          <p>Łączny utarg: {dayTotal?.toFixed(2)}zł</p>
+          <div className="workdayDataTop">
+            <div className="workdayDataTopLeft">
+              <WorkdayInfo
+                title={"Łączny utarg"}
+                details={dayTotal?.toFixed(2) + "zł"}
+              />
+              <WorkdayInfo
+                title={"Łącznie gotówka"}
+                details={gotowka?.toFixed(2) + "zł"}
+              />
+              <WorkdayInfo
+                title={"Łącznie karta"}
+                details={terminal?.toFixed(2) + "zł"}
+              />
+              <WorkdayInfo
+                title={"Łącznie online"}
+                details={online?.toFixed(2) + "zł"}
+              />
+            </div>
+            <div className="workdayDataTopRight">
+              <WorkdayInfo
+                title={"Liczba sztuk"}
+                details={quantityTotal - dodatkiTotal}
+              />
+              <WorkdayInfo title={"Pizza"} details={pizzaTotal} />
+              <WorkdayInfo title={"Burgery"} details={burgeryTotal} />
+              <WorkdayInfo title={"Zapiekanki"} details={zapiekankiTotal} />
+              <WorkdayInfo title={"Sałatki"} details={salatkiTotal} />
+              <WorkdayInfo title={"Dodatki"} details={dodatkiTotal} />
+            </div>
+          </div>
+
+          {/* <p>Łączny utarg: {dayTotal?.toFixed(2)}zł</p>
           <p>Łącznie gotówka: {gotowka?.toFixed(2)}zł</p>
           <p>Łącznie karta: {terminal?.toFixed(2)}zł</p>
           <p>Łącznie online: {online?.toFixed(2)}zł</p>
@@ -103,28 +140,36 @@ const Workday = () => {
           <p>Burgery: {burgeryTotal}</p>
           <p>Zapiekanki: {zapiekankiTotal}</p>
           <p>Sałatki: {salatkiTotal}</p>
-          <p>Dodatki: {dodatkiTotal}</p>
-          {data.map((employee) => {
-            const employeeSum = list
-              ?.filter(
-                ({ paymentReciver, paymentMethod }) =>
-                  paymentReciver === employee._id && paymentMethod === "cash"
-              )
-              .reduce((sum, record) => sum + record.totalPrice, 0);
-            return (
-              employeeSum > 0 && (
-                <p key={employee._id}>
-                  {employee.firstName} {employee.lastName}:{" "}
-                  {employeeSum.toFixed(2)}zł
-                </p>
-              )
-            );
-          })}
+          <p>Dodatki: {dodatkiTotal}</p> */}
+          <div className="workdayDataBottom">
+            {data.map((employee) => {
+              const employeeSum = list
+                ?.filter(
+                  ({ paymentReciver, paymentMethod }) =>
+                    paymentReciver === employee._id && paymentMethod === "cash"
+                )
+                .reduce((sum, record) => sum + record.totalPrice, 0);
+              return (
+                employeeSum > 0 && (
+                  // <p key={employee._id}>
+                  //   {employee.firstName} {employee.lastName}:{" "}
+                  //   {employeeSum.toFixed(2)}zł
+                  // </p>
+                  <WorkdayInfo
+                    key={employee._id}
+                    title={employee.firstName + " " + employee.lastName}
+                    details={employeeSum.toFixed(2) + "zł"}
+                  />
+                )
+              );
+            })}
+          </div>
         </div>
 
         <button
           className="addOrderButton"
           onClick={() => {
+            dispatch(resetCart());
             setOpenNew(true);
           }}
         >

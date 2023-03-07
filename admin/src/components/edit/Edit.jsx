@@ -2,17 +2,16 @@ import { useState } from "react";
 import useFetch from "../../hooks/useFetch";
 import DeleteForeverOutlinedIcon from "@mui/icons-material/DeleteForeverOutlined";
 import { useNavigate } from "react-router-dom";
-import "./new.scss";
+import "./edit.scss";
 import Item from "../item/Item";
 import LocalPizzaIcon from "@mui/icons-material/LocalPizza";
 import { useDispatch, useSelector } from "react-redux";
-import { removeItem, resetCart } from "../../redux/cartReducer";
+import { addToCart, removeItem, resetCart } from "../../redux/cartReducer";
 import axios from "axios";
 import Duo from "../duo/Duo";
 
-const New = ({ closeNew }) => {
-  const products = useSelector((state) => state.cart.products); 
-  const dispatch = useDispatch();
+const Edit = ({ order, closeEditor, closeModal }) => {
+  console.log(order);
   const [openDuo, setOpenDuo] = useState(false);
 
   const categories = [
@@ -29,13 +28,20 @@ const New = ({ closeNew }) => {
     loading: employeeLoading,
     error: employeeError,
   } = useFetch(`/employees`);
-  const [info, setInfo] = useState({
-    status: "pending",
-    paymentMethod: "cash",
-    delivery: true,
-    deliveryTime: "jak najszybciej",
-  });
+ 
+  const [info, setInfo] = useState(order);
+
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const products = useSelector((state) => state.cart.products); 
+//   dispatch( 
+//     addToCart(...order.products)
+//   );
+  console.log(products);
+//   const products = useSelector(
+//     (state) => (state.cart.products = order.products)
+//   ); 
+
   const [customer, setCustomer] = useState(false);
   //   const [products, setProducts] = useState(false);
 
@@ -91,9 +97,10 @@ const New = ({ closeNew }) => {
         totalPrice,
       };
       console.log(newOrder);
-      await axios.post(`/orders/`, newOrder);
-      closeNew(false);
+      await axios.put(`/orders/${order._id}`, newOrder);
       navigate("/");
+      closeEditor(false);
+    //   closeModal(false);
       dispatch(resetCart());
     } catch (error) {
       console.log(error);
@@ -135,9 +142,9 @@ const New = ({ closeNew }) => {
       <div className="newOrderContainer">
         <div className="top">
           <div className="info">
-            <h1>Dodaj nowe zamówienie</h1>
+            <h1>Edytuj zamówienie</h1>
           </div>
-          <button className="closeButton" onClick={() => closeNew(false)}>
+          <button className="closeButton" onClick={() => closeEditor(false)}>
             &times;
           </button>
         </div>
@@ -460,4 +467,4 @@ const New = ({ closeNew }) => {
   );
 };
 
-export default New;
+export default Edit;

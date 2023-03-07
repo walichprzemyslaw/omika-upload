@@ -21,6 +21,8 @@ const Card = ({ order, index }) => {
             {new Date(order.createdAt).toLocaleTimeString()}
           </p>
           <p className="phone">{order.phone}</p>
+          <p className="delivery">czas {order.delivery === true ? "dostawy" : "odbioru"}: {order.deliveryTime}</p>
+
           {/* <p className="date">
             {new Date(order.createdAt).toLocaleTimeString()}
           </p> */}

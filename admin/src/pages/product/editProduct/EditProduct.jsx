@@ -12,6 +12,7 @@ const EditProduct = ({ item, closeEditor }) => {
   const [info, setInfo] = useState(item);
   const [normalPrice, setNormalPrice] = useState(item.price[0]);
   const [largePrice, setLargePrice] = useState(item.price[1]);
+  const [xLargePrice, setXLargePrice] = useState(item.price[2]);
   const [ingredients, setIngredients] = useState([...item.ingredients]);
 
   const data = [
@@ -61,7 +62,7 @@ const EditProduct = ({ item, closeEditor }) => {
     "tabasco",
     "sos barbecue",
     "sos serowy-chili",
-    "sos sriracha"
+    "sos sriracha",
   ];
 
   console.log(item);
@@ -73,6 +74,17 @@ const EditProduct = ({ item, closeEditor }) => {
   info.category === "pizza"
     ? (price = [parseFloat(normalPrice), parseFloat(largePrice)])
     : (price = [parseFloat(normalPrice)]);
+
+  info.name === "nuggetsy" || info.name === "sosy"
+    ? (price = [parseFloat(normalPrice), parseFloat(largePrice)])
+    : (price = [parseFloat(normalPrice)]);
+
+  info.name === "napoje" &&
+    (price = [
+      parseFloat(normalPrice),
+      parseFloat(largePrice),
+      parseFloat(xLargePrice),
+    ]);
 
   const handleChange = (e) => {
     setInfo((prev) => ({ ...prev, [e.target.id]: e.target.value }));
@@ -99,7 +111,7 @@ const EditProduct = ({ item, closeEditor }) => {
           "https://api.cloudinary.com/v1_1/dqknlkpku/image/upload",
           data
         );
-       url = uploadRes.data.url;
+        url = uploadRes.data.url;
       } catch (error) {
         console.log(error);
       }
@@ -177,10 +189,13 @@ const EditProduct = ({ item, closeEditor }) => {
                   <option value="napoje">Napoje</option>
                 </select>
               </div>
-              {info.category === "pizza" ? (
+              {info.category === "pizza" ||
+              info.name === "sosy" ||
+              info.name === "nuggetsy" ||
+              info.name === "napoje" ? (
                 <>
                   <div className="formInput">
-                    <label htmlFor="priceMedium">Cena 30cm</label>
+                    <label htmlFor="priceMedium">Cena niższa</label>
                     <input
                       onChange={(e) => setNormalPrice(e.target.value)}
                       type="number"
@@ -189,7 +204,7 @@ const EditProduct = ({ item, closeEditor }) => {
                     />
                   </div>
                   <div className="formInput">
-                    <label htmlFor="priceLarge">Cena 40cm</label>
+                    <label htmlFor="priceLarge">Cena wyższa</label>
                     <input
                       onChange={(e) => setLargePrice(e.target.value)}
                       type="number"
@@ -209,6 +224,17 @@ const EditProduct = ({ item, closeEditor }) => {
                   />
                 </div>
               )}
+              {info.name === "napoje" && (
+                <div className="formInput">
+                  <label htmlFor="priceXLarge">Cena najwyższa</label>
+                  <input
+                    onChange={(e) => setXLargePrice(e.target.value)}
+                    type="number"
+                    defaultValue={item.price[2]}
+                    id="priceXLarge"
+                  />
+                </div>
+              )}
               <div className="formInput">
                 <label>Dostępny</label>
                 <select
@@ -220,26 +246,28 @@ const EditProduct = ({ item, closeEditor }) => {
                   <option value={false}>Nie</option>
                 </select>
               </div>
-              <div className="options">
-                <h4>Składniki:</h4>
-                <ul className="ingredients">
-                  {data.map((addon) => (
-                    <li key={addon}>
-                      <input
-                        className="addons"
-                        type="checkbox"
-                        id={addon}
-                        value={addon}
-                        defaultChecked={
-                          info.ingredients.includes(addon) ? true : false
-                        }
-                        onChange={(e) => handleAdd(e, addon)}
-                      />
-                      <label htmlFor={addon}>{addon}</label>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+              {info.category !== "dodatki" && (
+                <div className="options">
+                  <h4>Składniki:</h4>
+                  <ul className="ingredients">
+                    {data.map((addon) => (
+                      <li key={addon}>
+                        <input
+                          className="addons"
+                          type="checkbox"
+                          id={addon}
+                          value={addon}
+                          defaultChecked={
+                            info.ingredients.includes(addon) ? true : false
+                          }
+                          onChange={(e) => handleAdd(e, addon)}
+                        />
+                        <label htmlFor={addon}>{addon}</label>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
               <button onClick={handleClick}>Wyślij</button>
             </form>
           </div>

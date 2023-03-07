@@ -42,6 +42,7 @@ export const getByCategory = async (req, res, next) => {
     next(error);
   }
 };
+
 export const createIngredient = async (req, res, next) => {
   const newIngredient = new Ingredient(req.body);
 

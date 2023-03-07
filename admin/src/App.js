@@ -17,14 +17,16 @@ import NewProduct from "./pages/product/newProduct/NewProduct";
 import EditProduct from "./pages/product/editProduct/EditProduct";
 import NewEmployee from "./pages/employee/newEmployee/NewEmployee";
 import EditEmployee from "./pages/employee/editEmployee/EditEmployee";
+import NewIngredient from "./pages/ingredient/newIngredient/NewIngredient";
+import EditIngredient from "./pages/ingredient/editIngredient/EditIngredient";
 import ShowProduct from "./pages/product/showProduct/ShowProduct";
 import "./style/dark.scss";
 
-import { employeeInputs, orderInputs, productInputs, userInputs } from "./formSource";
+import { employeeInputs, ingredientInputs, orderInputs, productInputs, userInputs } from "./formSource";
 import { useContext } from "react";
 import { DarkModeContext } from "./context/darkModeContext";
 import { AuthContext } from "./context/AuthContext";
-import { employeeColumns, orderColumns, productColumns, userColumns } from "./datatablesource";
+import { employeeColumns, ingredientColumns, orderColumns, productColumns, userColumns } from "./datatablesource";
 
 function App() {
   const { darkMode } = useContext(DarkModeContext);
@@ -113,6 +115,23 @@ function App() {
                     <NewEmployee inputs={employeeInputs} title="Dodaj nowego pracownika"/>
                   </ProtectedRoute>}/>
             </Route>
+
+            {/* składniki  */}
+            <Route path="ingredients">
+              <Route index element={
+                  <ProtectedRoute>
+                    <List columns={ingredientColumns} title="Składniki"/>
+                  </ProtectedRoute>}/>
+              <Route path=":ingredientId" element={
+                  <ProtectedRoute>
+                    <EditIngredient inputs={ingredientInputs} title="Edytuj składnik"/>
+                  </ProtectedRoute>}/>
+              <Route path="new" element={
+                  <ProtectedRoute>
+                    <NewIngredient inputs={ingredientInputs} title="Dodaj nowy składnik"/>
+                  </ProtectedRoute>}/>
+            </Route>
+
 
           </Route>
         </Routes>

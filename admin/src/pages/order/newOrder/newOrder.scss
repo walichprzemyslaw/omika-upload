@@ -12,6 +12,25 @@
       padding: 10px;
       margin: 20px;
       display: flex;
+      justify-content: center;
+
+      .addOrderButton {
+        display: flex;
+        align-items: center;
+        background-color: #dd1414;
+        color: white;
+        border: none;
+        font-size: 20px;
+        font-weight: 500;
+        padding: 10px;
+        border-radius: 15px;
+        cursor: pointer;
+        width: fit-content;
+  
+        &:hover {
+          background-color: #ff1c1c;
+        }
+      }
 
       h1 {
         color: lightgray;

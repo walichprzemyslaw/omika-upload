@@ -80,9 +80,12 @@ export const productColumns = [
     width: 150,
     renderCell: (params) => {
       return (
-        <span>{params.row.price ? params.row.price.length > 1
-          ? params.row.price[0] + " zł | " + params.row.price[1] + " zł"
-          : params.row.price + " zł" : "loading..."}
+        <span>
+          {params.row.price
+            ? params.row.price.length > 1
+              ? params.row.price[0] + " zł | " + params.row.price[1] + " zł"
+              : params.row.price + " zł"
+            : "loading..."}
         </span>
       );
     },
@@ -177,3 +180,42 @@ export const employeeColumns = [
   },
 ];
 
+export const ingredientColumns = [
+  { field: "_id", headerName: "ID", width: 70 },
+  {
+    field: "name",
+    headerName: "Nazwa",
+    width: 120,
+  },
+  {
+    field: "category",
+    headerName: "Kategoria",
+    width: 120,
+  },
+  {
+    field: "price",
+    headerName: "Cena",
+    width: 150,
+    renderCell: (params) => {
+      return (
+        <span>
+          {params.row.price
+            ? params.row.price.length > 1
+              ? params.row.price[0] + " zł | " + params.row.price[1] + " zł"
+              : params.row.price[0] === null
+              ? " "
+              : params.row.price + " zł"
+            : "loading..."}
+        </span>
+      );
+    },
+  },
+  {
+    field: "isAvailable",
+    headerName: "Dostępny",
+    width: 150,
+    renderCell: (params) => {
+      return <span>{params.row.isAvailable ? "dostępny" : "niedostępny"}</span>;
+    },
+  },
+];

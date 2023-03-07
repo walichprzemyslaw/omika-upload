@@ -14,6 +14,7 @@ import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined
 import FastfoodIcon from "@mui/icons-material/Fastfood";
 import GroupIcon from "@mui/icons-material/Group";
 import BadgeIcon from "@mui/icons-material/Badge";
+import FlakyIcon from '@mui/icons-material/Flaky';
 import { Link } from "react-router-dom";
 import { DarkModeContext } from "../../context/darkModeContext";
 import { useContext } from "react";
@@ -65,6 +66,12 @@ const Sidebar = () => {
               <span>Użytkownicy</span>
             </li>
           </Link>
+          <Link to="/ingredients" style={{ textDecoration: "none" }}>
+            <li>
+              <FlakyIcon className="icon" />
+              <span>Składniki</span>
+            </li>
+          </Link>          
           <p className="title">ZAPLECZE</p>
           <li>
             <InsertChartIcon className="icon" />

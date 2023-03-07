@@ -3,9 +3,20 @@ import Sidebar from "../../../components/sidebar/Sidebar";
 import Navbar from "../../../components/navbar/Navbar";
 import { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import Edit from "../../../components/edit/Edit";
+import useFetch from "../../../hooks/useFetch";
+import { useDispatch } from "react-redux";
+import { addToCart, resetCart } from "../../../redux/cartReducer";
 
-const EditOrder = ({inputs, title}) => {
+const EditOrder = ({ inputs, title }) => {
+  const dispatch = useDispatch();
+  const [openEdit, setOpenEdit] = useState(false);
+  const location = useLocation();
+  const id = location.pathname.split("/")[2];
+  const { data, loading, error } = useFetch(`/orders/find/${id}`);
+
+
   // const [info, setInfo] = useState({});
 
   // const navigate = useNavigate();
@@ -33,24 +44,28 @@ const EditOrder = ({inputs, title}) => {
           <h1>{title}</h1>
         </div>
         <div className="bottom">
-          <div className="right">
-            <form>
-              {inputs.map((input) => (
-                <div className="formInput" key={input.id}>
-                  <label>{input.label}</label>
-                  <input
-                    // onChange={handleChange}
-                    type={input.type}
-                    placeholder={input.placeholder}
-                    id={input.id}
-                  />
-                </div>
-              ))}
-              <button>Wyślij</button>
-            </form>
-          </div>
+          <h1>Zamówienie nr {data._id}</h1>
+          <p>{data.firstName} {data.lastName}</p>
+          <p> {data.delivery ? (
+                  <span>
+                    {data.street} {data.homeNumber}, {data.city}
+                  </span>
+                ) : (
+                  "Odbiór osobisty"
+                )}</p>
+          <button
+            className="addOrderButton"
+            onClick={() => {
+              dispatch(resetCart());
+              setOpenEdit(true);
+              data.products.map((product) => dispatch(addToCart({id:product._id, ...product})));
+            }}
+          >
+            EDYTUJ
+          </button>
         </div>
       </div>
+      {openEdit && <Edit order={data} closeEditor={setOpenEdit} />}
     </div>
   );
 };

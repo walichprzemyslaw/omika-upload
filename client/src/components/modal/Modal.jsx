@@ -18,21 +18,19 @@ const Modal = ({ closeModal, item }) => {
 
   const [sos, ...rest] = item.ingredients;
 
-  const tasteData = [
-    "czosnkowy",
-    "ketchup",
-    "meksykański",
-    "1000 wysp",
-    "słodko-kwaśny",
-    "amerykański",
-    "bazyliowy",
-    "sriracha",
-    "serowy-chili",
-  ];
+  const {
+    data: tasteData,
+    loading: tasteLoading,
+    error: tasteError,
+  } = useFetch(`/ingredients/category/sosy/a`);
+
+  const {
+    data: drinkData,
+    loading: drinkLoading,
+    error: drinkError,
+  } = useFetch(`/ingredients/category/napoje/a`);
 
   // const crustData = ["cienkie", "tradycyjne", "grube"];
-
-  const drinkData = ["pepsi", "7up", "mirinda"];
 
   const { data, loading, error } = useFetch(
     `/ingredients/category/${item.category}/${rest}`
@@ -323,6 +321,14 @@ const Modal = ({ closeModal, item }) => {
                       category: item.category,
                       addedIngredients,
                       excludedIngredients,
+                      firstHalf: {
+                        addedIngredients: [],
+                        excludedIngredients: [],
+                      },
+                      secondHalf: {
+                        addedIngredients2: [],
+                        excludedIngredients2: [],
+                      },
                       taste,
                       crust,
                       size,
@@ -363,18 +369,22 @@ const Modal = ({ closeModal, item }) => {
             <div className="options">
               <h4>Dodatki:</h4>
               <ul className="ingredients">
-                {data.map((addon) => (
-                  <li key={addon?._id}>
-                    <input
-                      className="addons"
-                      type="checkbox"
-                      id={addon.name}
-                      value={size === "large" ? addon.price[1] : addon.price[0]}
-                      onChange={(e) => handleClick(e, addon)}
-                    />
-                    <label htmlFor={addon.name}>{addon.name}</label>
-                  </li>
-                ))}
+                {data
+                  .filter((ingredient) => ingredient.isAvailable)
+                  .map((addon) => (
+                    <li key={addon?._id}>
+                      <input
+                        className="addons"
+                        type="checkbox"
+                        id={addon.name}
+                        value={
+                          size === "large" ? addon.price[1] : addon.price[0]
+                        }
+                        onChange={(e) => handleClick(e, addon)}
+                      />
+                      <label htmlFor={addon.name}>{addon.name}</label>
+                    </li>
+                  ))}
               </ul>
             </div>
           </>
@@ -383,18 +393,20 @@ const Modal = ({ closeModal, item }) => {
           <div className="options">
             <h4>Smak:</h4>
             <ul className="ingredients">
-              {tasteData.map((ingredient, index) => (
-                <li key={index}>
-                  <input
-                    className="taste"
-                    type="checkbox"
-                    id={ingredient}
-                    value={ingredient}
-                    onChange={(e) => handleTaste(e, ingredient)}
-                  />
-                  <label htmlFor={ingredient}>{ingredient}</label>
-                </li>
-              ))}
+              {tasteData
+                .filter((ingredient) => ingredient.isAvailable)
+                .map((ingredient, index) => (
+                  <li key={index}>
+                    <input
+                      className="taste"
+                      type="checkbox"
+                      id={ingredient.name}
+                      value={ingredient.name}
+                      onChange={(e) => handleTaste(e, ingredient.name)}
+                    />
+                    <label htmlFor={ingredient.name}>{ingredient.name}</label>
+                  </li>
+                ))}
             </ul>
           </div>
         )}
@@ -402,18 +414,51 @@ const Modal = ({ closeModal, item }) => {
           <div className="options">
             <h4>Smak:</h4>
             <ul className="ingredients">
-              {drinkData.map((ingredient, index) => (
-                <li key={index}>
-                  <input
-                    className="taste"
-                    type="checkbox"
-                    id={ingredient}
-                    value={ingredient}
-                    onChange={(e) => handleTaste(e, ingredient)}
-                  />
-                  <label htmlFor={ingredient}>{ingredient}</label>
-                </li>
-              ))}
+              {size === "medium" &&
+                drinkData
+                  .filter((ingredient) => ingredient.isAvailableSmall)
+                  .map((ingredient, index) => (
+                    <li key={index}>
+                      <input
+                        className="taste"
+                        type="checkbox"
+                        id={ingredient.name}
+                        value={ingredient.name}
+                        onChange={(e) => handleTaste(e, ingredient.name)}
+                      />
+                      <label htmlFor={ingredient.name}>{ingredient.name}</label>
+                    </li>
+                  ))}
+              {size === "large" &&
+                drinkData
+                  .filter((ingredient) => ingredient.isAvailableMedium)
+                  .map((ingredient, index) => (
+                    <li key={index}>
+                      <input
+                        className="taste"
+                        type="checkbox"
+                        id={ingredient.name}
+                        value={ingredient.name}
+                        onChange={(e) => handleTaste(e, ingredient.name)}
+                      />
+                      <label htmlFor={ingredient.name}>{ingredient.name}</label>
+                    </li>
+                  ))}
+              {size === "xlarge" &&
+                drinkData
+                  .filter((ingredient) => ingredient.isAvailableLarge)
+                  .map((ingredient, index) => (
+                    <li key={index}>
+                      <input
+                        className="taste"
+                        type="checkbox"
+                        id={ingredient.name}
+                        value={ingredient.name}
+                        onChange={(e) => handleTaste(e, ingredient.name)}
+                      />
+                      <label htmlFor={ingredient.name}>{ingredient.name}</label>
+                    </li>
+                  ))}
             </ul>
           </div>
         )}

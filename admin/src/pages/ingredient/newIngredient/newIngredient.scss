@@ -1,8 +1,8 @@
-.edit {
+.new {
     width: 100%;
     display: flex;
   
-    .editContainer {
+    .newContainer {
       flex: 6;
   
       .top,
@@ -12,28 +12,6 @@
         padding: 10px;
         margin: 20px;
         display: flex;
-        flex-direction: column;
-        gap:10px;
-        align-items: center;
-        justify-content: center;
-
-        .addOrderButton {
-          display: flex;
-          align-items: center;
-          background-color: #dd1414;
-          color: white;
-          border: none;
-          font-size: 20px;
-          font-weight: 500;
-          padding: 10px;
-          border-radius: 15px;
-          cursor: pointer;
-          width: fit-content;
-    
-          &:hover {
-            background-color: #ff1c1c;
-          }
-        }
   
         h1 {
           color: lightgray;

@@ -102,7 +102,7 @@ const OrderPage = () => {
                           {cartItem.crust.length > 0 && (
                             <p>Ciasto: {cartItem.crust}</p>
                           )}
-                          {cartItem.firstHalf && (
+                          {cartItem.firstHalf.name && (
                             <>
                               <h5>
                                 Pierwsza połowa: {cartItem.firstHalf.name}
@@ -127,7 +127,7 @@ const OrderPage = () => {
                               )}
                             </>
                           )}
-                          {cartItem.secondHalf && (
+                          {cartItem.secondHalf.name && (
                             <>
                               <h5>Druga połowa: {cartItem.secondHalf.name}</h5>
                               {cartItem.secondHalf.addedIngredients2?.length >

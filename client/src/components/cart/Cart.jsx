@@ -98,7 +98,7 @@ const Cart = ({ closeCart }) => {
                       {cartItem.crust.length > 0 && (
                         <p>Ciasto: {cartItem.crust}</p>
                       )}
-                      {cartItem.firstHalf && (
+                      {cartItem.firstHalf.name && (
                         <>
                           <h5>Pierwsza połowa: {cartItem.firstHalf.name}</h5>
                           {cartItem.firstHalf.addedIngredients.length > 0 && (
@@ -118,7 +118,7 @@ const Cart = ({ closeCart }) => {
                           )}
                         </>
                       )}
-                      {cartItem.secondHalf && (
+                      {cartItem.secondHalf.name && (
                         <>
                           <h5>Druga połowa: {cartItem.secondHalf.name}</h5>
                           {cartItem.secondHalf.addedIngredients2.length > 0 && (
@@ -165,6 +165,8 @@ const Cart = ({ closeCart }) => {
                           size: cartItem.size,
                           taste: cartItem.taste,
                           crust: cartItem.crust,
+                          firstHalf: cartItem.firstHalf,
+                          secondHalf: cartItem.secondHalf
                         })
                       )
                     }

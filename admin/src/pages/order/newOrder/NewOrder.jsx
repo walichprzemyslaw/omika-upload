@@ -5,62 +5,65 @@ import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import useFetch from "../../../hooks/useFetch";
+import New from "../../../components/new/New";
 
 const NewOrder = ({ inputs, title }) => {
-  const [info, setInfo] = useState({
-    deliveryZone: "A",
-    status: "pending",
-    paymentMethod: "cash",
-    delivery: true,
-  });
-  const [products, setProducts] = useState({name: [], price: []});
-  const [totalPrice, setTotalPrice] = useState(0);
+  const [openNew, setOpenNew] = useState(true);
 
-  const {
-    data: employeeData,
-    loading: employeeLoading,
-    error: employeeError,
-  } = useFetch(`/employees`);
+  // const [info, setInfo] = useState({
+  //   deliveryZone: "A",
+  //   status: "pending",
+  //   paymentMethod: "cash",
+  //   delivery: true,
+  // });
+  // const [products, setProducts] = useState({name: [], price: []});
+  // const [totalPrice, setTotalPrice] = useState(0);
 
-  const {
-    data: productData,
-    loading: productLoading,
-    error: productErorr,
-  } = useFetch(`/products`);
+  // const {
+  //   data: employeeData,
+  //   loading: employeeLoading,
+  //   error: employeeError,
+  // } = useFetch(`/employees`);
 
-  console.log(employeeData);
+  // const {
+  //   data: productData,
+  //   loading: productLoading,
+  //   error: productErorr,
+  // } = useFetch(`/products`);
 
-  const navigate = useNavigate();
+  // console.log(employeeData);
 
-  const handleChange = (e) => {
-    setInfo((prev) => ({ ...prev, [e.target.id]: e.target.value }));
-  };
+  // const navigate = useNavigate();
 
-  const handleSelect = (e) => {
-    const value = Array.from(
-      e.target.selectedOptions,
-      (option) => option.value
-    );
-    console.log(value);
-    setProducts(value);
-    setTotalPrice(value.length * 20);
-  };
+  // const handleChange = (e) => {
+  //   setInfo((prev) => ({ ...prev, [e.target.id]: e.target.value }));
+  // };
 
-  const handleClick = async (e) => {
-    e.preventDefault();
-    try {
-      const newOrder = {
-        ...info,
-        products,
-        totalPrice,
-      };
-      console.log(newOrder);
-      // await axios.post("/orders", newOrder);
-      // navigate("/orders/");
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // const handleSelect = (e) => {
+  //   const value = Array.from(
+  //     e.target.selectedOptions,
+  //     (option) => option.value
+  //   );
+  //   console.log(value);
+  //   setProducts(value);
+  //   setTotalPrice(value.length * 20);
+  // };
+
+  // const handleClick = async (e) => {
+  //   e.preventDefault();
+  //   try {
+  //     const newOrder = {
+  //       ...info,
+  //       products,
+  //       totalPrice,
+  //     };
+  //     console.log(newOrder);
+  //     // await axios.post("/orders", newOrder);
+  //     // navigate("/orders/");
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   return (
     <div className="new">
@@ -71,7 +74,16 @@ const NewOrder = ({ inputs, title }) => {
           <h1>{title}</h1>
         </div>
         <div className="bottom">
-          <div className="right">
+          <button
+            className="addOrderButton"
+            onClick={() => {
+              setOpenNew(true);
+            }}
+          >
+            DODAJ
+          </button>
+
+          {/*  <div className="right">
             <form>
               {inputs.map((input) => (
                 <div className="formInput" key={input.id}>
@@ -137,9 +149,10 @@ const NewOrder = ({ inputs, title }) => {
               </div>
               <button onClick={handleClick}>Wyślij</button>
             </form>
-          </div>
+          </div> */}
         </div>
       </div>
+      {openNew && <New closeNew={setOpenNew} />}
     </div>
   );
 };
