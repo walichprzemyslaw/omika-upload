@@ -1,9 +1,9 @@
+import "./list.scss";
 import { useState } from "react";
 import useFetch from "../../hooks/useFetch";
 import Card from "../card/Card";
-import "./list.scss";
-import LocalPizzaIcon from "@mui/icons-material/LocalPizza";
 import Duo from "../duo/Duo";
+import LocalPizzaIcon from "@mui/icons-material/LocalPizza";
 
 const List = () => {
   const categories = [

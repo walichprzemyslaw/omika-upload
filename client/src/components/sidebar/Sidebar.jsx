@@ -1,13 +1,13 @@
 import "./sidebar.scss";
+import { Link, useNavigate } from "react-router-dom";
+import { useContext, useState } from "react";
+import { AuthContext } from "../../context/AuthContext";
+import axios from "axios";
 import HomeIcon from "@mui/icons-material/Home";
 import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
 import SettingsIcon from "@mui/icons-material/Settings";
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
 import FastfoodIcon from "@mui/icons-material/Fastfood";
-import { Link, useNavigate } from "react-router-dom";
-import { useContext, useState } from "react";
-import { AuthContext } from "../../context/AuthContext";
-import axios from "axios";
 
 const Sidebar = () => {
   const [openPower, setOpenPower] = useState(false);

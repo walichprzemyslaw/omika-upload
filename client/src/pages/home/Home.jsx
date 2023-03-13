@@ -1,7 +1,6 @@
+import "./home.scss";
 import Navbar from "../../components/navbar/Navbar";
 import Sidebar from "../../components/sidebar/Sidebar";
-import "./home.scss";
-
 import TouchAppIcon from "@mui/icons-material/TouchApp";
 import PriceCheckIcon from "@mui/icons-material/PriceCheck";
 import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";

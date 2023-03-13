@@ -30,8 +30,6 @@ const Modal = ({ closeModal, item }) => {
     error: drinkError,
   } = useFetch(`/ingredients/category/napoje/a`);
 
-  // const crustData = ["cienkie", "tradycyjne", "grube"];
-
   const { data, loading, error } = useFetch(
     `/ingredients/category/${item.category}/${rest}`
   );
@@ -164,10 +162,6 @@ const Modal = ({ closeModal, item }) => {
     setAddedIngredients([]);
   };
 
-  console.log(crust);
-  console.log(taste);
-  console.log(addedIngredients);
-  console.log(excludedIngredients);
   const totalPrice = price * quantity;
   // console.log(number?.value);
   // console.log(quantity);
@@ -178,26 +172,6 @@ const Modal = ({ closeModal, item }) => {
         {item.category === "pizza" && !crust && setCrust("tradycyjne")}
         {item.name === "sosy" && !taste && setTaste("czosnkowy")}
         {item.name === "napoje" && !taste && setTaste("pepsi")}
-
-        {/* {item.category === "pizza" && (
-          <div className="options">
-            <h4>Wybierz ciasto:</h4>
-            <ul className="ingredients">
-              {crustData.map((crust, index) => (
-                <li key={index}>
-                  <input
-                    className="crust"
-                    type="checkbox"
-                    id={crust}
-                    value={crust}
-                    onChange={(e) => handleCrust(e, crust)}
-                  />
-                  <label htmlFor={crust}>{crust}</label>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )} */}
         <div className="details">
           <div className="detailsRight">
             <div className="close">
@@ -226,14 +200,6 @@ const Modal = ({ closeModal, item }) => {
                   }
                   onClick={handleLargeSize}
                 >
-                  {/* {item.name === "nuggetsy" ? (
-                    <div className="sizeTitle">10 sztuk</div>
-                  ) : (
-                    <>
-                      <LocalPizzaIcon className="large" />
-                      <p className="sizeTitle">40cm</p>
-                    </>
-                  )} */}
                   {handleSwitchLarge(item)}
                 </div>
                 <div
@@ -242,14 +208,6 @@ const Modal = ({ closeModal, item }) => {
                   }
                   onClick={handleMediumSize}
                 >
-                  {/* {item.name === "nuggetsy" ? (
-                    <div className="sizeTitle">5 sztuk</div>
-                  ) : (
-                    <>
-                      <LocalPizzaIcon className="medium" />
-                      <p className="sizeTitle">30cm</p>
-                    </>
-                  )} */}
                   {handleSwitchMedium(item)}
                 </div>
               </>

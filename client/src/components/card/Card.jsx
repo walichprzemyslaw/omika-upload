@@ -1,7 +1,6 @@
-import { useState } from "react";
-import useFetch from "../../hooks/useFetch";
-import Modal from "../modal/Modal";
 import "./card.scss";
+import { useState } from "react";
+import Modal from "../modal/Modal";
 
 const Card = ({item}) => {
   const [openModal, setOpenModal] = useState(false);

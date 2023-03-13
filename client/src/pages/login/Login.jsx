@@ -1,8 +1,8 @@
+import "./login.scss";
 import axios from "axios";
 import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
-import "./login.scss";
 
 const Login = () => {
   const [credentials, setCredentials] = useState({

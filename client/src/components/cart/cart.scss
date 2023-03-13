@@ -51,56 +51,6 @@
         color: #dd1414;
         cursor: pointer;
       }
-
-      hr {
-      }
-
-      .cartItems {
-        list-style: none;
-        padding: 0;
-        margin-top: 10px;
-        display: flex;
-        flex-direction: column;
-
-        .cartItem {
-          display: flex;
-          justify-content: space-between;
-          flex-direction: row;
-          padding: 10px;
-          .itemLeft {
-            display: flex;
-            flex-direction: row;
-            gap: 20px;
-
-            img {
-              width: 40px;
-              height: 40px;
-              object-fit: contain;
-            }
-
-            .details {
-              h1 {
-                font-size: 16px;
-                text-transform: capitalize;
-              }
-              .cartDetails {
-                font-size: 14px;
-                color: #333;
-                p{
-                  font-size: 12px;
-                }
-              }
-              .price {
-                font-size: 12px;
-              }
-            }
-          }
-          .itemRight {
-            display: flex;
-            align-items: center;
-          }
-        }
-      }
     }
 
     .cartBottom {
@@ -125,7 +75,8 @@
           color: white;
           border: none;
           font-weight: 500;
-          padding: 10px;
+          font-size: 20px;
+          padding: 10px 20px;
           border-radius: 15px;
           cursor: pointer;
           width: fit-content;

@@ -1,10 +1,10 @@
 import "./navbar.scss";
-import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { useContext, useState } from "react";
+import { useSelector } from "react-redux";
 import { DarkModeContext } from "../../context/DarkmodeContext";
 import Cart from "../cart/Cart";
-import { useSelector } from "react-redux";
+import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
 const Navbar = () => {
   const [openCart, setOpenCart] = useState(false);  

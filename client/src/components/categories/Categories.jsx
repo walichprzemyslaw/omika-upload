@@ -1,7 +1,5 @@
-import LocalPizzaIcon from "@mui/icons-material/LocalPizza";
-import LunchDiningIcon from "@mui/icons-material/LunchDining";
-
 import "./categories.scss";
+import LocalPizzaIcon from "@mui/icons-material/LocalPizza";
 
 const Categories = () => {
   // temporary data
@@ -13,8 +11,6 @@ const Categories = () => {
     { id: "qwe", name: "dodatki", icon: "" },
     { id: "ewqe", name: "napoje", icon: "" },
   ];
-
-  console.log(categories);
 
   return (
     <div className="categories">

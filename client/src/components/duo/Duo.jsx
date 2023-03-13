@@ -1,8 +1,8 @@
+import "./duo.scss";
 import { useEffect, useState } from "react";
 import useFetch from "../../hooks/useFetch";
 import { addToCart } from "../../redux/cartReducer";
 import { useDispatch } from "react-redux";
-import "./duo.scss";
 
 const Duo = ({ closeDuo }) => {
   const dispatch = useDispatch();
@@ -240,7 +240,6 @@ const Duo = ({ closeDuo }) => {
             >
               30cm
             </div>
-
             <h4>Wybierz ciasto:</h4>
             <div
               className={
@@ -267,7 +266,6 @@ const Duo = ({ closeDuo }) => {
             >
               Grube
             </div>
-
             <div className="addToCart">
               <button
                 className="addToCartButton"

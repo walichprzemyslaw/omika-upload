@@ -1,14 +1,14 @@
-import Navbar from "../../components/navbar/Navbar";
-import Sidebar from "../../components/sidebar/Sidebar";
-import ReceiptLongRoundedIcon from "@mui/icons-material/ReceiptLongRounded";
 import "./settings.scss";
 import useFetch from "../../hooks/useFetch";
 import { useContext, useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { AuthContext } from "../../context/AuthContext";
+// import { AuthContext } from "../../context/AuthContext";
 import axios from "axios";
-import bcrypt from "bcryptjs";
+// import bcrypt from "bcryptjs";
 import Order from "../../components/order/Order";
+import Navbar from "../../components/navbar/Navbar";
+import Sidebar from "../../components/sidebar/Sidebar";
+import ReceiptLongRoundedIcon from "@mui/icons-material/ReceiptLongRounded";
 
 const Settings = () => {
   const location = useLocation();
@@ -159,11 +159,23 @@ const Settings = () => {
           </div>
           <div className="settingsRight">
             <h2 className="settingsTitle">Historia zamówień:</h2>
-            <table className="orders">
-              <tbody>
-                {ordersData.map((order) => (
-                  <>
-                    <tr
+            <div className="orders">
+              {ordersData.map((order) => (
+                <>
+                  <div
+                    className="orderItem"
+                    key={order._id}
+                    onClick={() => {
+                      setOpenOrder(true);
+                      setOrder(order);
+                    }}
+                  >
+                    <span>
+                      <ReceiptLongRoundedIcon className="icon" />{" "}
+                      {new Date(order.createdAt).toLocaleString()}
+                    </span>
+                  </div>
+                  {/* <tr
                       className="orderItem"
                       key={order._id}
                       onClick={() => {
@@ -176,11 +188,10 @@ const Settings = () => {
                       </th>
                       <th>{new Date(order.createdAt).toLocaleString()}</th>
                       <th>{order.totalPrice} zł</th>
-                    </tr>
-                  </>
-                ))}
-              </tbody>
-            </table>
+                    </tr> */}
+                </>
+              ))}
+            </div>
           </div>
         </div>
       </div>
