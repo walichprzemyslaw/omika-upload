@@ -6,10 +6,20 @@ import Card from "../card/Card";
 import New from "../new/New";
 import WorkdayInfo from "../workdayInfo/WorkdayInfo";
 import "./workday.scss";
+import CurrencyExchangeIcon from "@mui/icons-material/CurrencyExchange";
+import PriceCheckIcon from "@mui/icons-material/PriceCheck";
+import CreditScoreIcon from "@mui/icons-material/CreditScore";
+import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
+import LocalPizzaIcon from "@mui/icons-material/LocalPizza";
+import PersonIcon from "@mui/icons-material/Person";
 
 const Workday = () => {
   const [openNew, setOpenNew] = useState(false);
+  const [showProducts, setShowProducts] = useState(false);
   const [list, setList] = useState();
+  const [pendingList, setPendingList] = useState();
+  const [activeList, setActiveList] = useState();
+  const [passiveList, setPassiveList] = useState();
   const { data, loading, error } = useFetch(`/employees`);
 
   const dispatch = useDispatch();
@@ -82,9 +92,18 @@ const Workday = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch("/orders/today");
+      const response = await fetch(`/orders/today/`);
       const json = await response.json();
       setList(json);
+      const responsePending = await fetch(`/orders/today/${"pending"}`);
+      const jsonPending = await responsePending.json();
+      setPendingList(jsonPending);
+      const responseActive = await fetch(`/orders/today/${"active"}`);
+      const jsonActive = await responseActive.json();
+      setActiveList(jsonActive);
+      const responsePassive = await fetch(`/orders/today/${"passive"}`);
+      const jsonPassive = await responsePassive.json();
+      setPassiveList(jsonPassive);
     };
 
     fetchData();
@@ -97,38 +116,59 @@ const Workday = () => {
 
   return (
     <div className="workday">
-      <div className="workdayLeft">
+      <div className="workdayTop">
         <div className="workdayData">
           <div className="workdayDataTop">
-            <div className="workdayDataTopLeft">
-              <WorkdayInfo
-                title={"Łączny utarg"}
-                details={dayTotal?.toFixed(2) + "zł"}
+            <WorkdayInfo
+              title={"Łączny utarg"}
+              details={dayTotal?.toFixed(2) + "zł"}
+              icon={<CurrencyExchangeIcon className="icon" />}
+            />
+            <WorkdayInfo
+              title={"Łącznie gotówka"}
+              details={gotowka?.toFixed(2) + "zł"}
+              icon={<AttachMoneyIcon className="icon" />}
+            />
+            <WorkdayInfo
+              title={"Łącznie karta"}
+              details={terminal?.toFixed(2) + "zł"}
+              icon={<CreditScoreIcon className="icon" />}
+            />
+            <WorkdayInfo
+              title={"Łącznie online"}
+              details={online?.toFixed(2) + "zł"}
+              icon={<PriceCheckIcon className="icon" />}
+            />
+            <WorkdayInfo
+              title={"Liczba sztuk"}
+              details={quantityTotal - dodatkiTotal}
+              icon={<LocalPizzaIcon className="icon" />}
+            />
+            {/* <WorkdayInfo
+                title={"Pizza"}
+                details={pizzaTotal}
+                icon={<LocalPizzaIcon className="icon" />}
+              />
+               <WorkdayInfo
+                title={"Burgery"}
+                details={burgeryTotal}
+                icon={<LocalPizzaIcon className="icon" />}
               />
               <WorkdayInfo
-                title={"Łącznie gotówka"}
-                details={gotowka?.toFixed(2) + "zł"}
+                title={"Zapiekanki"}
+                details={zapiekankiTotal}
+                icon={<LocalPizzaIcon className="icon" />}
               />
               <WorkdayInfo
-                title={"Łącznie karta"}
-                details={terminal?.toFixed(2) + "zł"}
+                title={"Sałatki"}
+                details={salatkiTotal}
+                icon={<LocalPizzaIcon className="icon" />}
               />
               <WorkdayInfo
-                title={"Łącznie online"}
-                details={online?.toFixed(2) + "zł"}
-              />
-            </div>
-            <div className="workdayDataTopRight">
-              <WorkdayInfo
-                title={"Liczba sztuk"}
-                details={quantityTotal - dodatkiTotal}
-              />
-              <WorkdayInfo title={"Pizza"} details={pizzaTotal} />
-              <WorkdayInfo title={"Burgery"} details={burgeryTotal} />
-              <WorkdayInfo title={"Zapiekanki"} details={zapiekankiTotal} />
-              <WorkdayInfo title={"Sałatki"} details={salatkiTotal} />
-              <WorkdayInfo title={"Dodatki"} details={dodatkiTotal} />
-            </div>
+                title={"Dodatki"}
+                details={dodatkiTotal}
+                icon={<LocalPizzaIcon className="icon" />}
+              /> */}
           </div>
 
           {/* <p>Łączny utarg: {dayTotal?.toFixed(2)}zł</p>
@@ -159,10 +199,16 @@ const Workday = () => {
                     key={employee._id}
                     title={employee.firstName + " " + employee.lastName}
                     details={employeeSum.toFixed(2) + "zł"}
+                    icon={<PersonIcon className="icon" />}
                   />
                 )
               );
             })}
+          </div>
+          <div className="showProducts">
+            <button onClick={() => setShowProducts(!showProducts)}>
+              {showProducts ? "UKRYJ PRODUKTY" : "POKAŻ PRODUKTY"}
+            </button>
           </div>
         </div>
 
@@ -173,13 +219,49 @@ const Workday = () => {
             setOpenNew(true);
           }}
         >
-          DODAJ
+          DODAJ ZAMÓWIENIE
         </button>
-        <div className="activeOrders">
-          {list?.map((order, index) => (
-            <Card order={order} key={order._id} index={index} />
-          ))}
-        </div>
+      </div>
+      <div className="workdayBottom">
+       {pendingList?.length > 0 && <div className="activeOrders">
+          <div className="title">Kuchnia:</div>
+          <div className="list">
+            {pendingList?.map((order, index) => (
+              <Card
+                order={order}
+                key={order._id}
+                index={index}
+                showProducts={showProducts}
+              />
+            ))}
+          </div>
+        </div>}
+      {activeList?.length > 0 &&  <div className="activeOrders">
+          <div className="title">Dostawa:</div>
+          <div className="list">
+            {activeList?.map((order, index) => (
+              <Card
+                order={order}
+                key={order._id}
+                index={index}
+                showProducts={showProducts}
+              />
+            ))}
+          </div>
+        </div>}
+       {passiveList?.length > 0 && <div className="activeOrders">
+          <div className="title">Dostarczone:</div>
+          <div className="list">
+            {passiveList?.map((order, index) => (
+              <Card
+                order={order}
+                key={order._id}
+                index={index}
+                showProducts={showProducts}
+              />
+            ))}
+          </div>
+        </div>}
       </div>
       {openNew && <New closeNew={setOpenNew} />}
     </div>

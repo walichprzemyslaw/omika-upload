@@ -6,6 +6,7 @@ import {
   getOrders,
   getOrdersByUser,
   getOrdersByDate,
+  getOrdersByStatus,
   updateOrder,
 } from "../controllers/order.js";
 import { verifyAdmin, verifyUser } from "../utils/verifyToken.js";
@@ -20,6 +21,9 @@ router.get("/find/:id", getOrder);
 
 //GET ORDERS BY DATE
 router.get("/today", getOrdersByDate)
+
+//GET ORDERS BY STATUS
+router.get("/today/:status", getOrdersByStatus)
 
 // GET ORDERS BY USER ID
 router.get("/user/:id", getOrdersByUser)

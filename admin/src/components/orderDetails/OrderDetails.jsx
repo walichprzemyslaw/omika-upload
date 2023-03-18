@@ -12,11 +12,11 @@ const OrderDetails = ({ item }) => {
   const handleMethod = (order) => {
     switch (order.paymentMethod) {
       case "cash":
-        return "płatność gotówką";
+        return "gotówka";
       case "online":
-        return "płatność online";
+        return "online";
       case "terminal":
-        return "płatność kartą";
+        return "karta płatnicza";
     }
   };
 

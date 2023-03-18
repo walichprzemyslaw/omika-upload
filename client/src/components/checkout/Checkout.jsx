@@ -373,8 +373,8 @@ const Checkout = ({ closeCheckout }) => {
       let x = start.getMinutes();
       let y = 0;
       while (x > y && x < 60) {
-        start.setMinutes(y + 5);
-        y = y + 5;
+        start.setMinutes(y + 10);
+        y = y + 10;
       }
       // start.setMinutes(start.getMinutes() + 5);
 
@@ -395,6 +395,7 @@ const Checkout = ({ closeCheckout }) => {
     return timeRange;
   };
   let timeRange = getTimeRange(delivery, new Date());
+  
   const cartTotal = () => {
     let cartTotal = 0;
     products.forEach((item) => (cartTotal += item.quantity * item.price));
@@ -442,7 +443,8 @@ const Checkout = ({ closeCheckout }) => {
 
   const handleDelivery = (e) => {
     setDelivery(e.target.value);
-    timeRange = getTimeRange(e.target.value, new Date());
+    // timeRange = getTimeRange(e.target.value, new Date());
+    timeRange = getTimeRange(new Date());
     setInfo((prev) => ({ ...prev, deliveryTime: timeRange[0] }));
   };
 

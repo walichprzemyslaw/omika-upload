@@ -29,7 +29,7 @@ const OrderPage = () => {
           </div>
           <div className="orderWrapper">
             {loading ? "ładowanie" : <OrderItems products={item.products} editable={false} />}
-            <OrderDetails item={item}/>
+            {loading ? "ładowanie" : <OrderDetails item={item}/>}
           </div>
         </div>
       ) : (

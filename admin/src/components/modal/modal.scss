@@ -5,7 +5,7 @@
   background: #25242482;
   height: 100%;
   width: 100vw;
-  z-index: 999; 
+  z-index: 999;
   display: flex;
   align-items: center;
 
@@ -51,7 +51,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      gap:10px;
+      gap: 10px;
       .editOrderButton {
         display: flex;
         align-items: center;
@@ -72,104 +72,21 @@
     }
 
     .modalWrapper {
-      // align-items: center;
       display: flex;
       flex-direction: column;
-      // flex-wrap: wrap;
       justify-content: center;
       -webkit-box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
       box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
       margin: 0 7.5vw;
+      margin-bottom: 30px;
       padding: 20px 0;
-      // height: 90vh;
 
-      h1 {
-        font-size: 18px;
-        text-align: center;
-      }
-
-      hr {
-        border: 0.25px solid #999;
-        width: 80%;
-        margin: 10px auto;
-      }
-
-      .comments{
-        width: 90%;
-        margin: 10px auto;
-        // padding: 10px;
-        text-align: center;
-      }
-
-      .modalItems {
+      .orderItems {
         display: flex;
         flex-direction: column;
         gap: 10px;
         margin-top: 10px;
-        .modalItem {
-          display: flex;
-          flex-direction: row;
-          justify-content: space-between;
-          gap: 5px;
-          margin: 0 10%;
-
-          .modalItemTitle {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            gap: 10px;
-            .modalITLeft {
-              img {
-                width: 40px;
-                height: 40px;
-                object-fit: contain;
-              }
-            }
-            .modalITCenter {
-              display: flex;
-              flex-direction: column;
-              // align-items: center;
-              h1 {
-                text-align: left;
-                font-size: 18px;
-                text-transform: capitalize;
-              }
-            }
-          }
-
-          .modalITRight {
-            h1 {
-              font-size: 16px;
-            }
-            h2 {
-              font-size: 12px;
-            }
-          }
-        }
-      }
-
-      .modalDetails {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        gap: 10vw;
         margin: 0 10%;
-        .modalDetailsLeft {
-          display: flex;
-          flex-direction: column;
-          gap: 5px;
-          h2 {
-            font-size: 14px;
-          }
-        }
-        .modalDetailsRight {
-          display: flex;
-          flex-direction: column;
-          gap: 5px;
-          h2 {
-            font-size: 14px;
-          }
-        }
       }
     }
   }
