@@ -40,7 +40,7 @@ export const getOrdersByDate = async (req, res, next) => {
     // date.setUTCDate(14);
     // date.setUTCHours(0,0,0);
     // ROZJEŻDŻA SIĘ O GODZINĘ!!!!!!!
-    console.log(date);
+    // console.log(date);
     const orders = await Order.find({
       createdAt: { $gte: date.setUTCHours(0, 0, 0) },
     });

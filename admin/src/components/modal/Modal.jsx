@@ -42,6 +42,9 @@ const Modal = ({ order, closeModal }) => {
         </div>
         <div className="modalWrapper">
           <OrderItems products={order.products} />
+          <div className="priceDetails">
+          {order.tipAmount > 0 && <p>Napiwek: {order.tipAmount.toFixed(2)}zł</p>}
+          {order.deliveryCost > 0 && <p>Koszt dostawy: {order.deliveryCost.toFixed(2)}zł</p>}</div>
           <OrderDetails item={order} />
         </div>
         <div className="editButton">

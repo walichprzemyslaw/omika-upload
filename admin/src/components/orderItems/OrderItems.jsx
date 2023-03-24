@@ -36,8 +36,8 @@ const OrderItems = ({ products, editable }) => {
     }
   };
 
-  console.log(products);
-  console.log(editable);
+  // console.log(products);
+  // console.log(editable);
   return (
     <div className="orderItems">
       <ul className="cartItems">

@@ -124,14 +124,17 @@ const Card = ({ order, showProducts, index }) => {
               {order.comments}
             </span>}
         <div className="statusChange">
-          <div className="status" onClick={() => handleClick("pending")}>
+          <div className="status" onClick={() => handleClick("preparation")}>
             kuchnia
           </div>
-          <div className="status" onClick={() => handleClick("active")}>
+          <div className="status" onClick={() => handleClick("ready")}>
             dostawa
           </div>
-          <div className="status" onClick={() => handleClick("passive")}>
+          <div className="status" onClick={() => handleClick("delivered")}>
             dostarczone
+          </div>
+          <div className="status" onClick={() => handleClick("cancelled")}>
+            odrzucone
           </div>
         </div>
       </div>

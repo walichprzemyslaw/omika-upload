@@ -349,13 +349,14 @@ const New = ({ closeNew }) => {
 
   const [delivery, setDelivery] = useState(true);
   const [openDuo, setOpenDuo] = useState(false);
+  const [tip, setTip] = useState(0);
   const [category, setCategory] = useState("pizza");
   const [customer, setCustomer] = useState(false);
   const [info, setInfo] = useState({
-    status: "pending",
+    status: "preparation",
     paymentMethod: "cash",
     // delivery: true,
-    deliveryTime: "jak najszybciej", 
+    deliveryTime: "jak najszybciej",
   });
 
   const products = useSelector((state) => state.cart.products);
@@ -370,7 +371,7 @@ const New = ({ closeNew }) => {
   const getTimeRange = (startTime) => {
     const start = new Date(startTime);
     const end = new Date();
-    start.setHours(13,0,0);
+    start.setHours(13, 0, 0);
     end.setHours(22, 0, 0);
 
     let timeRange = [];
@@ -401,6 +402,49 @@ const New = ({ closeNew }) => {
   };
   let timeRange = getTimeRange(new Date());
 
+  const deliveryTotal = () => {
+    let deliveryCost = 0;
+    if (delivery !== "false") {
+      if (info.strefa === "A") {
+        if (info.city === "kościan") {
+          if (
+            info.street !== "poznańska" &&
+            info.street !== "osiedle konstytucji 3 maja"
+          ) {
+            deliveryCost += 2;
+          }
+        } else {
+          deliveryCost += 2;
+        }
+      }
+      if (info.strefa === "B") {
+        deliveryCost += 7;
+      }
+      if (info.strefa === "C") {
+        deliveryCost += 14;
+      }
+    }
+    return deliveryCost.toFixed(2);
+  };
+
+  const cartTotal = () => {
+    let cartTotal = 0;
+    products.forEach((item) => (cartTotal += item.quantity * item.price));
+    return cartTotal.toFixed(2);
+  };
+
+  let deliveryCost = deliveryTotal();
+  let cartAmount = cartTotal();
+  let tipAmount = (
+    (parseFloat(cartAmount) + parseFloat(deliveryCost)) *
+    tip
+  ).toFixed(2);
+  let totalPrice = (
+    parseFloat(cartAmount) +
+    parseFloat(tipAmount) +
+    parseFloat(deliveryCost)
+  ).toFixed(2);
+
   const handleChange = (e) => {
     if (e.target) {
       setInfo((prev) => ({ ...prev, [e.target.id]: e.target.value }));
@@ -420,41 +464,44 @@ const New = ({ closeNew }) => {
     }
   };
 
-  const cartTotal = () => {
-    let cartTotal = 0;
-    products.forEach((item) => (cartTotal += item.quantity * item.price));
-    if (delivery !== "false") {
-      if (info.strefa === "A") {
-        if (info.city === "kościan") {
-          if (
-            info.street !== "poznańska" &&
-            info.street !== "osiedle konstytucji 3 maja"
-          ) {
-            cartTotal += 2;
-          }
-        } else {
-          cartTotal += 2;
-        }
-      }
-      if (info.strefa === "B") {
-        cartTotal += 7;
-      }
-      if (info.strefa === "C") {
-        cartTotal += 14;
-      }
-    }
-    return cartTotal.toFixed(2);
-  };
+  // const cartTotal = () => {
+  //   let cartTotal = 0;
+  //   products.forEach((item) => (cartTotal += item.quantity * item.price));
+  //   if (delivery !== "false") {
+  //     if (info.strefa === "A") {
+  //       if (info.city === "kościan") {
+  //         if (
+  //           info.street !== "poznańska" &&
+  //           info.street !== "osiedle konstytucji 3 maja"
+  //         ) {
+  //           cartTotal += 2;
+  //         }
+  //       } else {
+  //         cartTotal += 2;
+  //       }
+  //     }
+  //     if (info.strefa === "B") {
+  //       cartTotal += 7;
+  //     }
+  //     if (info.strefa === "C") {
+  //       cartTotal += 14;
+  //     }
+  //   }
+  //   return cartTotal.toFixed(2);
+  // };
 
   const handleClick = async (e) => {
     e.preventDefault();
     try {
-      let totalPrice = cartTotal();
+      // let totalPrice = cartTotal();
       if (info.totalPrice) {
         totalPrice = info.totalPrice;
       }
       const newOrder = {
         ...info,
+        deliveryCost,
+        tip,
+        tipAmount,
         delivery,
         products,
         totalPrice,
@@ -606,6 +653,29 @@ const New = ({ closeNew }) => {
                 ></textarea>
               </div>
             </div>
+            <div className="tipData">
+              <p className="title">Czy chcesz dodać napiwek do zamówienia?</p>
+              <div className="tipButtons">
+                <button
+                  className={tip === 0 ? "tipOption active" : "tipOption"}
+                  onClick={() => setTip(0)}
+                >
+                  Bez napiwku
+                </button>
+                <button
+                  className={tip === 0.05 ? "tipOption active" : "tipOption"}
+                  onClick={() => setTip(0.05)}
+                >
+                  Dodaj 5%
+                </button>
+                <button
+                  className={tip === 0.1 ? "tipOption active" : "tipOption"}
+                  onClick={() => setTip(0.1)}
+                >
+                  Dodaj 10%
+                </button>
+              </div>
+            </div>
             <div className="customerData">
               <div className="formInput">
                 <label htmlFor="totalPrice">Łączna cena:</label>
@@ -684,9 +754,15 @@ const New = ({ closeNew }) => {
             </div>
           )}
           <OrderItems products={products} editable={true} />
-          {products.length > 0 && <h1>Łączna kwota: {cartTotal()}</h1>}
+          {products.length > 0 && (
+            <div className="priceDetails">
+              <h1>Łączna kwota: {totalPrice}zł</h1>
+              <h1>Koszt dostawy: {deliveryCost}zł</h1>
+              <h1>Napiwek: {tipAmount}zł</h1>
+            </div>
+          )}
         </div>
-        
+
         <div className="productsContainer">
           <h1>WYBIERZ PRODUKTY</h1>
         </div>

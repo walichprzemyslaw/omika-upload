@@ -350,6 +350,7 @@ const Edit = ({ order, closeEditor, closeModal }) => {
 
   const [info, setInfo] = useState(order);
   const [delivery, setDelivery] = useState(info.delivery);
+  const [tip, setTip] = useState(info.tip);
   const [openDuo, setOpenDuo] = useState(false);
   const [category, setCategory] = useState("pizza");
   const [customer, setCustomer] = useState(false);
@@ -415,9 +416,34 @@ const Edit = ({ order, closeEditor, closeModal }) => {
     }
   };
 
-  const cartTotal = () => {
-    let cartTotal = 0;
-    products.forEach((item) => (cartTotal += item.quantity * item.price));
+  // const cartTotal = () => {
+  //   let cartTotal = 0;
+  //   products.forEach((item) => (cartTotal += item.quantity * item.price));
+  //   if (delivery !== "false") {
+  //     if (info.strefa === "A") {
+  //       if (info.city === "kościan") {
+  //         if (
+  //           info.street !== "poznańska" &&
+  //           info.street !== "osiedle konstytucji 3 maja"
+  //         ) {
+  //           cartTotal += 2;
+  //         }
+  //       } else {
+  //         cartTotal += 2;
+  //       }
+  //     }
+  //     if (info.strefa === "B") {
+  //       cartTotal += 7;
+  //     }
+  //     if (info.strefa === "C") {
+  //       cartTotal += 14;
+  //     }
+  //   }
+  //   return cartTotal.toFixed(2);
+  // };
+
+  const deliveryTotal = () =>{
+    let deliveryCost = info.deliveryCost;
     if (delivery !== "false") {
       if (info.strefa === "A") {
         if (info.city === "kościan") {
@@ -425,26 +451,65 @@ const Edit = ({ order, closeEditor, closeModal }) => {
             info.street !== "poznańska" &&
             info.street !== "osiedle konstytucji 3 maja"
           ) {
-            cartTotal += 2;
+            deliveryCost += 2;
           }
         } else {
-          cartTotal += 2;
+          deliveryCost += 2;
         }
       }
       if (info.strefa === "B") {
-        cartTotal += 7;
+        deliveryCost += 7;
       }
       if (info.strefa === "C") {
-        cartTotal += 14;
+        deliveryCost += 14;
       }
     }
+    return deliveryCost.toFixed(2);
+  }
+  
+  const cartTotal = () => {
+    let cartTotal = 0;
+    products.forEach((item) => (cartTotal += item.quantity * item.price));
+    // if (delivery !== "false") {
+    //   if (info.strefa === "A") {
+    //     if (info.city === "kościan") {
+    //       if (
+    //         info.street !== "poznańska" &&
+    //         info.street !== "osiedle konstytucji 3 maja"
+    //       ) {
+    //         cartTotal += 2;
+    //       }
+    //     } else {
+    //       cartTotal += 2;
+    //     }
+    //   }
+    //   if (info.strefa === "B") {
+    //     cartTotal += 7;
+    //   }
+    //   if (info.strefa === "C") {
+    //     cartTotal += 14;
+    //   }
+    // }
+
+    // if(tip>0){
+    //   cartTotal = cartTotal + (cartTotal*tip);
+    // }
     return cartTotal.toFixed(2);
   };
+
+  let deliveryCost = deliveryTotal();
+  let cartAmount = cartTotal();
+  let tipAmount = (
+    (parseFloat(cartAmount) + parseFloat(deliveryCost)) *
+    tip
+  ).toFixed(2);
+  let totalPrice = (parseFloat(cartAmount) + parseFloat(tipAmount) + parseFloat(deliveryCost)).toFixed(2);
+
 
   const handleClick = async (e) => {
     e.preventDefault();
     try {
-      let totalPrice = cartTotal();
+      // let totalPrice = cartTotal();
       if (info.totalPriceNew) {
         totalPrice = info.totalPriceNew;
       }
@@ -452,6 +517,9 @@ const Edit = ({ order, closeEditor, closeModal }) => {
         ...info,
         products,
         delivery,
+        deliveryCost,
+        tip,
+        tipAmount,
         totalPrice,
       };
       console.log(newOrder);
@@ -571,6 +639,7 @@ const Edit = ({ order, closeEditor, closeModal }) => {
                     <Creatable
                       options={streets}
                       onChange={handleChange}
+                      defaultInputValue={info.street}
                       placeholder="Ulica"
                     />
                     <div className="homeNumber">
@@ -584,6 +653,7 @@ const Edit = ({ order, closeEditor, closeModal }) => {
                     </div>
                     <Select
                       options={options}
+                      defaultInputValue={info.city}
                       onChange={handleChange}
                       placeholder="Miasto"
                     />
@@ -600,6 +670,29 @@ const Edit = ({ order, closeEditor, closeModal }) => {
                   id="comments"
                   defaultValue={info.comments}
                 ></textarea>
+              </div>
+            </div>
+            <div className="tipData">
+              <p className="tipTitle">Czy chcesz dodać napiwek do zamówienia?</p>
+              <div className="tipButtons">
+                <button
+                  className={tip === 0 ? "tipOption active" : "tipOption"}
+                  onClick={() => setTip(0)}
+                >
+                  Bez napiwku
+                </button>
+                <button
+                  className={tip === 0.05 ? "tipOption active" : "tipOption"}
+                  onClick={() => setTip(0.05)}
+                >
+                  Dodaj 5%
+                </button>
+                <button
+                  className={tip === 0.1 ? "tipOption active" : "tipOption"}
+                  onClick={() => setTip(0.1)}
+                >
+                  Dodaj 10%
+                </button>
               </div>
             </div>
             <div className="customerData">
@@ -680,7 +773,13 @@ const Edit = ({ order, closeEditor, closeModal }) => {
             </div>
           )}
           <OrderItems products={products} editable={true} />
-          {products.length > 0 && <h1>Łączna kwota: {cartTotal()}</h1>}
+          {products.length > 0 && (
+            <div className="priceDetails">
+              <h1>Łączna kwota: {totalPrice}zł</h1>
+              <h1>Koszt dostawy: {deliveryCost}zł</h1>
+              <h1>Napiwek: {tipAmount}zł</h1>
+            </div>
+          )}
         </div>
 
         <div className="productsContainer">

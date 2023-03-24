@@ -395,7 +395,7 @@ const Modal = ({ closeItemModal, item }) => {
         )}
         {item.name === "sosy" && (
           <div className="options">
-            <h4>Smak:</h4>
+            <h4>Sos:</h4>
             <ul className="ingredients">
               {tasteData.map((ingredient, index) => (
                 <li key={index}>
@@ -414,7 +414,7 @@ const Modal = ({ closeItemModal, item }) => {
         )}
         {item.name === "napoje" && (
           <div className="options">
-            <h4>Smak:</h4>
+            <h4>Napój:</h4>
             <ul className="ingredients">
               {drinkData.map((ingredient, index) => (
                 <li key={index}>

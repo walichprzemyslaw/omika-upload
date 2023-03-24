@@ -8,7 +8,7 @@ const OrderSchema = new mongoose.Schema(
     street: { type: String },
     homeNumber: { type: String },
     city: { type: String },
-    phone: { type: Number, required: true },
+    phone: { type: Number },
     products: [
       {
         name: { type: String, required: true },
@@ -33,11 +33,14 @@ const OrderSchema = new mongoose.Schema(
         },
       },
     ],
+    deliveryCost: { type: Number },
+    tip: { type: Number },
+    tipAmount: { type: Number },
     totalPrice: { type: Number, required: true },
     status: {
       type: String,
       required: true,
-      enum: ["active", "pending", "passive"],
+      enum: ["pending", "preparation", "ready", "delivered", "cancelled"],
     },
     paymentMethod: {
       type: String,
@@ -46,7 +49,7 @@ const OrderSchema = new mongoose.Schema(
     },
     paymentReciver: { type: String },
     delivery: { type: Boolean, required: true },
-    deliveryTime: { type: String, required: true},
+    deliveryTime: { type: String, required: true },
     comments: { type: String },
   },
   { timestamps: true }

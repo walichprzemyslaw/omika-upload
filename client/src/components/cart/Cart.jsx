@@ -5,6 +5,7 @@ import { resetCart } from "../../redux/cartReducer";
 import Checkout from "../checkout/Checkout";
 import OrderItems from "../orderItems/OrderItems";
 import DeleteForeverOutlinedIcon from "@mui/icons-material/DeleteForeverOutlined";
+import ErrorModal from "../errorModal/ErrorModal";
 
 const Cart = ({ closeCart }) => {
   const [openCheckout, setOpenCheckout] = useState(false);
@@ -58,7 +59,8 @@ const Cart = ({ closeCart }) => {
           </div>
         </div>
       </div>
-      {openCheckout && <Checkout closeCheckout={setOpenCheckout} />}
+      {(openCheckout && products.length > 0 ) && <Checkout closeCheckout={setOpenCheckout} />}
+      {(openCheckout && products.length === 0) && <ErrorModal closeError={closeCart} message="Twój koszyk jest pusty!" />}
     </div>
   );
 };

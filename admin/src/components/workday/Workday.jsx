@@ -18,8 +18,10 @@ const Workday = () => {
   const [showProducts, setShowProducts] = useState(false);
   const [list, setList] = useState();
   const [pendingList, setPendingList] = useState();
-  const [activeList, setActiveList] = useState();
-  const [passiveList, setPassiveList] = useState();
+  const [preparationList, setPreparationList] = useState();
+  const [readyList, setReadyList] = useState();
+  const [deliveredList, setDeliveredList] = useState();
+  const [cancelledList, setCancelledList] = useState();
   const { data, loading, error } = useFetch(`/employees`);
 
   const dispatch = useDispatch();
@@ -98,12 +100,19 @@ const Workday = () => {
       const responsePending = await fetch(`/orders/today/${"pending"}`);
       const jsonPending = await responsePending.json();
       setPendingList(jsonPending);
-      const responseActive = await fetch(`/orders/today/${"active"}`);
-      const jsonActive = await responseActive.json();
-      setActiveList(jsonActive);
-      const responsePassive = await fetch(`/orders/today/${"passive"}`);
-      const jsonPassive = await responsePassive.json();
-      setPassiveList(jsonPassive);
+      const responsePreparation = await fetch(`/orders/today/${"preparation"}`);
+      const jsonPreparation = await responsePreparation.json();
+      setPreparationList(jsonPreparation);
+      const responseReady = await fetch(`/orders/today/${"ready"}`);
+      const jsonReady = await responseReady.json();
+      setReadyList(jsonReady);
+      const responseDelivered = await fetch(`/orders/today/${"delivered"}`);
+      const jsonDelivered = await responseDelivered.json();
+      setDeliveredList(jsonDelivered); 
+      const responseCancelled = await fetch(`/orders/today/${"cancelled"}`);
+      const jsonCancelled = await responseCancelled.json();
+      setCancelledList(jsonCancelled);
+
     };
 
     fetchData();
@@ -224,7 +233,7 @@ const Workday = () => {
       </div>
       <div className="workdayBottom">
        {pendingList?.length > 0 && <div className="activeOrders">
-          <div className="title">Kuchnia:</div>
+          <div className="title">Czekające na potwierdzenie:</div>
           <div className="list">
             {pendingList?.map((order, index) => (
               <Card
@@ -236,10 +245,10 @@ const Workday = () => {
             ))}
           </div>
         </div>}
-      {activeList?.length > 0 &&  <div className="activeOrders">
-          <div className="title">Dostawa:</div>
+      {preparationList?.length > 0 &&  <div className="activeOrders">
+          <div className="title">Kuchnia:</div>
           <div className="list">
-            {activeList?.map((order, index) => (
+            {preparationList?.map((order, index) => (
               <Card
                 order={order}
                 key={order._id}
@@ -249,10 +258,36 @@ const Workday = () => {
             ))}
           </div>
         </div>}
-       {passiveList?.length > 0 && <div className="activeOrders">
+       {readyList?.length > 0 && <div className="activeOrders">
+          <div className="title">Dostawa:</div>
+          <div className="list">
+            {readyList?.map((order, index) => (
+              <Card
+                order={order}
+                key={order._id}
+                index={index}
+                showProducts={showProducts}
+              />
+            ))}
+          </div>
+        </div>}
+        {deliveredList?.length > 0 && <div className="activeOrders">
           <div className="title">Dostarczone:</div>
           <div className="list">
-            {passiveList?.map((order, index) => (
+            {deliveredList?.map((order, index) => (
+              <Card
+                order={order}
+                key={order._id}
+                index={index}
+                showProducts={showProducts}
+              />
+            ))}
+          </div>
+        </div>}
+        {cancelledList?.length > 0 && <div className="activeOrders">
+          <div className="title">Odrzucone:</div>
+          <div className="list">
+            {cancelledList?.map((order, index) => (
               <Card
                 order={order}
                 key={order._id}

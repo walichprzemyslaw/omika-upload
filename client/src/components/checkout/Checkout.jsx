@@ -337,6 +337,8 @@ const Checkout = ({ closeCheckout }) => {
   const dispatch = useDispatch();
 
   const [delivery, setDelivery] = useState(true);
+  const [tip, setTip] = useState(0);
+  // const [tipAmount, setTipAmount] = useState(0);
   const [info, setInfo] = useState({
     customerId: user?._id || undefined,
     firstName: user?.firstName || undefined,
@@ -395,10 +397,9 @@ const Checkout = ({ closeCheckout }) => {
     return timeRange;
   };
   let timeRange = getTimeRange(delivery, new Date());
-  
-  const cartTotal = () => {
-    let cartTotal = 0;
-    products.forEach((item) => (cartTotal += item.quantity * item.price));
+
+  const deliveryTotal = () =>{
+    let deliveryCost = 0;
     if (delivery !== "false") {
       if (info.strefa === "A") {
         if (info.city === "kościan") {
@@ -406,21 +407,32 @@ const Checkout = ({ closeCheckout }) => {
             info.street !== "poznańska" &&
             info.street !== "osiedle konstytucji 3 maja"
           ) {
-            cartTotal += 2;
+            deliveryCost += 2;
           }
         } else {
-          cartTotal += 2;
+          deliveryCost += 2;
         }
       }
       if (info.strefa === "B") {
-        cartTotal += 7;
+        deliveryCost += 7;
       }
       if (info.strefa === "C") {
-        cartTotal += 14;
+        deliveryCost += 14;
       }
     }
+    return deliveryCost.toFixed(2);
+  }
+  
+  const cartTotal = () => {
+    let cartTotal = 0;
+    products.forEach((item) => (cartTotal += item.quantity * item.price));
     return cartTotal.toFixed(2);
   };
+
+  let deliveryCost = deliveryTotal();
+  let cartAmount = cartTotal();
+  let tipAmount = ((parseFloat(cartAmount) + parseFloat(deliveryCost))*tip).toFixed(2);
+  let totalPrice = (parseFloat(cartAmount) + parseFloat(tipAmount) + parseFloat(deliveryCost)).toFixed(2);
 
   const handleChange = (e) => {
     if (e.target) {
@@ -447,13 +459,16 @@ const Checkout = ({ closeCheckout }) => {
     timeRange = getTimeRange(new Date());
     setInfo((prev) => ({ ...prev, deliveryTime: timeRange[0] }));
   };
-
+ 
   const handleClick = async (e) => {
     e.preventDefault();
     try {
-      const totalPrice = cartTotal();
+      // const totalPrice = cartTotal();
       const newOrder = {
         ...info,
+        deliveryCost,
+        tip,
+        tipAmount,
         totalPrice,
         products,
         delivery,
@@ -608,7 +623,28 @@ const Checkout = ({ closeCheckout }) => {
           <div className="bottomRight">
             <h1>Twoje zamówienie:</h1>
             <OrderItems products={products} editable={false} />
-            <p className="totalPrice">Łączny koszt: {cartTotal()}zł</p>
+            <p className="totalPrice">Koszt dostawy: {deliveryCost}</p>
+            <p className="totalPrice">Napiwek: {tipAmount}zł</p>
+            <p className="totalPrice">Łączny koszt: {totalPrice}zł</p>
+            <div className="tipData">
+              <p className="title">Czy chcesz dodać napiwek do zamówienia?</p>
+              <div className="tipButtons">
+              <button  className={
+                    tip === 0
+                      ? "tipOption active"
+                      : "tipOption"
+                  } onClick={()=>setTip(0)}>Bez napiwku</button>
+              <button  className={
+                    tip === 0.05
+                      ? "tipOption active"
+                      : "tipOption"
+                  } onClick={()=>setTip(0.05)}>Dodaj 5%</button>
+              <button  className={
+                    tip === 0.1
+                      ? "tipOption active"
+                      : "tipOption"
+                  } onClick={()=>setTip(0.10)}>Dodaj 10%</button></div>
+            </div>
             <div className="paymentData">
               <p className="title">Wybierz metodę płatności:</p>
               <div className="paymentButtons">

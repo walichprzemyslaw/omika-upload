@@ -229,6 +229,39 @@
           }
         }
 
+        .tipData {
+          padding-top: 10px;
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          gap: 20px;
+
+          .title {
+            font-size: 12px;
+            color: #333;
+          }
+
+          .tipButtons {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            .tipOption {
+              display: flex;
+              align-items: center;
+              border: 1px solid rgba(139, 139, 139, 0.3);
+              border-radius: 25px;
+              padding: 10px 20px;
+              font-size: 20px;
+              cursor: pointer;
+            }
+
+            .active {
+              background-color: #dd1414;
+              color: white;
+            }
+          }
+        }
+
         .deliveryData {
           padding-top: 20px;
           display: flex;
