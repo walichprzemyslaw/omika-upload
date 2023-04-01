@@ -7,7 +7,9 @@ import "./duo.scss";
 const Duo = ({ closeDuo }) => {
   const dispatch = useDispatch();
 
-  const { data, loading, error } = useFetch(`/products/category/pizza`);
+  const { data:pizzaData, loading, error } = useFetch(`/products/category/pizza`);
+  let pizzas = pizzaData.slice(0, pizzaData.length - 1);
+  // pizzas = pizzas.filter(item => item.name !== 'na wypasie');
   const [pizza, setPizza] = useState();
   const [pizza2, setPizza2] = useState();
   const [price, setPrice] = useState();
@@ -227,45 +229,59 @@ const Duo = ({ closeDuo }) => {
             </button>
           </div>
           <div className="duoLeft">
-            <h4>Wybierz rozmiar:</h4>
-            <div
-              className={size === "large" ? "sizeOption active" : "sizeOption"}
-              onClick={handleLargeSize}
-            >
-              40cm
+            <div className="options">
+              <h4>Wybierz rozmiar:</h4>
+              <div className="optionsBox">
+                <div
+                  className={
+                    size === "large" ? "sizeOption active" : "sizeOption"
+                  }
+                  onClick={handleLargeSize}
+                >
+                  40cm
+                </div>
+                <div
+                  className={
+                    size === "medium" ? "sizeOption active" : "sizeOption"
+                  }
+                  onClick={handleMediumSize}
+                >
+                  30cm
+                </div>
+              </div>
             </div>
-            <div
-              className={size === "medium" ? "sizeOption active" : "sizeOption"}
-              onClick={handleMediumSize}
-            >
-              30cm
-            </div>
+            <div className="options">
+              <h4>Wybierz ciasto:</h4>
 
-            <h4>Wybierz ciasto:</h4>
-            <div
-              className={
-                crust === "cienkie" ? "sizeOption active" : "sizeOption"
-              }
-              data-value="cienkie"
-              onClick={(e) => handleCrust(e)}
-            >
-              Cienkie
-            </div>
-            <div
-              className={
-                crust === "tradycyjne" ? "sizeOption active" : "sizeOption"
-              }
-              data-value="tradycyjne"
-              onClick={(e) => handleCrust(e)}
-            >
-              Tradycyjne
-            </div>
-            <div
-              className={crust === "grube" ? "sizeOption active" : "sizeOption"}
-              data-value="grube"
-              onClick={(e) => handleCrust(e)}
-            >
-              Grube
+              <div className="optionsBox">
+                <div
+                  className={
+                    crust === "cienkie" ? "sizeOption active" : "sizeOption"
+                  }
+                  data-value="cienkie"
+                  onClick={(e) => handleCrust(e)}
+                >
+                  Cienkie
+                </div>
+                <div
+                  className={
+                    crust === "tradycyjne" ? "sizeOption active" : "sizeOption"
+                  }
+                  data-value="tradycyjne"
+                  onClick={(e) => handleCrust(e)}
+                >
+                  Tradycyjne
+                </div>
+                <div
+                  className={
+                    crust === "grube" ? "sizeOption active" : "sizeOption"
+                  }
+                  data-value="grube"
+                  onClick={(e) => handleCrust(e)}
+                >
+                  Grube
+                </div>
+              </div>
             </div>
 
             <div className="addToCart">
@@ -281,6 +297,7 @@ const Duo = ({ closeDuo }) => {
                       crust,
                       quantity: 1,
                       taste: "",
+                      drink: "",
                       addedIngredients: [],
                       excludedIngredients: [],
                       size,
@@ -312,7 +329,7 @@ const Duo = ({ closeDuo }) => {
           <div className="duoPizza">
             <h4>Pierwsza połowa:</h4>
             <ul className="pizzas">
-              {data.map((item) => (
+              {pizzas.map((item) => (
                 <li key={item?._id}>
                   <input
                     className="pizza"
@@ -375,11 +392,11 @@ const Duo = ({ closeDuo }) => {
               </>
             )}
           </div>
-          <hr />
+          {/* <hr /> */}
           <div className="duoPizza">
             <h4>Druga połowa:</h4>
             <ul className="pizzas">
-              {data.map((item) => (
+              {pizzas.map((item) => (
                 <li key={item?._id}>
                   <input
                     className="pizza2"

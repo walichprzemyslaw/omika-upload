@@ -30,34 +30,43 @@
         display: flex;
         flex-direction: column;
         h1 {
+          font-size: 10px;
+        }
+        h2 {
+          color: red;
           font-size: 12px;
         }
       }
       .ready {
+        margin-left: 20px;
         width: 12px;
         height: 12px;
         border-radius: 50%;
         background-color: darkorange;
       }
       .pending {
+        margin-left: 20px;
         width: 12px;
         height: 12px;
         border-radius: 50%;
         background-color: aqua;
       }
       .preparation {
-        width: 12px; 
+        margin-left: 20px;
+        width: 12px;
         height: 12px;
         border-radius: 50%;
-        background-color:darkkhaki;
+        background-color: darkkhaki;
       }
       .delivered {
+        margin-left: 20px;
         width: 12px;
         height: 12px;
         border-radius: 50%;
         background-color: limegreen;
       }
       .cancelled {
+        margin-left: 20px;
         width: 12px;
         height: 12px;
         border-radius: 50%;
@@ -72,6 +81,7 @@
       justify-content: center;
       font-size: 12px;
       font-weight: bold;
+
       .status {
         cursor: pointer;
         padding: 5px;
@@ -85,6 +95,14 @@
           background-color: #ffe8e8;
         }
       }
+      .active {
+        background-color: red;
+        color: white;
+        border: 2px solid red;
+        &:hover {
+          background-color: red;
+        }
+      }
       .passive {
         cursor: pointer;
         padding: 5px;
@@ -93,15 +111,6 @@
         border-radius: 10px;
         color: aqua;
         border: 3px solid aqua;
-      }
-      .active {
-        cursor: pointer;
-        padding: 5px;
-        // width: 14px;
-        // height: 14px;
-        border-radius: 10px;
-        color: darkorange;
-        border: 3px solid darkorange;
       }
     }
 
@@ -158,6 +167,12 @@
           .icon {
             font-size: 20px;
             color: red;
+          }
+          .iconClick{
+            cursor: pointer;
+          }
+          .iconGreen {
+            color: green;
           }
         }
       }

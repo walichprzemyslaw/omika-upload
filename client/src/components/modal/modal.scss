@@ -30,7 +30,7 @@
         gap: 10px;
 
         .sizeOption {
-          display: flex; 
+          display: flex;
           align-items: center;
           border: 2px solid rgba(139, 139, 139, 0.3);
           border-radius: 25px;
@@ -50,11 +50,11 @@
         .active {
           background-color: #dd1414;
           color: white;
-          .medium{
-            color:white;
+          .medium {
+            color: white;
           }
-          .large{
-            color:white;
+          .large {
+            color: white;
           }
         }
 
@@ -68,32 +68,40 @@
           .quantityContainer {
             display: flex;
             flex-direction: row;
-            border: 1px solid #dd1414;
-            border-radius: 10px;
-
-            .icon {
-              color: #dd1414;
-              cursor: pointer;
+            gap: 5px;
+            padding: 5px;
+            button {
+              color: red;
+              border: 1px solid red;
+              border-radius: 5px;
+              background-color: transparent;
             }
-            .quantity {
-              width: 25px;
-              background: none;
-              border:none;
-              text-align: center;
-              justify-content: center;
-              align-items: center;
-              font-weight: bold;
-              color:#dd1414;
+            // border: 1px solid #dd1414;
+            // border-radius: 10px;
 
-              &::-webkit-inner-spin-button,&::-webkit-outer-spin-button{
-                display: none;
-                margin: 0;
-              }
+            // .icon {
+            //   color: #dd1414;
+            //   cursor: pointer;
+            // }
+            // .quantity {
+            //   width: 25px;
+            //   background: none;
+            //   border:none;
+            //   text-align: center;
+            //   justify-content: center;
+            //   align-items: center;
+            //   font-weight: bold;
+            //   color:#dd1414;
 
-              &:focus{
-                outline: none;
-              }
-            }
+            //   &::-webkit-inner-spin-button,&::-webkit-outer-spin-button{
+            //     display: none;
+            //     margin: 0;
+            //   }
+
+            //   &:focus{
+            //     outline: none;
+            //   }
+            // }
           }
 
           .price {

@@ -8,16 +8,26 @@ import { useDispatch } from "react-redux";
 import { addToCart } from "../../redux/cartReducer";
 
 const Modal = ({ closeItemModal, item }) => {
-
   const [price, setPrice] = useState(item.price[0]);
   const [size, setSize] = useState("medium");
   const [addedIngredients, setAddedIngredients] = useState([]);
   const [excludedIngredients, setExcludedIngredients] = useState([]);
   const [taste, setTaste] = useState("");
+  const [drink, setDrink] = useState("");
+  const [name, setName] = useState(item.name);
+  const [ingredients, setIngredients] = useState(item.ingredients);
   const [crust, setCrust] = useState("");
   const [quantity, setQuantity] = useState(1);
+  const { data: pizzaData } = useFetch(`/products/category/pizza`);
+  const { data: burgerData } = useFetch(`/products/category/burgery`);
+  const { data: zapiekankiData } = useFetch(`/products/category/zapiekanki`);
 
-  const [sos, ...rest] = item.ingredients;
+  const [sos, ...rest] = ingredients;
+  let zapiekanki = zapiekankiData.slice(0, zapiekankiData.length - 1);
+  let burgers = burgerData.slice(0, burgerData.length - 1);
+  burgers = burgers.filter(item => !item.name.includes('mega') && !item.name.includes('giga'));
+  let pizzas = pizzaData.slice(0, pizzaData.length - 1);
+  pizzas = pizzas.filter(item => item.name !== 'na wypasie');
 
   // const tasteData = [
   //   "czosnkowy",
@@ -31,13 +41,17 @@ const Modal = ({ closeItemModal, item }) => {
   //   "serowy-chili",
   // ];
 
-  const { data: tasteData, loading: tasteLoading, error: tasteError } = useFetch(
-    `/ingredients/category/sosy/a`
-  );
+  const {
+    data: tasteData,
+    loading: tasteLoading,
+    error: tasteError,
+  } = useFetch(`/ingredients/category/sosy/a`);
 
-  const { data: drinkData, loading: drinkLoading, error: drinkError } = useFetch(
-    `/ingredients/category/napoje/a`
-  );
+  const {
+    data: drinkData,
+    loading: drinkLoading,
+    error: drinkError,
+  } = useFetch(`/ingredients/category/napoje/a`);
 
   // const crustData = ["cienkie", "tradycyjne", "grube"];
 
@@ -118,7 +132,7 @@ const Modal = ({ closeItemModal, item }) => {
       default:
         return (
           <>
-            <LocalPizzaIcon className="large" />
+            {/* <LocalPizzaIcon className="large" /> */}
             <p className="sizeTitle">40cm</p>
           </>
         );
@@ -136,7 +150,7 @@ const Modal = ({ closeItemModal, item }) => {
       default:
         return (
           <>
-            <LocalPizzaIcon className="medium" />
+            {/* <LocalPizzaIcon className="medium" /> */}
             <p className="sizeTitle">30cm</p>
           </>
         );
@@ -150,6 +164,41 @@ const Modal = ({ closeItemModal, item }) => {
       }
     });
     setTaste(ingredient);
+  };
+
+  const handleName = (e, ingredient) => {
+    document.querySelectorAll("input.pizza").forEach((el) => {
+      if (el.value !== ingredient.name) {
+        el.checked = false;
+      }
+    });
+    if(ingredient.category !== "pizza"){
+      setName("Zestaw: " + ingredient.name + " + frytki + napój");
+    }else{
+      setName("Zestaw: " + ingredient.name + " + sos + napój");
+    }
+    setIngredients(ingredient.ingredients);
+    setAddedIngredients([]);
+    document.querySelectorAll("input.addons").forEach((el) => {
+      if (el.value !== ingredient.name) {
+        el.checked = false;
+      }
+    });
+    setExcludedIngredients([]);
+    document.querySelectorAll("input.ingr").forEach((el) => {
+      el.checked = true;
+    });
+    setPrice(item.price[0]);
+    setSize("medium")
+  };
+
+  const handleDrink = (e, ingredient) => {
+    document.querySelectorAll("input.drink").forEach((el) => {
+      if (el.value !== ingredient) {
+        el.checked = false;
+      }
+    });
+    setDrink(ingredient);
   };
 
   const handleCrust = (e) => {
@@ -187,8 +236,8 @@ const Modal = ({ closeItemModal, item }) => {
     <div className="itemModal">
       <div className="itemModalContainer">
         {item.category === "pizza" && !crust && setCrust("tradycyjne")}
-        {item.name === "sosy" && !taste && setTaste("czosnkowy")}
-        {item.name === "napoje" && !taste && setTaste("pepsi")}
+        {(item.name === "sosy" || (item.name === "zestaw" && item.category === "pizza")) && !taste && setTaste("czosnkowy")}
+        {(item.name === "napoje" || item.name === "zestaw") && !drink && setDrink("pepsi")}
 
         {/* {item.category === "pizza" && (
           <div className="options">
@@ -210,10 +259,22 @@ const Modal = ({ closeItemModal, item }) => {
           </div>
         )} */}
         <div className="details">
+        <div className="detailsRight">
+            <div className="close">
+              <button
+                className="closeButton"
+                onClick={() => closeItemModal(false)}
+              >
+                &times;
+              </button>
+            </div>
+          </div>
           <div className="detailsLeft">
             {item.price.length > 1 && (
               <>
+              <div className="options">
                 <h4>Wybierz rozmiar:</h4>
+                <div className="optionsBox">
                 {item.price.length > 2 && (
                   <div
                     className={
@@ -255,12 +316,14 @@ const Modal = ({ closeItemModal, item }) => {
                     </>
                   )} */}
                   {handleSwitchMedium(item)}
-                </div>
+                </div></div></div>
               </>
             )}
             {item.category === "pizza" && (
               <>
+              <div className="options">
                 <h4>Wybierz ciasto:</h4>
+                <div className="optionsBox">
                 <div
                   className={
                     crust === "cienkie" ? "sizeOption active" : "sizeOption"
@@ -288,11 +351,18 @@ const Modal = ({ closeItemModal, item }) => {
                 >
                   Grube
                 </div>
+                </div></div>
               </>
             )}
             <div className="addToCart">
               <div className="quantityContainer">
-                <KeyboardArrowDownIcon
+                {quantity > 1 && (
+                  <button onClick={() => setQuantity(quantity - 1)}>-</button>
+                )}
+                <p>Ilość: {quantity}</p>
+                <button onClick={() => setQuantity(quantity + 1)}>+</button>
+
+                {/* <KeyboardArrowDownIcon
                   className="icon"
                   onClick={() => {
                     number.stepDown();
@@ -312,22 +382,29 @@ const Modal = ({ closeItemModal, item }) => {
                     number.stepUp();
                     setQuantity(parseInt(number.value));
                   }}
-                />
+                /> */}
               </div>
               <button
                 className="addToCartButton"
                 onClick={() => {
-                  dispatch( 
+                  dispatch(
                     addToCart({
                       id: item._id,
-                      name: item.name,
+                      name: name,
                       img: item.img,
                       category: item.category,
                       addedIngredients,
                       excludedIngredients,
-                      firstHalf: {addedIngredients: [], excludedIngredients:[]},
-                      secondHalf: {addedIngredients2: [], excludedIngredients2:[]},
+                      firstHalf: {
+                        addedIngredients: [],
+                        excludedIngredients: [],
+                      },
+                      secondHalf: {
+                        addedIngredients2: [],
+                        excludedIngredients2: [],
+                      },
                       taste,
+                      drink,
                       crust,
                       size,
                       price,
@@ -342,24 +419,163 @@ const Modal = ({ closeItemModal, item }) => {
               </button>
             </div>
           </div>
-          <div className="detailsRight">
-            <div className="close">
-              <button
-                className="closeButton"
-                onClick={() => closeItemModal(false)}
-              >
-                &times;
-              </button>
-            </div>
-          </div>
+          
         </div>
-        {item.ingredients.length > 0 && (
+
+        {/* PIZZA ZESTAW !!!!!! */}
+        {item.name === "zestaw" && item.category === "pizza" && (
+          <>
+            <div className="options">
+              <h4>Pizza:</h4>
+              <ul className="ingredients">
+                {pizzas.map((ingredient, index) => (
+                  <li key={index}>
+                    <input
+                      className="pizza"
+                      type="checkbox"
+                      id={"id" + ingredient.name}
+                      value={ingredient.name}
+                      onChange={(e) => handleName(e, ingredient)}
+                    />
+                    <label htmlFor={"id" + ingredient.name}>
+                      {ingredient.name}
+                    </label>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="options">
+              <h4>Sos:</h4>
+              <ul className="ingredients">
+                {tasteData.map((ingredient, index) => (
+                  <li key={index}>
+                    <input
+                      className="taste"
+                      type="checkbox"
+                      id={ingredient.name}
+                      value={ingredient.name}
+                      onChange={(e) => handleTaste(e, ingredient.name)}
+                    />
+                    <label htmlFor={ingredient.name}>{ingredient.name}</label>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="options">
+              <h4>Napój:</h4>
+              <ul className="ingredients">
+                {drinkData.map((ingredient, index) => (
+                  <li key={index}>
+                    <input
+                      className="drink"
+                      type="checkbox"
+                      id={ingredient.name}
+                      value={ingredient.name}
+                      onChange={(e) => handleDrink(e, ingredient.name)}
+                    />
+                    <label htmlFor={ingredient.name}>{ingredient.name}</label>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </>
+        )}
+
+
+{/* BURGER ZESTAW/////////// */}
+{item.name === "zestaw" && item.category === "burgery" && (
+          <>
+            <div className="options">
+              <h4>Burger:</h4>
+              <ul className="ingredients">
+                {burgers.map((ingredient, index) => (
+                  <li key={index}>
+                    <input
+                      className="pizza"
+                      type="checkbox"
+                      id={"id" + ingredient.name}
+                      value={ingredient.name}
+                      onChange={(e) => handleName(e, ingredient)}
+                    />
+                    <label htmlFor={"id" + ingredient.name}>
+                      {ingredient.name}
+                    </label>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="options">
+              <h4>Napój:</h4>
+              <ul className="ingredients">
+                {drinkData.map((ingredient, index) => (
+                  <li key={index}>
+                    <input
+                      className="drink"
+                      type="checkbox"
+                      id={ingredient.name}
+                      value={ingredient.name}
+                      onChange={(e) => handleDrink(e, ingredient.name)}
+                    />
+                    <label htmlFor={ingredient.name}>{ingredient.name}</label>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </>
+        )}
+
+        
+{/* ZAPIEKANKA ZESTAW/////////// */}
+{item.name === "zestaw" && item.category === "zapiekanki" && (
+          <>
+            <div className="options">
+              <h4>Zapiekanka:</h4>
+              <ul className="ingredients">
+                {zapiekanki.map((ingredient, index) => (
+                  <li key={index}>
+                    <input
+                      className="pizza"
+                      type="checkbox"
+                      id={"id" + ingredient.name}
+                      value={ingredient.name}
+                      onChange={(e) => handleName(e, ingredient)}
+                    />
+                    <label htmlFor={"id" + ingredient.name}>
+                      {ingredient.name}
+                    </label>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="options">
+              <h4>Napój:</h4>
+              <ul className="ingredients">
+                {drinkData.map((ingredient, index) => (
+                  <li key={index}>
+                    <input
+                      className="drink"
+                      type="checkbox"
+                      id={ingredient.name}
+                      value={ingredient.name}
+                      onChange={(e) => handleDrink(e, ingredient.name)}
+                    />
+                    <label htmlFor={ingredient.name}>{ingredient.name}</label>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </>
+        )}
+
+
+        {ingredients.length > 0 && (
           <div className="options">
             <h4>Składniki:</h4>
             <ul className="ingredients">
-              {item.ingredients.map((ingredient, index) => (
+              {ingredients.map((ingredient, index) => (
                 <li key={index}>
                   <input
+                    className="ingr"
                     type="checkbox"
                     id={ingredient}
                     value={ingredient}
@@ -412,6 +628,7 @@ const Modal = ({ closeItemModal, item }) => {
             </ul>
           </div>
         )}
+
         {item.name === "napoje" && (
           <div className="options">
             <h4>Napój:</h4>
@@ -423,7 +640,7 @@ const Modal = ({ closeItemModal, item }) => {
                     type="checkbox"
                     id={ingredient.name}
                     value={ingredient.name}
-                    onChange={(e) => handleTaste(e, ingredient.name)}
+                    onChange={(e) => handleDrink(e, ingredient.name)}
                   />
                   <label htmlFor={ingredient.name}>{ingredient.name}</label>
                 </li>

@@ -1,6 +1,6 @@
 import "./orderItems.scss";
 import DeleteForeverOutlinedIcon from "@mui/icons-material/DeleteForeverOutlined";
-import { removeItem } from "../../redux/cartReducer";
+import { removeItem, quantityChange } from "../../redux/cartReducer";
 import { useDispatch } from "react-redux";
 
 const OrderItems = ({ products, editable }) => {
@@ -36,6 +36,27 @@ const OrderItems = ({ products, editable }) => {
     }
   };
 
+  const handleAddQuantity = (cartItem) =>{
+    console.log(cartItem.quantity);
+    const q = cartItem.quantity + 1;
+    dispatch(
+      quantityChange({
+        ...cartItem,
+        quantity: q
+      })
+    )
+  }
+
+  const handleSubtractQuantity = (cartItem) => {
+    const q = cartItem.quantity - 1;
+    dispatch(
+      quantityChange({
+        ...cartItem,
+        quantity: q
+      })
+    )
+  }
+
   // console.log(products);
   // console.log(editable);
   return (
@@ -50,7 +71,11 @@ const OrderItems = ({ products, editable }) => {
               cartItem.excludedIngredients +
               cartItem.size +
               cartItem.taste +
-              cartItem.crust
+              cartItem.crust +
+              cartItem.name +
+              cartItem.img +
+              cartItem.price +
+              cartItem.quantity
             }
           >
             <div className="itemLeft">
@@ -108,7 +133,9 @@ const OrderItems = ({ products, editable }) => {
                   {cartItem.excludedIngredients.length > 0 && (
                     <p>Minus: {cartItem.excludedIngredients.join(", ")}</p>
                   )}
-                  {cartItem.taste.length > 0 && <p>Smak: {cartItem.taste}</p>}
+                  {cartItem.taste.length > 0 && <p>Sos: {cartItem.taste}</p>}
+                  {cartItem.drink.length > 0 && <p>Napój: {cartItem.drink}</p>}
+
                 </div>
                 <div className="price">
                   {cartItem.quantity}x {cartItem.price.toFixed(2)}zł
@@ -117,6 +144,8 @@ const OrderItems = ({ products, editable }) => {
             </div>
             {editable && (
               <div className="itemRight">
+                {cartItem.quantity > 1 && <button onClick={()=>handleSubtractQuantity(cartItem)}>-</button>}
+                <button onClick={()=>handleAddQuantity(cartItem)}>+</button>
                 <DeleteForeverOutlinedIcon
                   className="cartDelete"
                   onClick={() =>

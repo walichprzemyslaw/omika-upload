@@ -27,6 +27,7 @@ import { useContext } from "react";
 import { DarkModeContext } from "./context/darkModeContext";
 import { AuthContext } from "./context/AuthContext";
 import { employeeColumns, ingredientColumns, orderColumns, productColumns, userColumns } from "./datatablesource";
+import Options from "./pages/options/Options";
 
 function App() {
   const { darkMode } = useContext(DarkModeContext);
@@ -51,6 +52,14 @@ function App() {
                 <ProtectedRoute>
                   <Home />
                 </ProtectedRoute>}/>
+
+            {/* opcje */}
+            <Route path="options">
+            <Route index element={
+                  <ProtectedRoute>
+                    <Options />
+                  </ProtectedRoute>}/>
+            </Route>
 
             {/* użytkownicy  */}
             <Route path="users">

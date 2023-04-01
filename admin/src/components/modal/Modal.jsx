@@ -28,7 +28,7 @@ const Modal = ({ order, closeModal }) => {
     }
   };
 
-  return (
+  return (<>
     <div className="modal">
       <div className="modalContainer">
         <div className="top">
@@ -75,15 +75,16 @@ const Modal = ({ order, closeModal }) => {
           key={order._id}
         />
       )} */}
-      {openEditor && (
-        <Edit
-          order={order}
-          closeEditor={setOpenEditor}
-          closeModal={closeModal}
-          key={order._id}
-        />
-      )}
+      
     </div>
+    {openEditor && (
+      <Edit
+        order={order}
+        closeEditor={setOpenEditor}
+        closeModal={closeModal}
+        key={order._id}
+      />
+    )}</>
   );
 };
 

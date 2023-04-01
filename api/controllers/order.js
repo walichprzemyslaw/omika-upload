@@ -36,13 +36,19 @@ export const getOrdersByUser = async (req, res, next) => {
 export const getOrdersByDate = async (req, res, next) => {
   try {
     const date = new Date();
+    date.setUTCMonth(req.params.month);
+    date.setUTCDate(req.params.day);
+    date.setFullYear(req.params.year);
+    // const date = new Date().setTime(time);
+    console.log(date);
     // DODAĆ WYBÓR DATY
     // date.setUTCDate(14);
     // date.setUTCHours(0,0,0);
     // ROZJEŻDŻA SIĘ O GODZINĘ!!!!!!!
     // console.log(date);
+    // date.setDate(21);
     const orders = await Order.find({
-      createdAt: { $gte: date.setUTCHours(0, 0, 0) },
+      createdAt: { $gte: date.setUTCHours(0, 0, 0), $lte: date.setUTCHours(23,59,59) },
     });
     const list = await Promise.all(
       orders.map((order) => {
@@ -59,13 +65,17 @@ export const getOrdersByDate = async (req, res, next) => {
 export const getOrdersByStatus = async (req, res, next) => {
   try {
     const status = req.params.status;
+    // const date = new Date();
     const date = new Date();
+    date.setUTCMonth(req.params.month);
+    date.setUTCDate(req.params.day);
+    date.setFullYear(req.params.year);
     // date.setUTCDate(14);
     // date.setUTCHours(0,0,0);
     // ROZJEŻDŻA SIĘ O GODZINĘ!!!!!!!
-    console.log(date);
+    // console.log(date);
     const orders = await Order.find({
-      createdAt: { $gte: date.setUTCHours(0, 0, 0) },
+      createdAt: { $gte: date.setUTCHours(0, 0, 0), $lte: date.setUTCHours(23,59,59) },
       status: status,
     });
     const list = await Promise.all(

@@ -25,18 +25,26 @@
         display: flex;
         justify-content: space-between;
         flex-wrap: wrap;
+        margin-bottom: 2vw;
         .detailsLeft {
           display: flex;
           flex-direction: row;
           flex-wrap: wrap;
           gap: 10px;
+
+          .options{
+            .optionsBox{
+              display: flex;
+              gap:5px;
+            }
+          }
   
           .sizeOption {
             display: flex; 
             align-items: center;
             border: 2px solid rgba(139, 139, 139, 0.3);
-            border-radius: 25px;
-            padding: 2.5px 5px;
+            border-radius: 2vw;
+            padding: 0.5vw 1vw;
             cursor: pointer;
   
             .medium {
@@ -70,32 +78,40 @@
             .quantityContainer {
               display: flex;
               flex-direction: row;
-              border: 1px solid #dd1414;
-              border-radius: 10px;
-  
-              .icon {
-                color: #dd1414;
-                cursor: pointer;
+              gap:5px;
+              padding: 5px;
+              button{
+                color: red;
+                border: 1px solid red;
+                border-radius: 5px;
+                background-color: transparent;
               }
-              .quantity {
-                width: 25px;
-                background: none;
-                border:none;
-                text-align: center;
-                justify-content: center;
-                align-items: center;
-                font-weight: bold;
-                color:#dd1414;
+              // border: 1px solid #dd1414;
+              // border-radius: 10px;
   
-                &::-webkit-inner-spin-button,&::-webkit-outer-spin-button{
-                  display: none;
-                  margin: 0;
-                }
+              // .icon {
+              //   color: #dd1414;
+              //   cursor: pointer;
+              // }
+              // .quantity {
+              //   width: 25px;
+              //   background: none;
+              //   border:none;
+              //   text-align: center;
+              //   justify-content: center;
+              //   align-items: center;
+              //   font-weight: bold;
+              //   color:#dd1414;
   
-                &:focus{
-                  outline: none;
-                }
-              }
+              //   &::-webkit-inner-spin-button,&::-webkit-outer-spin-button{
+              //     display: none;
+              //     margin: 0;
+              //   }
+  
+              //   &:focus{
+              //     outline: none;
+              //   }
+              // }
             }
   
             .price {
@@ -106,8 +122,8 @@
               color: white;
               border: none;
               font-weight: 500;
-              padding: 10px;
-              border-radius: 15px;
+              padding: 1vw;
+              border-radius: 2vw;
               cursor: pointer;
   
               &:hover {
@@ -141,6 +157,7 @@
         ul.ingredients li {
           display: inline;
           margin-right: 5px;
+
         }
         ul.ingredients li label {
           display: inline-block;
@@ -200,4 +217,3 @@
       }
     }
   }
-  

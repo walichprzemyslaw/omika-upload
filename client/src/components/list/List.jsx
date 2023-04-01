@@ -56,8 +56,9 @@ const List = () => {
         )}
         {loading
           ? "ładowanie..."
-          : data.map((item) => <Card item={item} key={item._id} />)}
-      </div>
+          : data.filter((item) => item.isAvailable)
+          .map((item) => <Card item={item} key={item._id} />)}
+      </div> 
       {openDuo && <Duo closeDuo={setOpenDuo}/>}
     </div>
   );

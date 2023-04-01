@@ -13,12 +13,13 @@
   
   .orderDetails {
     display: flex;
+    flex-wrap: wrap;
     flex-direction: row;
     justify-content: space-between;
-    gap: 10vw;
+    gap: 3vw;
     margin: 10px 10%;
     span {
-      min-width: 200px;
+      min-width: 180px;
       display: flex;
       flex-direction: row;
       gap:5px;

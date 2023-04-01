@@ -17,7 +17,7 @@
     padding: 20px;
     display: flex;
     flex-direction: column;
-    gap: 50px;
+    gap: 2rem;
     overflow-y: auto;
 
     .duoTop {
@@ -25,14 +25,20 @@
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
-        gap: 10px;
+        gap: 5vw;
+        .options {
+          .optionsBox {
+            display: flex;
+            gap: 5px;
+          }
+        }
 
         .sizeOption {
           display: flex;
           align-items: center;
           border: 2px solid rgba(139, 139, 139, 0.3);
-          border-radius: 25px;
-          padding: 2.5px 5px;
+          border-radius: 2vw;
+          padding: 0.5vw 1vw;
           cursor: pointer;
 
           .medium {
@@ -109,6 +115,7 @@
     }
     .duoBottom {
       display: flex;
+      flex-wrap: wrap;
       // align-items: center;
       justify-content: center;
 
@@ -120,7 +127,7 @@
 
       .duoPizza {
         display: flex;
-        flex:1;
+        flex: 1;
         flex-direction: column;
         align-items: center;
         // justify-content: center;
@@ -137,6 +144,11 @@
         ul.ingredients {
           list-style: none;
           padding: 20px;
+          display: flex;
+          flex-wrap: wrap;
+          flex-direction: row;
+          justify-content: center;
+          align-items: center;
         }
         ul.pizzas li,
         ul.addons li,

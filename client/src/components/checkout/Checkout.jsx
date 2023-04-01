@@ -337,6 +337,7 @@ const Checkout = ({ closeCheckout }) => {
   const dispatch = useDispatch();
 
   const [delivery, setDelivery] = useState(true);
+  const [err, setErr] = useState();
   const [tip, setTip] = useState(0);
   // const [tipAmount, setTipAmount] = useState(0);
   const [info, setInfo] = useState({
@@ -398,7 +399,7 @@ const Checkout = ({ closeCheckout }) => {
   };
   let timeRange = getTimeRange(delivery, new Date());
 
-  const deliveryTotal = () =>{
+  const deliveryTotal = () => {
     let deliveryCost = 0;
     if (delivery !== "false") {
       if (info.strefa === "A") {
@@ -421,8 +422,8 @@ const Checkout = ({ closeCheckout }) => {
       }
     }
     return deliveryCost.toFixed(2);
-  }
-  
+  };
+
   const cartTotal = () => {
     let cartTotal = 0;
     products.forEach((item) => (cartTotal += item.quantity * item.price));
@@ -431,8 +432,15 @@ const Checkout = ({ closeCheckout }) => {
 
   let deliveryCost = deliveryTotal();
   let cartAmount = cartTotal();
-  let tipAmount = ((parseFloat(cartAmount) + parseFloat(deliveryCost))*tip).toFixed(2);
-  let totalPrice = (parseFloat(cartAmount) + parseFloat(tipAmount) + parseFloat(deliveryCost)).toFixed(2);
+  let tipAmount = (
+    (parseFloat(cartAmount) + parseFloat(deliveryCost)) *
+    tip
+  ).toFixed(2);
+  let totalPrice = (
+    parseFloat(cartAmount) +
+    parseFloat(tipAmount) +
+    parseFloat(deliveryCost)
+  ).toFixed(2);
 
   const handleChange = (e) => {
     if (e.target) {
@@ -459,9 +467,44 @@ const Checkout = ({ closeCheckout }) => {
     timeRange = getTimeRange(new Date());
     setInfo((prev) => ({ ...prev, deliveryTime: timeRange[0] }));
   };
- 
+
+  const validate = () => {
+    let errors = {};
+    if (!info.firstName) {
+      errors.firstName = "Wpisz swoje imię!";
+    }
+    if (!info.lastName) {
+      errors.lastName = "Wpisz swoje nazwisko!";
+    }
+    if(!info.phone){
+      errors.phone = "Wpisz swój numer telefonu!";
+    }
+    if(!info.email){
+      errors.email = "Wpisz swój adres email!";
+    }
+
+
+  if(delivery!=="false"){ if(!info.street){
+      errors.street = "Wpisz swoją ulicę!"
+    }
+    if(!info.homeNumber){
+      errors.homeNumber = "Wpisz swój numer domu!";
+    }
+    if(!info.city){
+      errors.city = "Wpisz swoje miasto!";
+    }}
+
+
+    if(!info.deliveryTime){
+      errors.deliveryTime = "Wybierz czas realizacji zamówienia!";
+    }
+    setErr(errors);
+  };
+
   const handleClick = async (e) => {
     e.preventDefault();
+    validate();
+    if(Object.keys(err).length === 0){
     try {
       // const totalPrice = cartTotal();
       const newOrder = {
@@ -480,6 +523,8 @@ const Checkout = ({ closeCheckout }) => {
       dispatch(resetCart());
     } catch (error) {
       console.log(error);
+    }}else{
+      console.log(err);
     }
   };
 
@@ -513,6 +558,9 @@ const Checkout = ({ closeCheckout }) => {
                   defaultValue={user?.firstName}
                   onChange={handleChange}
                 />
+                {err?.firstName && !info.firstName && (
+                  <span className="errorMessage">{err.firstName}</span>
+                )}
               </div>
               <div className="formInput">
                 <label>Nazwisko</label>
@@ -523,6 +571,9 @@ const Checkout = ({ closeCheckout }) => {
                   defaultValue={user?.lastName}
                   onChange={handleChange}
                 />
+                {err?.lastName && !info.lastName && (
+                  <span className="errorMessage">{err.lastName}</span>
+                )}
               </div>
             </div>
             <div className="contactData">
@@ -535,7 +586,11 @@ const Checkout = ({ closeCheckout }) => {
                   defaultValue={user?.phone}
                   onChange={handleChange}
                 />
+                 {err?.phone && !info.phone && (
+                  <span className="errorMessage">{err.phone}</span>
+                )}
               </div>
+             
               <div className="formInput">
                 <label>NIP (opcjonalnie)</label>
                 <input
@@ -555,6 +610,9 @@ const Checkout = ({ closeCheckout }) => {
                 defaultValue={user?.email}
                 onChange={handleChange}
               />
+              {err?.email && !info.email && (
+                  <span className="errorMessage">{err.email}</span>
+                )}
             </div>
             <div className="deliveryData">
               <div className="deliveryButtons">
@@ -591,6 +649,9 @@ const Checkout = ({ closeCheckout }) => {
                       onChange={handleChange}
                       placeholder="Ulica"
                     />
+                     {err?.street && !info.street && (
+                  <span className="errorMessage">{err.street}</span>
+                )}
                     <div className="homeNumber">
                       <input
                         type="text"
@@ -599,12 +660,18 @@ const Checkout = ({ closeCheckout }) => {
                         defaultValue={user?.homeNumber}
                         onChange={handleChange}
                       />
+                       {err?.homeNumber && !info.homeNumber && (
+                  <span className="errorMessage">{err.homeNumber}</span>
+                )}
                     </div>
                     <Select
                       options={options}
                       onChange={handleChange}
                       placeholder="Miasto"
                     />
+                     {err?.city && !info.city && (
+                  <span className="errorMessage">{err.city}</span>
+                )}
                   </>
                 )}
               </div>
@@ -629,21 +696,25 @@ const Checkout = ({ closeCheckout }) => {
             <div className="tipData">
               <p className="title">Czy chcesz dodać napiwek do zamówienia?</p>
               <div className="tipButtons">
-              <button  className={
-                    tip === 0
-                      ? "tipOption active"
-                      : "tipOption"
-                  } onClick={()=>setTip(0)}>Bez napiwku</button>
-              <button  className={
-                    tip === 0.05
-                      ? "tipOption active"
-                      : "tipOption"
-                  } onClick={()=>setTip(0.05)}>Dodaj 5%</button>
-              <button  className={
-                    tip === 0.1
-                      ? "tipOption active"
-                      : "tipOption"
-                  } onClick={()=>setTip(0.10)}>Dodaj 10%</button></div>
+                <button
+                  className={tip === 0 ? "tipOption active" : "tipOption"}
+                  onClick={() => setTip(0)}
+                >
+                  Bez napiwku
+                </button>
+                <button
+                  className={tip === 0.05 ? "tipOption active" : "tipOption"}
+                  onClick={() => setTip(0.05)}
+                >
+                  Dodaj 5%
+                </button>
+                <button
+                  className={tip === 0.1 ? "tipOption active" : "tipOption"}
+                  onClick={() => setTip(0.1)}
+                >
+                  Dodaj 10%
+                </button>
+              </div>
             </div>
             <div className="paymentData">
               <p className="title">Wybierz metodę płatności:</p>
@@ -705,9 +776,12 @@ const Checkout = ({ closeCheckout }) => {
                   </option>
                 ))}
               </select>
+              {err?.deliveryTime && !info.deliveryTime && (
+                  <span className="errorMessage">{err.deliveryTime}</span>
+                )}
             </div>
             <div className="checkoutButton">
-              {new Date().getHours() < 21 && new Date().getHours() > 12 ? (
+              {new Date().getHours() < 21 && new Date().getHours() > 1 ? (
                 <button onClick={handleClick}>ZAMAWIAM</button>
               ) : (
                 <span>

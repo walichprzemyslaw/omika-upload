@@ -1,9 +1,12 @@
 .home {
-  display: flex;
-  max-height: 100vh;
+  // display: flex;
+  // max-width: 100%;
+
+  // max-height: 100vh;
 
   .homeContainer {
-    flex: 6;
+    // flex: 12;
+    height: 100vh;
     overflow-y: auto;
     
     .widgets,

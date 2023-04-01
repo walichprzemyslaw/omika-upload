@@ -7,6 +7,7 @@
   z-index: 9999;
   display: flex;
   align-items: center;
+  overscroll-behavior-y: contain;
   // overflow-y: auto;
 
   .newOrderContainer {
@@ -22,7 +23,7 @@
 
 
     .cartItemsContainer {
-      padding: 10px 100px;
+      padding: 10px 10vw;
 
       .orderedProductsInfo {
         display: flex;
@@ -132,7 +133,7 @@
               padding: 10px;
               border: 2px solid #ffe8e8;
               border-radius: 50%;
-              font-size: 18px;
+              font-size: 1rem;
               color: #dd1414;
 
               &:hover {
@@ -320,14 +321,14 @@
         .tipButtons {
           display: flex;
           justify-content: center;
-          gap: 50px;
+          gap: 5vw;
           .tipOption {
             display: flex;
             align-items: center;
             border: 1px solid rgba(139, 139, 139, 0.3);
-            border-radius: 25px;
-            padding: 10px 20px;
-            font-size: 20px;
+            border-radius: 2vw;
+            padding: 1vw 2vw;
+            font-size: clamp(16px,2vw,24px);
             cursor: pointer;
           }
 
@@ -370,14 +371,14 @@
         .deliveryButtons {
           display: flex;
           justify-content: center;
-          gap: 50px;
+          gap: 5vw;
           .deliveryOption {
             display: flex;
             align-items: center;
             border: 1px solid rgba(139, 139, 139, 0.3);
-            border-radius: 25px;
-            padding: 10px 20px;
-            font-size: 20px;
+            border-radius: 2vw;
+            padding: 1vw 2vw;
+            font-size: clamp(16px,2vw,24px);
             cursor: pointer;
           }
 

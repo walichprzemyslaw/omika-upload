@@ -20,10 +20,10 @@ router.get("/", verifyAdmin, getOrders);
 router.get("/find/:id", getOrder);
 
 //GET ORDERS BY DATE
-router.get("/today", getOrdersByDate)
+router.get("/day/:day/:month/:year", getOrdersByDate)
 
 //GET ORDERS BY STATUS
-router.get("/today/:status", getOrdersByStatus)
+router.get("/today/:day/:month/:year/:status", getOrdersByStatus)
 
 // GET ORDERS BY USER ID
 router.get("/user/:id", getOrdersByUser)

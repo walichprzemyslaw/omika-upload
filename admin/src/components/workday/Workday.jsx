@@ -31,7 +31,8 @@ const Workday = () => {
     0
   );
 
-  const quantityTotal = list?.reduce(
+  const quantityTotal = list?.filter(({status}) => status !== "cancelled")
+  .reduce(
     (total, currentValue) =>
       (total =
         total +
@@ -42,7 +43,8 @@ const Workday = () => {
     0
   );
 
-  const listPizza = list?.map((order) =>
+  const listPizza = list?.filter(({status}) => status !== "cancelled")
+  .map((order) =>
     order.products
       .filter(({ category }) => category === "pizza")
       .reduce((sum, record) => sum + record.quantity, 0)
@@ -66,22 +68,22 @@ const Workday = () => {
       .reduce((sum, record) => sum + record.quantity, 0)
   );
 
-  const listDodatki = list?.map((order) =>
+  const listDodatki = list?.filter(({status}) => status !== "cancelled").map((order) =>
     order.products
       .filter(({ category }) => category === "dodatki")
       .reduce((sum, record) => sum + record.quantity, 0)
   );
 
   const gotowka = list
-    ?.filter(({ paymentMethod }) => paymentMethod === "cash")
+    ?.filter(({ paymentMethod, status }) => (paymentMethod === "cash" && status !== "cancelled"))
     .reduce((sum, record) => sum + record.totalPrice, 0);
 
   const terminal = list
-    ?.filter(({ paymentMethod }) => paymentMethod === "terminal")
+    ?.filter(({ paymentMethod, status }) => (paymentMethod === "terminal" && status !== "cancelled"))
     .reduce((sum, record) => sum + record.totalPrice, 0);
 
   const online = list
-    ?.filter(({ paymentMethod }) => paymentMethod === "online")
+    ?.filter(({ paymentMethod, status }) => (paymentMethod === "online" && status !== "cancelled"))
     .reduce((sum, record) => sum + record.totalPrice, 0);
 
   const pizzaTotal = listPizza?.reduce((sum, a) => sum + a, 0);
@@ -92,41 +94,53 @@ const Workday = () => {
 
   // przerobić przy użyciu useFetch? wykorzystać reFetch
 
+  const [date, setDate] = useState(new Date().toISOString().substr(0, 10));
+  const handleData = (e) => {
+    setDate(e.target.value);
+  };
+
   useEffect(() => {
-    const fetchData = async () => {
-      const response = await fetch(`/orders/today/`);
+    const day = new Date(date).getDate();
+    const month = new Date(date).getMonth();
+    const year = new Date(date).getFullYear();
+    const fetchData = async () => { 
+      const response = await fetch(`/orders/day/${day}/${month}/${year}`);
       const json = await response.json();
       setList(json);
-      const responsePending = await fetch(`/orders/today/${"pending"}`);
+      const responsePending = await fetch(`/orders/today/${day}/${month}/${year}/${"pending"}`);
       const jsonPending = await responsePending.json();
       setPendingList(jsonPending);
-      const responsePreparation = await fetch(`/orders/today/${"preparation"}`);
+      const responsePreparation = await fetch(`/orders/today/${day}/${month}/${year}/${"preparation"}`);
       const jsonPreparation = await responsePreparation.json();
       setPreparationList(jsonPreparation);
-      const responseReady = await fetch(`/orders/today/${"ready"}`);
+      const responseReady = await fetch(`/orders/today/${day}/${month}/${year}/${"ready"}`);
       const jsonReady = await responseReady.json();
       setReadyList(jsonReady);
-      const responseDelivered = await fetch(`/orders/today/${"delivered"}`);
+      const responseDelivered = await fetch(`/orders/today/${day}/${month}/${year}/${"delivered"}`);
       const jsonDelivered = await responseDelivered.json();
-      setDeliveredList(jsonDelivered); 
-      const responseCancelled = await fetch(`/orders/today/${"cancelled"}`);
+      setDeliveredList(jsonDelivered);
+      const responseCancelled = await fetch(`/orders/today/${day}/${month}/${year}/${"cancelled"}`);
       const jsonCancelled = await responseCancelled.json();
       setCancelledList(jsonCancelled);
-
     };
 
     fetchData();
-    const intervalId = setInterval(fetchData, 3 * 1000);
+    const intervalId = setInterval(fetchData, 1 * 1000);
 
     return () => {
       clearInterval(intervalId);
     };
-  }, []);
+  }, [date]);
 
-  return (
+ 
+
+  return (<>
     <div className="workday">
       <div className="workdayTop">
         <div className="workdayData">
+          <div className="datePicker">
+            <input type="date" value={date} onChange={handleData} />
+          </div>
           <div className="workdayDataTop">
             <WorkdayInfo
               title={"Łączny utarg"}
@@ -232,74 +246,85 @@ const Workday = () => {
         </button>
       </div>
       <div className="workdayBottom">
-       {pendingList?.length > 0 && <div className="activeOrders">
-          <div className="title">Czekające na potwierdzenie:</div>
-          <div className="list">
-            {pendingList?.map((order, index) => (
-              <Card
-                order={order}
-                key={order._id}
-                index={index}
-                showProducts={showProducts}
-              />
-            ))}
+        {pendingList?.length > 0 && (
+          <div className="activeOrders">
+            <div className="title">Czekające na potwierdzenie:</div>
+            <div className="list">
+              {pendingList?.map((order, index) => (
+                <Card
+                  order={order}
+                  key={order._id}
+                  index={index}
+                  showProducts={showProducts}
+                />
+              ))}
+            </div>
           </div>
-        </div>}
-      {preparationList?.length > 0 &&  <div className="activeOrders">
-          <div className="title">Kuchnia:</div>
-          <div className="list">
-            {preparationList?.map((order, index) => (
-              <Card
-                order={order}
-                key={order._id}
-                index={index}
-                showProducts={showProducts}
-              />
-            ))}
+        )}
+        {preparationList?.length > 0 && (
+          <div className="activeOrders">
+            <div className="title">Kuchnia:</div>
+            <div className="list">
+              {preparationList?.map((order, index) => (
+                <Card
+                  order={order}
+                  key={order._id}
+                  index={index}
+                  showProducts={showProducts}
+                />
+              ))}
+            </div>
           </div>
-        </div>}
-       {readyList?.length > 0 && <div className="activeOrders">
-          <div className="title">Dostawa:</div>
-          <div className="list">
-            {readyList?.map((order, index) => (
-              <Card
-                order={order}
-                key={order._id}
-                index={index}
-                showProducts={showProducts}
-              />
-            ))}
+        )}
+        {readyList?.length > 0 && (
+          <div className="activeOrders">
+            <div className="title">Dostawa:</div>
+            <div className="list">
+              {readyList?.map((order, index) => (
+                <Card
+                  order={order}
+                  key={order._id}
+                  index={index}
+                  showProducts={showProducts}
+                />
+              ))}
+            </div>
           </div>
-        </div>}
-        {deliveredList?.length > 0 && <div className="activeOrders">
-          <div className="title">Dostarczone:</div>
-          <div className="list">
-            {deliveredList?.map((order, index) => (
-              <Card
-                order={order}
-                key={order._id}
-                index={index}
-                showProducts={showProducts}
-              />
-            ))}
+        )}
+        {deliveredList?.length > 0 && (
+          <div className="activeOrders">
+            <div className="title">Dostarczone:</div>
+            <div className="list">
+              {deliveredList?.map((order, index) => (
+                <Card
+                  order={order}
+                  key={order._id}
+                  index={index}
+                  showProducts={showProducts}
+                />
+              ))}
+            </div>
           </div>
-        </div>}
-        {cancelledList?.length > 0 && <div className="activeOrders">
-          <div className="title">Odrzucone:</div>
-          <div className="list">
-            {cancelledList?.map((order, index) => (
-              <Card
-                order={order}
-                key={order._id}
-                index={index}
-                showProducts={showProducts}
-              />
-            ))}
+        )}
+        {cancelledList?.length > 0 && (
+          <div className="activeOrders">
+            <div className="title">Odrzucone:</div>
+            <div className="list">
+              {cancelledList?.map((order, index) => (
+                <Card
+                  order={order}
+                  key={order._id}
+                  index={index}
+                  showProducts={showProducts}
+                />
+              ))}
+            </div>
           </div>
-        </div>}
+        )}
       </div>
-      {openNew && <New closeNew={setOpenNew} />}
+     
     </div>
+     {openNew && <New closeNew={setOpenNew} />}</>
   );
 };
 

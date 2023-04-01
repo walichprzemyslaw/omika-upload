@@ -12,11 +12,23 @@ const Modal = ({ closeModal, item }) => {
   const [size, setSize] = useState("medium");
   const [addedIngredients, setAddedIngredients] = useState([]);
   const [excludedIngredients, setExcludedIngredients] = useState([]);
+  const [drink, setDrink] = useState("");
   const [taste, setTaste] = useState("");
   const [crust, setCrust] = useState("");
+  const [name, setName] = useState(item.name);
+  const [ingredients, setIngredients] = useState(item.ingredients);
   const [quantity, setQuantity] = useState(1);
+  const { data: pizzaData } = useFetch(`/products/category/pizza`);
+  const { data: burgerData } = useFetch(`/products/category/burgery`);
+  const { data: zapiekankiData } = useFetch(`/products/category/zapiekanki`);
 
-  const [sos, ...rest] = item.ingredients;
+  let zapiekanki = zapiekankiData.slice(0, zapiekankiData.length - 1);
+  let burgers = burgerData.slice(0, burgerData.length - 1);
+  burgers = burgers.filter(item => !item.name.includes('mega') && !item.name.includes('giga'));
+  let pizzas = pizzaData.slice(0, pizzaData.length - 1);
+  pizzas = pizzas.filter(item => item.name !== 'na wypasie');
+
+  const [sos, ...rest] = ingredients;
 
   const {
     data: tasteData,
@@ -139,6 +151,41 @@ const Modal = ({ closeModal, item }) => {
     setTaste(ingredient);
   };
 
+  const handleName = (e, ingredient) => {
+    document.querySelectorAll("input.pizza").forEach((el) => {
+      if (el.value !== ingredient.name) {
+        el.checked = false;
+      }
+    });
+    if(ingredient.category !== "pizza"){
+      setName("Zestaw: " + ingredient.name + " + frytki + napój");
+    }else{
+      setName("Zestaw: " + ingredient.name + " + sos + napój");
+    }
+    setIngredients(ingredient.ingredients);
+    setAddedIngredients([]);
+    document.querySelectorAll("input.addons").forEach((el) => {
+      if (el.value !== ingredient.name) {
+        el.checked = false;
+      }
+    });
+    setExcludedIngredients([]);
+    document.querySelectorAll("input.ingr").forEach((el) => {
+      el.checked = true;
+    });
+    setPrice(item.price[0]);
+    setSize("medium")
+  };
+
+  const handleDrink = (e, ingredient) => {
+    document.querySelectorAll("input.drink").forEach((el) => {
+      if (el.value !== ingredient) {
+        el.checked = false;
+      }
+    });
+    setDrink(ingredient);
+  };
+
   const handleCrust = (e) => {
     console.log(e.target.dataset.value);
     setCrust(e.target.dataset.value);
@@ -169,9 +216,9 @@ const Modal = ({ closeModal, item }) => {
   return (
     <div className="modal">
       <div className="modalContainer">
-        {item.category === "pizza" && !crust && setCrust("tradycyjne")}
-        {item.name === "sosy" && !taste && setTaste("czosnkowy")}
-        {item.name === "napoje" && !taste && setTaste("pepsi")}
+      {item.category === "pizza" && !crust && setCrust("tradycyjne")}
+        {(item.name === "sosy" || (item.name === "zestaw" && item.category === "pizza")) && !taste && setTaste("czosnkowy")}
+        {(item.name === "napoje" || item.name === "zestaw") && !drink && setDrink("pepsi")}
         <div className="details">
           <div className="detailsRight">
             <div className="close">
@@ -246,7 +293,10 @@ const Modal = ({ closeModal, item }) => {
             )}
             <div className="addToCart">
               <div className="quantityContainer">
-                <KeyboardArrowDownIcon
+              {quantity > 1 && <button onClick={()=>setQuantity(quantity-1)}>-</button>}
+                <p>Ilość: {quantity}</p>
+                <button onClick={()=>setQuantity(quantity+1)}>+</button>
+                {/* <KeyboardArrowDownIcon
                   className="icon"
                   onClick={() => {
                     number.stepDown();
@@ -266,7 +316,7 @@ const Modal = ({ closeModal, item }) => {
                     number.stepUp();
                     setQuantity(parseInt(number.value));
                   }}
-                />
+                /> */}
               </div>
               <button
                 className="addToCartButton"
@@ -274,7 +324,7 @@ const Modal = ({ closeModal, item }) => {
                   dispatch(
                     addToCart({
                       id: item._id,
-                      name: item.name,
+                      name: name,
                       img: item.img,
                       category: item.category,
                       addedIngredients,
@@ -288,6 +338,7 @@ const Modal = ({ closeModal, item }) => {
                         excludedIngredients2: [],
                       },
                       taste,
+                      drink,
                       crust,
                       size,
                       price,
@@ -303,13 +354,162 @@ const Modal = ({ closeModal, item }) => {
             </div>
           </div>
         </div>
-        {item.ingredients.length > 0 && (
+
+ {/* PIZZA ZESTAW !!!!!! */}
+ {item.name === "zestaw" && item.category === "pizza" && (
+          <>
+            <div className="options">
+              <h4>Pizza:</h4>
+              <ul className="ingredients">
+                {pizzas.map((ingredient, index) => (
+                  <li key={index}>
+                    <input
+                      className="pizza"
+                      type="checkbox"
+                      id={"id" + ingredient.name}
+                      value={ingredient.name}
+                      onChange={(e) => handleName(e, ingredient)}
+                    />
+                    <label htmlFor={"id" + ingredient.name}>
+                      {ingredient.name}
+                    </label>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="options">
+              <h4>Sos:</h4>
+              <ul className="ingredients">
+                {tasteData.map((ingredient, index) => (
+                  <li key={index}>
+                    <input
+                      className="taste"
+                      type="checkbox"
+                      id={ingredient.name}
+                      value={ingredient.name}
+                      onChange={(e) => handleTaste(e, ingredient.name)}
+                    />
+                    <label htmlFor={ingredient.name}>{ingredient.name}</label>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="options">
+              <h4>Napój:</h4>
+              <ul className="ingredients">
+                {drinkData.map((ingredient, index) => (
+                  <li key={index}>
+                    <input
+                      className="drink"
+                      type="checkbox"
+                      id={ingredient.name}
+                      value={ingredient.name}
+                      onChange={(e) => handleDrink(e, ingredient.name)}
+                    />
+                    <label htmlFor={ingredient.name}>{ingredient.name}</label>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </>
+        )}
+
+
+{/* BURGER ZESTAW/////////// */}
+{item.name === "zestaw" && item.category === "burgery" && (
+          <>
+            <div className="options">
+              <h4>Burger:</h4>
+              <ul className="ingredients">
+                {burgers.map((ingredient, index) => (
+                  <li key={index}>
+                    <input
+                      className="pizza"
+                      type="checkbox"
+                      id={"id" + ingredient.name}
+                      value={ingredient.name}
+                      onChange={(e) => handleName(e, ingredient)}
+                    />
+                    <label htmlFor={"id" + ingredient.name}>
+                      {ingredient.name}
+                    </label>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="options">
+              <h4>Napój:</h4>
+              <ul className="ingredients">
+                {drinkData.map((ingredient, index) => (
+                  <li key={index}>
+                    <input
+                      className="drink"
+                      type="checkbox"
+                      id={ingredient.name}
+                      value={ingredient.name}
+                      onChange={(e) => handleDrink(e, ingredient.name)}
+                    />
+                    <label htmlFor={ingredient.name}>{ingredient.name}</label>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </>
+        )}
+
+        
+{/* ZAPIEKANKA ZESTAW/////////// */}
+{item.name === "zestaw" && item.category === "zapiekanki" && (
+          <>
+            <div className="options">
+              <h4>Zapiekanka:</h4>
+              <ul className="ingredients">
+                {zapiekanki.map((ingredient, index) => (
+                  <li key={index}>
+                    <input
+                      className="pizza"
+                      type="checkbox"
+                      id={"id" + ingredient.name}
+                      value={ingredient.name}
+                      onChange={(e) => handleName(e, ingredient)}
+                    />
+                    <label htmlFor={"id" + ingredient.name}>
+                      {ingredient.name}
+                    </label>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="options">
+              <h4>Napój:</h4>
+              <ul className="ingredients">
+                {drinkData.map((ingredient, index) => (
+                  <li key={index}>
+                    <input
+                      className="drink"
+                      type="checkbox"
+                      id={ingredient.name}
+                      value={ingredient.name}
+                      onChange={(e) => handleDrink(e, ingredient.name)}
+                    />
+                    <label htmlFor={ingredient.name}>{ingredient.name}</label>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </>
+        )}
+
+
+
+        {ingredients.length > 0 && (
           <div className="options">
             <h4>Składniki:</h4>
             <ul className="ingredients">
-              {item.ingredients.map((ingredient, index) => (
+              {ingredients.map((ingredient, index) => (
                 <li key={index}>
                   <input
+                  className="ingr"
                     type="checkbox"
                     id={ingredient}
                     value={ingredient}
@@ -349,7 +549,7 @@ const Modal = ({ closeModal, item }) => {
         )}
         {item.name === "sosy" && (
           <div className="options">
-            <h4>Smak:</h4>
+            <h4>Sos:</h4>
             <ul className="ingredients">
               {tasteData
                 .filter((ingredient) => ingredient.isAvailable)
@@ -370,7 +570,7 @@ const Modal = ({ closeModal, item }) => {
         )}
         {item.name === "napoje" && (
           <div className="options">
-            <h4>Smak:</h4>
+            <h4>Napój:</h4>
             <ul className="ingredients">
               {size === "medium" &&
                 drinkData
@@ -382,7 +582,7 @@ const Modal = ({ closeModal, item }) => {
                         type="checkbox"
                         id={ingredient.name}
                         value={ingredient.name}
-                        onChange={(e) => handleTaste(e, ingredient.name)}
+                        onChange={(e) => handleDrink(e, ingredient.name)}
                       />
                       <label htmlFor={ingredient.name}>{ingredient.name}</label>
                     </li>
@@ -397,7 +597,7 @@ const Modal = ({ closeModal, item }) => {
                         type="checkbox"
                         id={ingredient.name}
                         value={ingredient.name}
-                        onChange={(e) => handleTaste(e, ingredient.name)}
+                        onChange={(e) => handleDrink(e, ingredient.name)}
                       />
                       <label htmlFor={ingredient.name}>{ingredient.name}</label>
                     </li>
@@ -412,7 +612,7 @@ const Modal = ({ closeModal, item }) => {
                         type="checkbox"
                         id={ingredient.name}
                         value={ingredient.name}
-                        onChange={(e) => handleTaste(e, ingredient.name)}
+                        onChange={(e) => handleDrink(e, ingredient.name)}
                       />
                       <label htmlFor={ingredient.name}>{ingredient.name}</label>
                     </li>

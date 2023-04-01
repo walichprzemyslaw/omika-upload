@@ -42,6 +42,13 @@
           .itemRight {
             display: flex;
             align-items: center;
+            gap:10px;
+            button{
+              color: red;
+              border: 1px solid red;
+              border-radius: 5px;
+              background-color: transparent;
+            }
           }
         }
       }
