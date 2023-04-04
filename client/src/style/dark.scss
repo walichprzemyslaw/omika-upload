@@ -55,6 +55,7 @@
 
   .home {
     .homeWrapper {
+      background-color: #111;
       .left {
         p {
           color: #999;
@@ -66,6 +67,7 @@
   .settings {
     .settingsContainer {
       .settingsWrapper {
+        background-color: #111;
         .settingsLeft {
           .formInput {
             input {
@@ -118,19 +120,60 @@
       }
       .checkoutBottom {
         .bottomLeft {
-          .checkoutForm {
-            form {
-              .formInput {
-                input {
-                  background: transparent;
-                  color: #999;
+          .contactData {
+            .formInput {
+              input {
+                background: transparent;
+                color: #999;
+              }
+              textarea {
+                color: #999;
+                background: transparent;
+                &:active {
+                  outline: #dd1414;
                 }
-                textarea {
-                  color: #999;
-                  background: transparent;
-                  &:active {
-                    outline: #dd1414;
-                  }
+              }
+            }
+          }
+          .emailInput {
+            input {
+              background: transparent;
+              color: #999;
+            }
+          }
+
+          .deliveryData {
+            .deliveryButtons {
+              .active {
+                border: 2px solid white;
+              }
+              .deliveryOption {
+                background-color: #333;
+                color: #999;
+              }
+            }
+            select {
+              background: transparent;
+            }
+            .homeNumber {
+              input {
+                background: transparent;
+                color: #999;
+              }
+            }
+            .css-13cymwt-control, .css-1dimb5e-singleValue {
+              background: transparent;
+              color: #999;
+            }
+          }
+
+          .commentsData {
+            .comments {
+              textarea {
+                color: #999;
+                background: transparent;
+                &:active {
+                  outline: #dd1414;
                 }
               }
             }
@@ -140,19 +183,47 @@
           h1 {
             color: #999;
           }
-          
-          .totalPrice{
-            color:#999;
+
+          .totalPrice {
+            color: #999;
           }
 
-          .deliveryMethod{
-            .title{
+          .deliveryMethod {
+            .title {
               color: #999;
             }
           }
-          .paymentMethod{
-            .title{
+          .deliveryData {
+            select {
+              background: transparent;
+              color: rgb(156, 156, 156);
+            }
+          }
+          .paymentMethod {
+            .title {
               color: #999;
+            }
+          }
+          .tipData{
+            .tipButtons {
+              .active {
+                border: 2px solid white;
+              }
+              .tipOption {
+                background-color: #333;
+                color: #999;
+              }
+            }
+          }
+          .paymentData{
+            .paymentButtons {
+              .active {
+                border: 2px solid white;
+              }
+              .paymentOption {
+                background-color: #333;
+                color: #999;
+              }
             }
           }
         }
@@ -240,9 +311,9 @@
             }
           }
           .addToCartButton {
-            background-color: rgba(158, 0, 0, 0.5);
+            background-color: rgba(204, 0, 0, 0.75);
             &:hover {
-              background-color: rgba(158, 0, 0, 0.75);
+              background-color: rgba(204, 0, 0, 1);
             }
           }
         }
@@ -268,7 +339,128 @@
       }
     }
   }
-  p{
-    color:#999;
+
+  .duo {
+    background-color: rgba(153, 153, 153, 0.85);
+    color: #dbdbdb;
+    .duoContainer {
+      background-color: rgba(153, 153, 153, 0.85);
+      color: #dbdbdb;
+      .duoTop {
+        .duoLeft {
+          .active {
+            background-color: #333;
+          }
+          .sizeOption {
+            border: 2px solid white;
+            .medium {
+              color: #fff;
+            }
+            .large {
+              color: #fff;
+            }
+          }
+          .sizeTitle {
+            color: #fff;
+          }
+          .addToCart {
+            .quantityContainer {
+              border: 1px solid white;
+              background-color: #333;
+              .icon {
+                color: #fff;
+              }
+              .quantity {
+                color: #fff;
+              }
+            }
+          }
+          .addToCartButton {
+            background-color: rgba(204, 0, 0, 0.75);
+            &:hover {
+              background-color: rgba(204, 0, 0, 1);
+            }
+          }
+        }
+        .duoRight {
+        }
+      }
+
+      .duoBottom {
+        .duoPizza {
+          ul.pizzas li label {
+            background-color: transparent;
+            border: 2px solid white;
+            color: #ffffff;
+          }
+
+          ul.pizzas li input[type="checkbox"]:checked + label {
+            border: 2px solid #333;
+            background-color: #333;
+            color: #ffffff;
+            transition: all 0.2s;
+          }
+          ul.pizzas li input[type="checkbox"]:focus + label {
+            border: 2px solid #333;
+          }
+        }
+        .duoIngredients {
+          ul.ingredients li label {
+            background-color: transparent;
+            border: 2px solid white;
+            color: #ffffff;
+          }
+
+          ul.ingredients li input[type="checkbox"]:checked + label {
+            border: 2px solid #333;
+            background-color: #333;
+            color: #ffffff;
+            transition: all 0.2s;
+          }
+          ul.ingredients li input[type="checkbox"]:focus + label {
+            border: 2px solid #333;
+          }
+        }
+        .duoAddons {
+          ul.addons li label {
+            background-color: transparent;
+            border: 2px solid white;
+            color: #ffffff;
+          }
+
+          ul.addons li input[type="checkbox"]:checked + label {
+            border: 2px solid #333;
+            background-color: #333;
+            color: #ffffff;
+            transition: all 0.2s;
+          }
+          ul.addons li input[type="checkbox"]:focus + label {
+            border: 2px solid #333;
+          }
+        }
+      }
+    }
+  }
+
+  p {
+    color: #999;
+  }
+  h5 {
+    color: #777;
+  }
+
+  .order {
+    .orderContainer {
+      background-color: #111;
+      .orderWrapper {
+        box-shadow: none;
+      }
+      .closeButton {
+        color: rgba(204, 2, 2, 0.5);
+        &:hover {
+          color: rgba(204, 0, 0, 0.75);
+        }
+      }
+    }
   }
 }

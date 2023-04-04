@@ -30,7 +30,7 @@
           font-size: 20px;
         }
         p {
-          font-size: 16px;
+          font-size: clamp(12px, 2vw, 16px);
           color: #333;
         }
         .homeCard {
@@ -41,9 +41,9 @@
           justify-content: center;
           padding: 10px;
           flex-direction: column;
-          width: 25vw;
-          max-width: 30vw;
-          min-width: 25vw;
+          // width: 25vw;
+          max-width: 250px;
+          // min-width: 25vw;
           // border: 1px solid black;
 
           h1 {
@@ -61,7 +61,8 @@
         }
       }
       .right {
-        display: flex;
+        // display: flex;
+        display: none;
         flex-direction: column;
         flex: 1;
         img{

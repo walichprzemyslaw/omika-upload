@@ -20,21 +20,25 @@
     padding: 20px;
     display: flex;
     flex-direction: column;
-    gap: 50px;
+    gap: 5vw;
     overflow-y: auto;
+    margin-top: 2vw;
 
-    .top{
+    .top {
       padding: 10px;
-      margin: 20px;
+      margin: 1vw;
       display: flex;
       justify-content: space-between;
 
-      .info{
+      .info {
         display: flex;
         flex-direction: column;
 
-        h1{
-          font-size: 20px;
+        h1 {
+          font-size: clamp(10px, 3vw, 20px);
+        }
+        p{
+          font-size: clamp(10px, 2.5vw, 16px);
         }
       }
 

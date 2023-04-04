@@ -20,7 +20,7 @@ const OrderItems = ({ products, editable }) => {
         return "⌀30cm ";
     }
   };
- 
+
   const handleSwitchLarge = (e) => {
     switch (e.name) {
       case "nuggetsy":
@@ -36,26 +36,26 @@ const OrderItems = ({ products, editable }) => {
     }
   };
 
-  const handleAddQuantity = (cartItem) =>{
+  const handleAddQuantity = (cartItem) => {
     console.log(cartItem.quantity);
     const q = cartItem.quantity + 1;
     dispatch(
       quantityChange({
         ...cartItem,
-        quantity: q
+        quantity: q,
       })
-    )
-  }
+    );
+  };
 
   const handleSubtractQuantity = (cartItem) => {
     const q = cartItem.quantity - 1;
     dispatch(
       quantityChange({
         ...cartItem,
-        quantity: q
+        quantity: q,
       })
-    )
-  }
+    );
+  };
 
   console.log(products);
   console.log(editable);
@@ -94,14 +94,12 @@ const OrderItems = ({ products, editable }) => {
                       <h5>Pierwsza połowa: {cartItem.firstHalf.name}</h5>
                       {cartItem.firstHalf.addedIngredients.length > 0 && (
                         <p>
-                          Dodatki:
-                          {cartItem.firstHalf.addedIngredients.join(", ")}
+                          Dodatki: {cartItem.firstHalf.addedIngredients.join(", ")}
                         </p>
                       )}
                       {cartItem.firstHalf.excludedIngredients.length > 0 && (
                         <p>
-                          Minus:
-                          {cartItem.firstHalf.excludedIngredients.join(", ")}
+                          Minus: {cartItem.firstHalf.excludedIngredients.join(", ")}
                         </p>
                       )}
                     </>
@@ -111,14 +109,12 @@ const OrderItems = ({ products, editable }) => {
                       <h5>Druga połowa: {cartItem.secondHalf.name}</h5>
                       {cartItem.secondHalf.addedIngredients2.length > 0 && (
                         <p>
-                          Dodatki:
-                          {cartItem.secondHalf.addedIngredients2.join(", ")}
+                          Dodatki: {cartItem.secondHalf.addedIngredients2.join(", ")}
                         </p>
                       )}
                       {cartItem.secondHalf.excludedIngredients2.length > 0 && (
                         <p>
-                          Minus:
-                          {cartItem.secondHalf.excludedIngredients2.join(", ")}
+                          Minus: {cartItem.secondHalf.excludedIngredients2.join(", ")}
                         </p>
                       )}
                     </>
@@ -131,7 +127,6 @@ const OrderItems = ({ products, editable }) => {
                   )}
                   {cartItem.taste.length > 0 && <p>Sos: {cartItem.taste}</p>}
                   {cartItem.drink.length > 0 && <p>Napój: {cartItem.drink}</p>}
-
                 </div>
                 <div className="price">
                   {cartItem.quantity}x {cartItem.price.toFixed(2)}zł
@@ -140,8 +135,12 @@ const OrderItems = ({ products, editable }) => {
             </div>
             {editable && (
               <div className="itemRight">
-                {cartItem.quantity > 1 && <button onClick={()=>handleSubtractQuantity(cartItem)}>-</button>}
-                <button onClick={()=>handleAddQuantity(cartItem)}>+</button>
+                {cartItem.quantity > 1 && (
+                  <button onClick={() => handleSubtractQuantity(cartItem)}>
+                    -
+                  </button>
+                )}
+                <button onClick={() => handleAddQuantity(cartItem)}>+</button>
                 <DeleteForeverOutlinedIcon
                   className="cartDelete"
                   onClick={() =>

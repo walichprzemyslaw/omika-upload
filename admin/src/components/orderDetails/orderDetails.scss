@@ -37,6 +37,7 @@
     .orderDetailsLeft {
       display: flex;
       flex-direction: column;
+      flex:1;
       gap: 10px;
       h2 {
         font-size: 14px;
@@ -45,6 +46,7 @@
     .orderDetailsRight {
       display: flex;
       flex-direction: column;
+      flex:1;
       gap: 10px;
       h2 {
         font-size: 14px;

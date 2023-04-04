@@ -363,7 +363,8 @@ const Checkout = ({ closeCheckout }) => {
       start.setMinutes(0);
     }
     // console.log(start);
-    end.setHours(21, 0, 0);
+    // zmienic na 21 !!!!!
+    end.setHours(24, 0, 0);
 
     if (delivery === "false") {
       start.setMinutes(start.getMinutes() + 20);
@@ -781,7 +782,7 @@ const Checkout = ({ closeCheckout }) => {
                 )}
             </div>
             <div className="checkoutButton">
-              {new Date().getHours() < 21 && new Date().getHours() > 1 ? (
+              {new Date().getHours() < 24 && new Date().getHours() > 1 ? (
                 <button onClick={handleClick}>ZAMAWIAM</button>
               ) : (
                 <span>

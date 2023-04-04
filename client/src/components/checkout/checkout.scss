@@ -48,6 +48,7 @@
       width: 100%;
       display: flex;
       flex-direction: row;
+      flex-wrap: wrap;
       justify-content: space-between;
       gap: 20px;
       margin-bottom: 50px;
@@ -56,8 +57,8 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 20px;
-        padding: 0 20px;
+        gap: 2vw;
+        // padding: 0 20px;
 
         .contactData {
           width: 100%;
@@ -92,8 +93,8 @@
             input[type="number"] {
               -moz-appearance: textfield;
             }
-            .errorMessage{
-              color:red;
+            .errorMessage {
+              color: red;
             }
           }
         }
@@ -116,8 +117,8 @@
             padding: 10px;
             box-sizing: border-box;
           }
-          .errorMessage{
-            color:red;
+          .errorMessage {
+            color: red;
           }
         }
 
@@ -131,14 +132,14 @@
           .deliveryButtons {
             display: flex;
             justify-content: center;
-            gap: 50px;
+            gap: 3vw;
             .deliveryOption {
               display: flex;
               align-items: center;
               border: 1px solid rgba(139, 139, 139, 0.3);
-              border-radius: 25px;
-              padding: 10px 20px;
-              font-size: 20px;
+              border-radius: 2vw;
+              padding: 0.5vw 1vw;
+              font-size: clamp(14px,1vw,20px);
               cursor: pointer;
             }
 
@@ -153,15 +154,15 @@
             flex-direction: column;
             gap: 20px;
 
-            .errorMessage{
-              color:red;
+            .errorMessage {
+              color: red;
             }
 
             .homeNumber {
               width: 100%;
 
-              .errorMessage{
-                color:red;
+              .errorMessage {
+                color: red;
               }
               input {
                 width: 100%;
@@ -226,14 +227,14 @@
           .paymentButtons {
             display: flex;
             justify-content: center;
-            gap: 50px;
+            gap: 3vw;
             .paymentOption {
               display: flex;
               align-items: center;
               border: 1px solid rgba(139, 139, 139, 0.3);
-              border-radius: 25px;
-              padding: 10px 20px;
-              font-size: 20px;
+              border-radius: 2vw;
+              padding: 0.5vw 1vw;
+              font-size: clamp(14px,1vw,20px);
               cursor: pointer;
             }
 
@@ -259,14 +260,14 @@
           .tipButtons {
             display: flex;
             justify-content: center;
-            gap: 50px;
+            gap: 3vw;
             .tipOption {
               display: flex;
               align-items: center;
               border: 1px solid rgba(139, 139, 139, 0.3);
-              border-radius: 25px;
-              padding: 10px 20px;
-              font-size: 20px;
+              border-radius: 2vw;
+              padding: 0.5vw 1vw;
+              font-size: clamp(14px,1vw,20px);
               cursor: pointer;
             }
 
@@ -283,10 +284,10 @@
           flex-direction: column;
           gap: 10px;
 
-          .errorMessage{
-            color:red;
+          .errorMessage {
+            color: red;
           }
-          
+
           .title {
             font-size: 12px;
             color: #333;
@@ -306,7 +307,7 @@
           font-size: 20px;
           color: #333;
         }
-      
+
         .totalPrice {
           padding-top: 10px;
           font-size: 14px;
