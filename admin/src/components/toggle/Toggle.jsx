@@ -2,7 +2,7 @@ import "./toggle.scss";
 import { useState } from "react";
 import axios from "axios";
 
-export const Toggle = ({ label, available, item }) => {
+export const Toggle = ({ label, available, item, category, size }) => {
   const [toggled, setToggled] = useState(available);
 
   const handleAvailable = async () => {
@@ -11,9 +11,10 @@ export const Toggle = ({ label, available, item }) => {
         ...item,
         isAvailable: !toggled,
       };
+
       console.log(newProduct);
       setToggled(!toggled);
-      await axios.put(`/products/${item._id}`, newProduct);
+      await axios.put(`/${category}/${item._id}`, newProduct);
     } catch (error) {
       console.log(error);
     }

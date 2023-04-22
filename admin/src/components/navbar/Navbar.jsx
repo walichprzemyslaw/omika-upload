@@ -9,8 +9,8 @@ import { AuthContext } from "../../context/AuthContext";
 
 const Navbar = () => {
   const { dispatchMode } = useContext(DarkModeContext);
-  const { user } = useContext(AuthContext);
-  console.log(user);
+  const { admin } = useContext(AuthContext);
+  console.log(admin);
   return (
     <div className="navbar">
       <div className="wrapper">
@@ -28,7 +28,7 @@ const Navbar = () => {
               className="avatar"
             /> */}
             <div className="details">
-              <span className="name">{user.firstName} {user.lastName}</span>
+              <span className="name">{admin.firstName} {admin.lastName}</span>
               {/* <span className="position">{user.isAdmin ? "Administrator" : "Pracownik"}</span> */}
               <span className="position">Administrator</span>
             </div>

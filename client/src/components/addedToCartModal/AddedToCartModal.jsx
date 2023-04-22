@@ -16,7 +16,7 @@ function AddedToCartModal({ openAdded, openModal, img }) {
 
   return (
     showModal && (
-      <div class="addedToCartContainer">
+      <div className="addedToCartContainer">
         <div className="addedToCartInfo">
           <img className="cardImage" src={img} alt={"addedToCart"} />
           <h3>Dodano produkt do koszyka!</h3>

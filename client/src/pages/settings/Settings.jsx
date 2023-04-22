@@ -1,10 +1,8 @@
 import "./settings.scss";
 import useFetch from "../../hooks/useFetch";
-import { useContext, useEffect, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-// import { AuthContext } from "../../context/AuthContext";
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
-// import bcrypt from "bcryptjs";
 import Order from "../../components/order/Order";
 import Navbar from "../../components/navbar/Navbar";
 import Sidebar from "../../components/sidebar/Sidebar";
@@ -29,8 +27,6 @@ const Settings = () => {
     setInfo(data);
   }, [data]);
 
-  console.log(info);
-
   const handleChange = (e) => {
     setInfo((prev) => ({ ...prev, [e.target.id]: e.target.value }));
   };
@@ -38,20 +34,14 @@ const Settings = () => {
   const handleClick = async (e) => {
     e.preventDefault();
     try {
-      // const salt = bcrypt.genSaltSync(10);
-      // const hash = bcrypt.hashSync(info.password, salt);
-
       const updateUser = {
         ...info,
-        // password: hash,
       };
       console.log(updateUser);
       await axios.put(`/users/${id}`, updateUser);
       navigate("/");
     } catch (error) {}
   };
-
-  const handleOrder = (order) => {};
 
   return (
     <div className="settings">
@@ -84,15 +74,6 @@ const Settings = () => {
                 id="email"
               />
             </div>
-            {/* <div className="formInput">
-              <label>Hasło</label>
-              <input
-                type="password"
-                placeholder="Haslo"
-                onChange={handleChange}
-                id="password"
-              />
-            </div> */}
             <div className="formInput">
               <label>Imię</label>
               <input
@@ -175,20 +156,6 @@ const Settings = () => {
                       {new Date(order.createdAt).toLocaleString()}
                     </span>
                   </div>
-                  {/* <tr
-                      className="orderItem"
-                      key={order._id}
-                      onClick={() => {
-                        setOpenOrder(true);
-                        setOrder(order);
-                      }}
-                    >
-                      <th>
-                        <ReceiptLongRoundedIcon className="icon" />
-                      </th>
-                      <th>{new Date(order.createdAt).toLocaleString()}</th>
-                      <th>{order.totalPrice} zł</th>
-                    </tr> */}
                 </>
               ))}
             </div>

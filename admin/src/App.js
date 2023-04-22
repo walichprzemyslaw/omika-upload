@@ -21,23 +21,37 @@ import NewIngredient from "./pages/ingredient/newIngredient/NewIngredient";
 import EditIngredient from "./pages/ingredient/editIngredient/EditIngredient";
 import ShowProduct from "./pages/product/showProduct/ShowProduct";
 import "./style/dark.scss";
-
-import { employeeInputs, ingredientInputs, orderInputs, productInputs, userInputs } from "./formSource";
+import useFetch from "./hooks/useFetch";
+import {
+  employeeInputs,
+  ingredientInputs,
+  orderInputs,
+  productInputs,
+  userInputs,
+} from "./formSource";
 import { useContext } from "react";
 import { DarkModeContext } from "./context/darkModeContext";
 import { AuthContext } from "./context/AuthContext";
-import { employeeColumns, ingredientColumns, orderColumns, productColumns, userColumns } from "./datatablesource";
+import {
+  employeeColumns,
+  ingredientColumns,
+  orderColumns,
+  productColumns,
+  userColumns,
+} from "./datatablesource";
+// import useFetch from "../src/hooks/useFetch";
 import Options from "./pages/options/Options";
 
 function App() {
   const { darkMode } = useContext(DarkModeContext);
 
   const ProtectedRoute = ({ children }) => {
-    const { user } = useContext(AuthContext);
+    const { admin } = useContext(AuthContext);
 
-    if (!user) {
+    if (!admin) {
       return <Navigate to="/login" />;
     }
+    
     return children;
   };
 
@@ -48,100 +62,190 @@ function App() {
           <Route path="/">
             <Route path="login" element={<Login />} />
 
-            <Route index element={
+            <Route
+              index
+              element={
                 <ProtectedRoute>
                   <Home />
-                </ProtectedRoute>}/>
+                </ProtectedRoute>
+              }
+            />
 
             {/* opcje */}
             <Route path="options">
-            <Route index element={
+              <Route
+                index
+                element={
                   <ProtectedRoute>
                     <Options />
-                  </ProtectedRoute>}/>
+                  </ProtectedRoute>
+                }
+              />
             </Route>
 
             {/* użytkownicy  */}
             <Route path="users">
-              <Route index element={
+              <Route
+                index
+                element={
                   <ProtectedRoute>
-                    <List columns={userColumns} title="Użytkownicy"/>
-                  </ProtectedRoute>}/>
-              <Route path=":userId" element={
+                    <List columns={userColumns} title="Użytkownicy" />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path=":userId"
+                element={
                   <ProtectedRoute>
-                    <EditUser inputs={userInputs} title="Edytuj użytkownika"/>
-                  </ProtectedRoute>}/>
-              <Route path="new" element={
+                    <EditUser inputs={userInputs} title="Edytuj użytkownika" />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="new"
+                element={
                   <ProtectedRoute>
-                    <NewUser inputs={userInputs} title="Dodaj nowego użytkownika"/>
-                  </ProtectedRoute>}/>
+                    <NewUser
+                      inputs={userInputs}
+                      title="Dodaj nowego użytkownika"
+                    />
+                  </ProtectedRoute>
+                }
+              />
             </Route>
 
             {/* produkty  */}
             <Route path="products">
-              <Route index element={
+              <Route
+                index
+                element={
                   <ProtectedRoute>
-                    <List columns={productColumns} title="Produkty"/>
-                  </ProtectedRoute>}/>
-              <Route path=":productId" element={
+                    <List columns={productColumns} title="Produkty" />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path=":productId"
+                element={
                   <ProtectedRoute>
-                    <ShowProduct inputs={productInputs} title="Edytuj produkt"/>
-                  </ProtectedRoute>}/>
-              <Route path="new" element={
+                    <ShowProduct
+                      inputs={productInputs}
+                      title="Edytuj produkt"
+                    />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="new"
+                element={
                   <ProtectedRoute>
-                    <NewProduct inputs={productInputs} title="Dodaj nowy produkt"/>
-                  </ProtectedRoute>}/>
+                    <NewProduct
+                      inputs={productInputs}
+                      title="Dodaj nowy produkt"
+                    />
+                  </ProtectedRoute>
+                }
+              />
             </Route>
 
             {/* zamówienia  */}
             <Route path="orders">
-              <Route index element={
+              <Route
+                index
+                element={
                   <ProtectedRoute>
-                    <List columns={orderColumns} title="Zamówienia"/>
-                  </ProtectedRoute>}/>
-              <Route path=":orderId" element={
+                    <List columns={orderColumns} title="Zamówienia" />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path=":orderId"
+                element={
                   <ProtectedRoute>
-                    <EditOrder inputs={orderInputs} title="Edytuj zamówienie"/>
-                  </ProtectedRoute>}/>
-              <Route path="new" element={
+                    <EditOrder inputs={orderInputs} title="Edytuj zamówienie" />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="new"
+                element={
                   <ProtectedRoute>
-                    <NewOrder inputs={orderInputs} title="Dodaj nowe zamówienie"/>
-                  </ProtectedRoute>}/>
+                    <NewOrder
+                      inputs={orderInputs}
+                      title="Dodaj nowe zamówienie"
+                    />
+                  </ProtectedRoute>
+                }
+              />
             </Route>
 
             {/* pracownicy  */}
             <Route path="employees">
-              <Route index element={
+              <Route
+                index
+                element={
                   <ProtectedRoute>
-                    <List columns={employeeColumns} title="Pracownicy"/>
-                  </ProtectedRoute>}/>
-              <Route path=":employeeId" element={
+                    <List columns={employeeColumns} title="Pracownicy" />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path=":employeeId"
+                element={
                   <ProtectedRoute>
-                    <EditEmployee inputs={employeeInputs} title="Edytuj pracownika"/>
-                  </ProtectedRoute>}/>
-              <Route path="new" element={
+                    <EditEmployee
+                      inputs={employeeInputs}
+                      title="Edytuj pracownika"
+                    />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="new"
+                element={
                   <ProtectedRoute>
-                    <NewEmployee inputs={employeeInputs} title="Dodaj nowego pracownika"/>
-                  </ProtectedRoute>}/>
+                    <NewEmployee
+                      inputs={employeeInputs}
+                      title="Dodaj nowego pracownika"
+                    />
+                  </ProtectedRoute>
+                }
+              />
             </Route>
 
             {/* składniki  */}
             <Route path="ingredients">
-              <Route index element={
+              <Route
+                index
+                element={
                   <ProtectedRoute>
-                    <List columns={ingredientColumns} title="Składniki"/>
-                  </ProtectedRoute>}/>
-              <Route path=":ingredientId" element={
+                    <List columns={ingredientColumns} title="Składniki" />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path=":ingredientId"
+                element={
                   <ProtectedRoute>
-                    <EditIngredient inputs={ingredientInputs} title="Edytuj składnik"/>
-                  </ProtectedRoute>}/>
-              <Route path="new" element={
+                    <EditIngredient
+                      inputs={ingredientInputs}
+                      title="Edytuj składnik"
+                    />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="new"
+                element={
                   <ProtectedRoute>
-                    <NewIngredient inputs={ingredientInputs} title="Dodaj nowy składnik"/>
-                  </ProtectedRoute>}/>
+                    <NewIngredient
+                      inputs={ingredientInputs}
+                      title="Dodaj nowy składnik"
+                    />
+                  </ProtectedRoute>
+                }
+              />
             </Route>
-
-
           </Route>
         </Routes>
       </Router>

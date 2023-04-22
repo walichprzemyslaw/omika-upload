@@ -444,6 +444,7 @@ const Edit = ({ order, closeEditor, closeModal }) => {
 
   const deliveryTotal = () =>{
     let deliveryCost = info.deliveryCost;
+    // deliveryCost = 0;
     if (delivery !== "false") {
       if (info.strefa === "A") {
         if (info.city === "kościan") {
@@ -451,17 +452,17 @@ const Edit = ({ order, closeEditor, closeModal }) => {
             info.street !== "poznańska" &&
             info.street !== "osiedle konstytucji 3 maja"
           ) {
-            deliveryCost += 2;
+            deliveryCost = 0;
           }
         } else {
-          deliveryCost += 2;
+          deliveryCost = 0;
         }
       }
       if (info.strefa === "B") {
-        deliveryCost += 7;
+        deliveryCost = 7;
       }
       if (info.strefa === "C") {
-        deliveryCost += 14;
+        deliveryCost = 14;
       }
     }
     return deliveryCost.toFixed(2);

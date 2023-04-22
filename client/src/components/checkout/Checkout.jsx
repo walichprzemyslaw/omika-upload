@@ -1,6 +1,6 @@
 import "./checkout.scss";
 import { useContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { redirect, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { AuthContext } from "../../context/AuthContext";
 import axios from "axios";
@@ -8,6 +8,7 @@ import Select from "react-select";
 import Creatable from "react-select/creatable";
 import OrderItems from "../orderItems/OrderItems";
 import { resetCart } from "../../redux/cartReducer";
+import useFetch from "../../hooks/useFetch";
 
 const Checkout = ({ closeCheckout }) => {
   const options = [
@@ -336,10 +337,16 @@ const Checkout = ({ closeCheckout }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const {
+    data: bankData,
+    loading,
+    error,
+  } = useFetch(`https://secure.tpay.com/groups-327331.js?json`);
+
+  const [bankId, setBankId] = useState();
   const [delivery, setDelivery] = useState(true);
   const [err, setErr] = useState();
   const [tip, setTip] = useState(0);
-  // const [tipAmount, setTipAmount] = useState(0);
   const [info, setInfo] = useState({
     customerId: user?._id || undefined,
     firstName: user?.firstName || undefined,
@@ -477,26 +484,26 @@ const Checkout = ({ closeCheckout }) => {
     if (!info.lastName) {
       errors.lastName = "Wpisz swoje nazwisko!";
     }
-    if(!info.phone){
+    if (!info.phone) {
       errors.phone = "Wpisz swój numer telefonu!";
     }
-    if(!info.email){
+    if (!info.email) {
       errors.email = "Wpisz swój adres email!";
     }
 
-
-  if(delivery!=="false"){ if(!info.street){
-      errors.street = "Wpisz swoją ulicę!"
+    if (delivery !== "false") {
+      if (!info.street) {
+        errors.street = "Wpisz swoją ulicę!";
+      }
+      if (!info.homeNumber) {
+        errors.homeNumber = "Wpisz swój numer domu!";
+      }
+      if (!info.city) {
+        errors.city = "Wpisz swoje miasto!";
+      }
     }
-    if(!info.homeNumber){
-      errors.homeNumber = "Wpisz swój numer domu!";
-    }
-    if(!info.city){
-      errors.city = "Wpisz swoje miasto!";
-    }}
 
-
-    if(!info.deliveryTime){
+    if (!info.deliveryTime) {
       errors.deliveryTime = "Wybierz czas realizacji zamówienia!";
     }
     setErr(errors);
@@ -505,26 +512,94 @@ const Checkout = ({ closeCheckout }) => {
   const handleClick = async (e) => {
     e.preventDefault();
     validate();
-    if(Object.keys(err).length === 0){
-    try {
-      // const totalPrice = cartTotal();
-      const newOrder = {
-        ...info,
-        deliveryCost,
-        tip,
-        tipAmount,
-        totalPrice,
-        products,
-        delivery,
-      };
-      console.log(newOrder);
-      const response = await axios.post("/orders", newOrder);
-      console.log(response.data._id);
-      navigate(`/order/${response.data._id}`);
-      dispatch(resetCart());
-    } catch (error) {
-      console.log(error);
-    }}else{
+    if (Object.keys(err).length === 0 || err === {}) {
+      try {
+        // const totalPrice = cartTotal();
+        const newOrder = {
+          ...info,
+          deliveryCost,
+          tip,
+          tipAmount,
+          totalPrice,
+          products,
+          delivery,
+          bankId,
+        };
+        const response = await axios.post("/orders", newOrder);
+        
+        if (response.data.paymentMethod === "online") {
+          navigate(response.data.url);
+        } else {
+          navigate(`/order/${response.data._id}`);
+        }
+        dispatch(resetCart());
+        if (info.email) {
+          let tableHtml = "";
+          products.map(
+            (product) =>
+              (tableHtml += `
+            <tr>
+              <td>${product.name}</td>
+              <td>${product.quantity}</td>
+              <td>${product.price}</td>
+            </tr>`)
+          );
+          const emailBody = `
+  <html>
+    <head>
+      <style>
+        table {
+          border-collapse: collapse;
+          width: 100%;
+        }
+        th, td {
+          text-align: left;
+          padding: 8px;
+          border-bottom: 1px solid #ddd;
+        }
+        th {
+          background-color: #f2f2f2;
+        }
+      </style>
+    </head>
+    <body>
+      <h2>Nowe zamówienie</h2>
+      <p>Cześć ${info.firstName},</p>
+      <p>Twoje zamówienie nr ${response.data._id} zostało złożone.</p>
+      <table>
+        <thead>
+          <tr>
+            <th>Produkt</th>
+            <th>Ilość</th>
+            <th>Cena</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${tableHtml}
+        </tbody>
+      </table>
+      <p>Kwota zamówienia: ${totalPrice}zł</p>
+      <p>Przewidywany czas dostawy: ${info.deliveryTime}</p>
+      <p>Więcej szczegółów na temat swojego zamówienia znajdziesz pod tym adresem: www.omika.pl/order/${response.data._id}</p>
+    </body>
+  </html>
+`;
+          const emailConfig = {
+            SecureToken: "55495557-279c-497f-a48d-625642525521",
+            To: info.email,
+            From: "Pizzeria Omika <omikapizza@gmail.com>",
+            Subject: `Nowe zamówienie nr ${response.data._id}`,
+            Body: emailBody,
+            IsHTML: true,
+          };
+          window.Email.send(emailConfig).then((message) =>
+            console.log(message)
+          );
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
       console.log(err);
     }
   };
@@ -587,11 +662,11 @@ const Checkout = ({ closeCheckout }) => {
                   defaultValue={user?.phone}
                   onChange={handleChange}
                 />
-                 {err?.phone && !info.phone && (
+                {err?.phone && !info.phone && (
                   <span className="errorMessage">{err.phone}</span>
                 )}
               </div>
-             
+
               <div className="formInput">
                 <label>NIP (opcjonalnie)</label>
                 <input
@@ -612,8 +687,8 @@ const Checkout = ({ closeCheckout }) => {
                 onChange={handleChange}
               />
               {err?.email && !info.email && (
-                  <span className="errorMessage">{err.email}</span>
-                )}
+                <span className="errorMessage">{err.email}</span>
+              )}
             </div>
             <div className="deliveryData">
               <div className="deliveryButtons">
@@ -650,9 +725,9 @@ const Checkout = ({ closeCheckout }) => {
                       onChange={handleChange}
                       placeholder="Ulica"
                     />
-                     {err?.street && !info.street && (
-                  <span className="errorMessage">{err.street}</span>
-                )}
+                    {err?.street && !info.street && (
+                      <span className="errorMessage">{err.street}</span>
+                    )}
                     <div className="homeNumber">
                       <input
                         type="text"
@@ -661,18 +736,18 @@ const Checkout = ({ closeCheckout }) => {
                         defaultValue={user?.homeNumber}
                         onChange={handleChange}
                       />
-                       {err?.homeNumber && !info.homeNumber && (
-                  <span className="errorMessage">{err.homeNumber}</span>
-                )}
+                      {err?.homeNumber && !info.homeNumber && (
+                        <span className="errorMessage">{err.homeNumber}</span>
+                      )}
                     </div>
                     <Select
                       options={options}
                       onChange={handleChange}
                       placeholder="Miasto"
                     />
-                     {err?.city && !info.city && (
-                  <span className="errorMessage">{err.city}</span>
-                )}
+                    {err?.city && !info.city && (
+                      <span className="errorMessage">{err.city}</span>
+                    )}
                   </>
                 )}
               </div>
@@ -757,6 +832,23 @@ const Checkout = ({ closeCheckout }) => {
                   Online
                 </button>
               </div>
+              {info.paymentMethod === "online" && (
+                <div className="bankCards">
+                  {Object.values(bankData).map((bank) => (
+                    <div
+                      className={
+                        bankId === bank.id ? "bankCard active" : "bankCard"
+                      }
+                      key={bank.id}
+                      onClick={() => setBankId(bank.id)}
+                    >
+                      <div className="logo">
+                        <img src={bank.img} />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
             <div className="deliveryData">
               <p className="title">
@@ -778,15 +870,16 @@ const Checkout = ({ closeCheckout }) => {
                 ))}
               </select>
               {err?.deliveryTime && !info.deliveryTime && (
-                  <span className="errorMessage">{err.deliveryTime}</span>
-                )}
+                <span className="errorMessage">{err.deliveryTime}</span>
+              )}
             </div>
             <div className="checkoutButton">
-              {new Date().getHours() < 24 && new Date().getHours() > 1 ? (
+              {new Date().getHours() < 24 && new Date().getHours() > -1 ? (
                 <button onClick={handleClick}>ZAMAWIAM</button>
               ) : (
                 <span>
-                  Zamówienia można składać tylko w godzinach działania lokalu.
+                  Zamówienia można składać tylko w godzinach działania lokalu.{" "}
+                  {new Date().getHours()}
                 </span>
               )}
             </div>

@@ -54,7 +54,6 @@ const OrderDetails = ({ item }) => {
             <HomeIcon className="icon" />
             {item.street &&
               item.street + " " + item.homeNumber + ", " + item.city}
-            {/* {item.street} {item.homeNumber}, {item.city} */}
           </span>
           <span>
             <LocalPhoneIcon className="icon" /> {item.phone}

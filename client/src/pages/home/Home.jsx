@@ -13,7 +13,7 @@ const Home = () => {
       <Sidebar />
       <div className="homeContainer">
         <Navbar />
-        <h1 className="homeTitle">PITCERNIA OMIKA</h1>
+        <h1 className="homeTitle">PIZZERIA OMIKA</h1>
         <div className="homeWrapper">
           <div className="left">
             <h1>Jak złożyć zamówienie?</h1>

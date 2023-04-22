@@ -1,4 +1,6 @@
 import Order from "../models/Order.js";
+import md5 from "js-md5";
+import axios from "axios";
 
 export const getOrders = async (req, res, next) => {
   try {
@@ -48,7 +50,10 @@ export const getOrdersByDate = async (req, res, next) => {
     // console.log(date);
     // date.setDate(21);
     const orders = await Order.find({
-      createdAt: { $gte: date.setUTCHours(0, 0, 0), $lte: date.setUTCHours(23,59,59) },
+      createdAt: {
+        $gte: date.setUTCHours(0, 0, 0),
+        $lte: date.setUTCHours(23, 59, 59),
+      },
     });
     const list = await Promise.all(
       orders.map((order) => {
@@ -75,7 +80,10 @@ export const getOrdersByStatus = async (req, res, next) => {
     // ROZJEŻDŻA SIĘ O GODZINĘ!!!!!!!
     // console.log(date);
     const orders = await Order.find({
-      createdAt: { $gte: date.setUTCHours(0, 0, 0), $lte: date.setUTCHours(23,59,59) },
+      createdAt: {
+        $gte: date.setUTCHours(0, 0, 0),
+        $lte: date.setUTCHours(23, 59, 59),
+      },
       status: status,
     });
     const list = await Promise.all(
@@ -90,13 +98,45 @@ export const getOrdersByStatus = async (req, res, next) => {
   }
 };
 
-
 export const createOrder = async (req, res, next) => {
   const newOrder = new Order(req.body);
+  console.log(req.body);
+
+  const id = 32733;
+  const crc = 3214;
+  // const securityCode = "dEGbK36nmlo86MeQ";
+  // crc wywalić?
+
+  const hash = md5(
+    id + `&` + req.body.totalPrice + `&` + crc + `&` + process.env.SECURITYCODE
+  );
+  console.log(hash);
+
+  const transactionData = {
+    id: 32733,
+    amount: req.body.totalPrice,
+    description: "zamówienie nr "+req.body._id,
+    name: req.body.firstName + " " + req.body.lastName,
+    email: req.body.email,
+    crc: 3214,
+    md5sum: hash,
+    group: req.body.bankId,
+    accept_tos: 1,
+    // DODAĆ AKCEPTACJE REGULAMINU TPAY!!!!!
+    api_password: process.env.APIPASSWORD,
+  };
+  const createTransaction = `https://secure.tpay.com/api/gw/${procces.env.APIKEY}/transaction/create`;
 
   try {
+    let url;
+    if (req.body.paymentMethod === "online") {
+      const resp = await axios.post(createTransaction, transactionData);
+      console.log(resp.data);
+      url = resp.data.url;
+    }
     const savedOrder = await newOrder.save();
-    res.status(200).json(savedOrder);
+    const jsonData = Object.assign({}, savedOrder._doc, { url: url });
+    res.status(200).json(jsonData);
   } catch (error) {
     next(error);
   }

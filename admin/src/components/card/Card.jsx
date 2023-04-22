@@ -122,6 +122,7 @@ const Card = ({ order, showProducts, index }) => {
             <h1>
               {order.firstName} {order.lastName}
             </h1>
+            <p>{new Date(order.createdAt).toLocaleTimeString()}</p>
           </div>
           <div className={order.status} onClick={()=>setOpenStatus(!openStatus)} ></div>
         </div>

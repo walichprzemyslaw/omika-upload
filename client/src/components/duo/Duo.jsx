@@ -15,7 +15,6 @@ const Duo = ({ closeDuo }) => {
     error,
   } = useFetch(`/products/category/pizza`);
   let pizzas = pizzaData.slice(0, pizzaData.length - 1);
-  // pizzas = pizzas.filter(item => item.name !== 'na wypasie');
   const [pizza, setPizza] = useState();
   const [pizza2, setPizza2] = useState();
   const [price, setPrice] = useState();
@@ -325,7 +324,6 @@ const Duo = ({ closeDuo }) => {
                         },
                       })
                     );
-                    // closeDuo(false);
                     setOpenAddedToCart(true);
                   }}
                 >

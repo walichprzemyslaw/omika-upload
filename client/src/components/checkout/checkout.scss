@@ -139,7 +139,7 @@
               border: 1px solid rgba(139, 139, 139, 0.3);
               border-radius: 2vw;
               padding: 0.5vw 1vw;
-              font-size: clamp(14px,1vw,20px);
+              font-size: clamp(14px, 1vw, 20px);
               cursor: pointer;
             }
 
@@ -219,6 +219,40 @@
           flex-direction: column;
           gap: 20px;
 
+          .bankCards {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 2vw;
+            .bankCard {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              width: 75px;
+              height: 75px;
+              cursor: pointer;
+
+              &:hover {
+                border: 1px solid #57ff35;
+                border-radius: 5px;
+              }
+              .logo {
+                text-align: center;
+                img {
+                  width: 100%;
+                }
+                .title {
+                  font-size: 14px;
+                }
+              }
+            }
+            .active {
+              border: 1px solid #57ff35;
+              border-radius: 5px;
+            }
+          }
+
           .title {
             font-size: 12px;
             color: #333;
@@ -234,7 +268,7 @@
               border: 1px solid rgba(139, 139, 139, 0.3);
               border-radius: 2vw;
               padding: 0.5vw 1vw;
-              font-size: clamp(14px,1vw,20px);
+              font-size: clamp(14px, 1vw, 20px);
               cursor: pointer;
             }
 
@@ -267,7 +301,7 @@
               border: 1px solid rgba(139, 139, 139, 0.3);
               border-radius: 2vw;
               padding: 0.5vw 1vw;
-              font-size: clamp(14px,1vw,20px);
+              font-size: clamp(14px, 1vw, 20px);
               cursor: pointer;
             }
 

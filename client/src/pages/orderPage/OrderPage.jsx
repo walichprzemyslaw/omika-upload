@@ -1,6 +1,5 @@
 import "./orderPage.scss";
 import { useLocation, useNavigate } from "react-router-dom";
-import useFetch from "../../hooks/useFetch";
 import OrderDetails from "../../components/orderDetails/OrderDetails";
 import OrderItems from "../../components/orderItems/OrderItems";
 import { useEffect, useState } from "react";
@@ -8,11 +7,8 @@ import { useEffect, useState } from "react";
 const OrderPage = () => {
   const location = useLocation();
   const id = location.pathname.split("/")[2];
-  // const { data: item, loading, error } = useFetch(`/orders/find/${id}`);
   const navigate = useNavigate();
   const [item, setItem] = useState();
-
-  console.log(item);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -22,7 +18,6 @@ const OrderPage = () => {
     };
 
     fetchData();
-    // const { data: item, loading, error } = useFetch(`/orders/find/${id}`);
     const intervalId = setInterval(fetchData, 3 * 1000);
 
     return () => {
@@ -59,8 +54,6 @@ const OrderPage = () => {
                 </button>
               </div>
               <div className="orderWrapper">
-                {/* {loading ? "ładowanie" : <OrderItems products={item.products} editable={false} />}
-            {loading ? "ładowanie" : <OrderDetails item={item}/>} */}
                 {!item ? (
                   "ładowanie"
                 ) : (

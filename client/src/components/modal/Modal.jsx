@@ -1,7 +1,5 @@
 import "./modal.scss";
 import LocalPizzaIcon from "@mui/icons-material/LocalPizza";
-import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { useState } from "react";
 import useFetch from "../../hooks/useFetch";
 import AddedToCartModal from "../addedToCartModal/AddedToCartModal";
@@ -52,9 +50,6 @@ const Modal = ({ closeModal, item }) => {
   );
 
   const dispatch = useDispatch();
-
-  //null error po otwarciu i kliknięciu ilości
-  const number = document.querySelector("input.quantity");
 
   const handleLargeSize = (e) => {
     setSize("large");
@@ -215,8 +210,6 @@ const Modal = ({ closeModal, item }) => {
   };
 
   const totalPrice = price * quantity;
-  // console.log(number?.value);
-  // console.log(quantity);
 
   return (
     <>
@@ -265,14 +258,6 @@ const Modal = ({ closeModal, item }) => {
                         }
                         onClick={handleLargeSize}
                       >
-                        {/* {item.name === "nuggetsy" ? (
-                    <div className="sizeTitle">10 sztuk</div>
-                  ) : (
-                    <>
-                      <LocalPizzaIcon className="large" />
-                      <p className="sizeTitle">40cm</p>
-                    </>
-                  )} */}
                         {handleSwitchLarge(item)}
                       </div>
                       <div
@@ -281,14 +266,6 @@ const Modal = ({ closeModal, item }) => {
                         }
                         onClick={handleMediumSize}
                       >
-                        {/* {item.name === "nuggetsy" ? (
-                    <div className="sizeTitle">5 sztuk</div>
-                  ) : (
-                    <>
-                      <LocalPizzaIcon className="medium" />
-                      <p className="sizeTitle">30cm</p>
-                    </>
-                  )} */}
                         {handleSwitchMedium(item)}
                       </div>
                     </div>
@@ -342,28 +319,6 @@ const Modal = ({ closeModal, item }) => {
                   )}
                   <p>Ilość: {quantity}</p>
                   <button onClick={() => setQuantity(quantity + 1)}>+</button>
-
-                  {/* <KeyboardArrowDownIcon
-                  className="icon"
-                  onClick={() => {
-                    number.stepDown();
-                    setQuantity(parseInt(number.value));
-                  }}
-                />
-                <input
-                  onChange={(e) => setQuantity(e.target.value)}
-                  type="number"
-                  min={1}
-                  defaultValue={1}
-                  className="quantity"
-                />
-                <KeyboardArrowUpIcon
-                  className="icon"
-                  onClick={() => {
-                    number.stepUp();
-                    setQuantity(parseInt(number.value));
-                  }}
-                /> */}
                 </div>
                 <button
                   className="addToCartButton"
@@ -392,7 +347,6 @@ const Modal = ({ closeModal, item }) => {
                         quantity,
                       })
                     );
-                    // closeModal(false);
                     setOpenAddedToCart(true);
                   }}
                 >
@@ -483,22 +437,6 @@ const Modal = ({ closeModal, item }) => {
                           </label>
                         </li>
                       ))}
-                  {/* {drinkData
-                    .filter((ingredient) => ingredient.isAvailableMedium)
-                    .map((ingredient, index) => (
-                      <li key={index}>
-                        <input
-                          className="drink"
-                          type="checkbox"
-                          id={ingredient.name}
-                          value={ingredient.name}
-                          onChange={(e) => handleDrink(e, ingredient.name)}
-                        />
-                        <label htmlFor={ingredient.name}>
-                          {ingredient.name}
-                        </label>
-                      </li>
-                    ))} */}
                 </ul>
               </div>
             </>
