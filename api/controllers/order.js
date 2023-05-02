@@ -125,7 +125,7 @@ export const createOrder = async (req, res, next) => {
     // DODAĆ AKCEPTACJE REGULAMINU TPAY!!!!!
     api_password: process.env.APIPASSWORD,
   };
-  const createTransaction = `https://secure.tpay.com/api/gw/${procces.env.APIKEY}/transaction/create`;
+  const createTransaction = `https://secure.tpay.com/api/gw/${process.env.APIKEY}/transaction/create`;
 
   try {
     let url;
