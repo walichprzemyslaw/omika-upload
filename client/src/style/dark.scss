@@ -1,0 +1,478 @@
+.app.dark {
+  background-color: #111;
+  color: rgb(156, 156, 156);
+
+  .navbar {
+    .wrapper {
+      .items {
+        .item {
+          &:hover {
+            background-color: #333;
+          }
+
+          .icon {
+            color: #999;
+          }
+        }
+      }
+    }
+  }
+
+  .sidebar {
+    background-color: #111;
+    border-color: #333;
+
+    .top {
+      ul {
+        .item {
+          &:hover {
+            background-color: #333;
+          }
+          li {
+            .icon {
+              color: #999;
+            }
+          }
+        }
+      }
+    }
+
+    .bottom {
+      ul {
+        .item {
+          &:hover {
+            background-color: #333;
+          }
+          li {
+            .icon {
+              color: #999;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .home {
+    .homeWrapper {
+      background-color: #111;
+      .left {
+        p {
+          color: #999;
+        }
+      }
+    }
+  }
+
+  .errorContainer{
+    .errorBox{
+      background-color: #333;
+    }
+  }
+
+  .addedToCartContainer{
+    .addedToCartInfo{
+      background-color: #333;
+    }
+  }
+
+  .settings {
+    .settingsContainer {
+      .settingsWrapper {
+        background-color: #111;
+        .settingsLeft {
+          .formInput {
+            input {
+              background: transparent;
+              color: #999;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .cart {
+    .cartContainer {
+      background-color: #333;
+      .cartTop {
+        .cartHeader {
+          .cartHeaderRight {
+            .closeButton {
+              color: #999;
+              &:hover {
+                color: #dd1414;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .checkout {
+    .checkoutContainer {
+      background-color: #333;
+      .checkoutTop {
+        .checkoutHeader {
+          .checkoutHeaderLeft {
+            h1 {
+              color: #999;
+            }
+          }
+          .checkoutHeaderRight {
+            .closeButton {
+              color: #999;
+              &:hover {
+                color: #dd1414;
+              }
+            }
+          }
+        }
+      }
+      .checkoutBottom {
+        .bottomLeft {
+          .contactData {
+            .formInput {
+              input {
+                background: transparent;
+                color: #999;
+              }
+              textarea {
+                color: #999;
+                background: transparent;
+                &:active {
+                  outline: #dd1414;
+                }
+              }
+            }
+          }
+          .emailInput {
+            input {
+              background: transparent;
+              color: #999;
+            }
+          }
+
+          .deliveryData {
+            .deliveryButtons {
+              .active {
+                border: 2px solid white;
+              }
+              .deliveryOption {
+                background-color: #333;
+                color: #999;
+              }
+            }
+            select {
+              background: transparent;
+            }
+            .homeNumber {
+              input {
+                background: transparent;
+                color: #999;
+              }
+            }
+            .css-13cymwt-control, .css-1dimb5e-singleValue {
+              background: transparent;
+              color: #999;
+            }
+          }
+
+          .commentsData {
+            .comments {
+              textarea {
+                color: #999;
+                background: transparent;
+                &:active {
+                  outline: #dd1414;
+                }
+              }
+            }
+          }
+        }
+        .bottomRight {
+          h1 {
+            color: #999;
+          }
+
+          .totalPrice {
+            color: #999;
+          }
+
+          .deliveryMethod {
+            .title {
+              color: #999;
+            }
+          }
+          .deliveryData {
+            select {
+              background: transparent;
+              color: rgb(156, 156, 156);
+            }
+          }
+          .paymentMethod {
+            .title {
+              color: #999;
+            }
+          }
+          .tipData{
+            .tipButtons {
+              .active {
+                border: 2px solid white;
+              }
+              .tipOption {
+                background-color: #333;
+                color: #999;
+              }
+            }
+          }
+          .paymentData{
+            .paymentButtons {
+              .active {
+                border: 2px solid white;
+              }
+              .paymentOption {
+                background-color: #333;
+                color: #999;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .cardContainer {
+    flex: 1;
+    margin: 5px 10px;
+    padding: 10px 20px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    border: 2px solid #999;
+    border-radius: 10px;
+
+    &:hover {
+      background-color: #333;
+    }
+  }
+
+  .categories {
+    .categoryItem {
+      li {
+        .icon {
+          color: #999;
+
+          &:hover {
+            background-color: #333;
+          }
+        }
+      }
+    }
+
+    // .active {
+    //   li {
+    //     cursor:initial;
+    //     .icon {
+    //       color: white;
+    //       background-color: black;
+
+    //       &:hover {
+    //         background-color: black;
+    //       }
+    //     }
+    //   }
+    //   .categoryTitle {
+    //     color: white;
+    //   }
+    // }
+  }
+
+  .modal {
+    background-color: rgba(153, 153, 153, 0.85);
+    color: #dbdbdb;
+    .modalContainer {
+      .details {
+        .detailsLeft {
+          .active {
+            background-color: #333;
+          }
+          .sizeOption {
+            border: 2px solid white;
+            .medium {
+              color: #fff;
+            }
+            .large {
+              color: #fff;
+            }
+          }
+          .sizeTitle {
+            color: #fff;
+          }
+          .addToCart {
+            .quantityContainer {
+              border: 1px solid white;
+              background-color: #333;
+              .icon {
+                color: #fff;
+              }
+              .quantity {
+                color: #fff;
+              }
+            }
+          }
+          .addToCartButton {
+            background-color: rgba(204, 0, 0, 0.75);
+            &:hover {
+              background-color: rgba(204, 0, 0, 1);
+            }
+          }
+        }
+        .detailsRight {
+        }
+      }
+      .options {
+        ul.ingredients li label {
+          background-color: transparent;
+          border: 2px solid white;
+          color: #ffffff;
+        }
+
+        ul.ingredients li input[type="checkbox"]:checked + label {
+          border: 2px solid #333;
+          background-color: #333;
+          color: #ffffff;
+          transition: all 0.2s;
+        }
+        ul.ingredients li input[type="checkbox"]:focus + label {
+          border: 2px solid #333;
+        }
+      }
+    }
+  }
+
+  .duo {
+    background-color: rgba(153, 153, 153, 0.85);
+    color: #dbdbdb;
+    .duoContainer {
+      background-color: rgba(153, 153, 153, 0.85);
+      color: #dbdbdb;
+      .duoTop {
+        .duoLeft {
+          .active {
+            background-color: #333;
+          }
+          .sizeOption {
+            border: 2px solid white;
+            .medium {
+              color: #fff;
+            }
+            .large {
+              color: #fff;
+            }
+          }
+          .sizeTitle {
+            color: #fff;
+          }
+          .addToCart {
+            .quantityContainer {
+              border: 1px solid white;
+              background-color: #333;
+              .icon {
+                color: #fff;
+              }
+              .quantity {
+                color: #fff;
+              }
+            }
+          }
+          .addToCartButton {
+            background-color: rgba(204, 0, 0, 0.75);
+            &:hover {
+              background-color: rgba(204, 0, 0, 1);
+            }
+          }
+        }
+        .duoRight {
+        }
+      }
+
+      .duoBottom {
+        .duoPizza {
+          ul.pizzas li label {
+            background-color: transparent;
+            border: 2px solid white;
+            color: #ffffff;
+          }
+
+          ul.pizzas li input[type="checkbox"]:checked + label {
+            border: 2px solid #333;
+            background-color: #333;
+            color: #ffffff;
+            transition: all 0.2s;
+          }
+          ul.pizzas li input[type="checkbox"]:focus + label {
+            border: 2px solid #333;
+          }
+        }
+        .duoIngredients {
+          ul.ingredients li label {
+            background-color: transparent;
+            border: 2px solid white;
+            color: #ffffff;
+          }
+
+          ul.ingredients li input[type="checkbox"]:checked + label {
+            border: 2px solid #333;
+            background-color: #333;
+            color: #ffffff;
+            transition: all 0.2s;
+          }
+          ul.ingredients li input[type="checkbox"]:focus + label {
+            border: 2px solid #333;
+          }
+        }
+        .duoAddons {
+          ul.addons li label {
+            background-color: transparent;
+            border: 2px solid white;
+            color: #ffffff;
+          }
+
+          ul.addons li input[type="checkbox"]:checked + label {
+            border: 2px solid #333;
+            background-color: #333;
+            color: #ffffff;
+            transition: all 0.2s;
+          }
+          ul.addons li input[type="checkbox"]:focus + label {
+            border: 2px solid #333;
+          }
+        }
+      }
+    }
+  }
+
+  p {
+    color: #999;
+  }
+  h5 {
+    color: #777;
+  }
+
+  .order {
+    .orderContainer {
+      background-color: #111;
+      .orderWrapper {
+        box-shadow: none;
+      }
+      .closeButton {
+        color: rgba(204, 2, 2, 0.5);
+        &:hover {
+          color: rgba(204, 0, 0, 0.75);
+        }
+      }
+    }
+  }
+}
