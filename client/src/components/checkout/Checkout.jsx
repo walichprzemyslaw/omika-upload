@@ -336,12 +336,14 @@ const Checkout = ({ closeCheckout }) => {
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const axiosInstance = axios.create({baseURL: process.env.REACT_APP_API_URL, withCredentials: true})
+
 
   const {
     data: bankData,
     loading,
     error,
-  } = useFetch(`https://secure.tpay.com/groups-327331.js?json`);
+  } = useFetch(`/orders/onlinepayment`); 
 
   const [bankId, setBankId] = useState();
   const [delivery, setDelivery] = useState(true);
@@ -525,7 +527,7 @@ const Checkout = ({ closeCheckout }) => {
           delivery,
           bankId,
         };
-        const response = await axios.post("/orders", newOrder);
+        const response = await axiosInstance.post("/orders", newOrder);
         
         if (response.data.paymentMethod === "online") {
           navigate(response.data.url);

@@ -17,6 +17,8 @@ const Register = () => {
     password: undefined,
   });
 
+  const axiosInstance = axios.create({baseURL: process.env.REACT_APP_API_URL, withCredentials: true})
+
   const { loading, error, dispatch } = useContext(AuthContext);
 
   const navigate = useNavigate();
@@ -28,10 +30,10 @@ const Register = () => {
   const handleClick = async (e) => {
     e.preventDefault();
     console.log(credentials);
-    await axios.post("/auth/register", credentials);
+    await axiosInstance.post("/auth/register", credentials);
     dispatch({ type: "LOGIN_START" });
     try {
-      const res = await axios.post("/auth/login", credentials);
+      const res = await axiosInstance.post("/auth/login", credentials);
       if (res.data) {
         dispatch({ type: "LOGIN_SUCCESS", payload: res.data.details });
         navigate("/");

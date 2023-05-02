@@ -20,18 +20,20 @@ const Card = ({ order, showProducts, index }) => {
   const [openReciver, setOpenReciver] = useState(false);
   const [info, setInfo] = useState(order);
   const [time, setTime] = useState(order.deliveryTime);
-  console.log(time.slice(0, 2));
-  console.log(time.slice(3, 5));
+  // console.log(time.slice(0, 2));
+  // console.log(time.slice(3, 5));
+
+  const axiosInstance = axios.create({baseURL: process.env.REACT_APP_API_URL, withCredentials: true})
 
   const delivery = new Date();
   delivery.setHours(time.slice(0, 2));
   delivery.setMinutes(time.slice(3, 5));
-  console.log(delivery);
+  // console.log(delivery);
   const now = new Date();
-  console.log(now);
+  // console.log(now);
   const timeDiff = delivery.getTime() - now.getTime();
   const timeDiffMinutes = Math.round(timeDiff / (1000 * 60));
-  console.log(`Time difference: ${timeDiffMinutes} minutes`);
+  // console.log(`Time difference: ${timeDiffMinutes} minutes`);
 
   // const [status, setStatus] = useState(order.status);
   const { data, loading, error } = useFetch(`/employees`);
@@ -45,7 +47,7 @@ const Card = ({ order, showProducts, index }) => {
       };
       setInfo(newOrder);
       console.log(newOrder);
-      await axios.put(`/orders/${order._id}`, newOrder);
+      await axiosInstance.put(`/orders/${order._id}`, newOrder);
       setOpenStatus(false);
       // navigate("/");
       // closeEditor(false);
@@ -64,7 +66,7 @@ const Card = ({ order, showProducts, index }) => {
       };
       setInfo(newOrder);
       console.log(newOrder);
-      await axios.put(`/orders/${order._id}`, newOrder);
+      await axiosInstance.put(`/orders/${order._id}`, newOrder);
       setOpenMethod(false);
     } catch (error) {
       console.log(error);
@@ -79,7 +81,7 @@ const Card = ({ order, showProducts, index }) => {
       };
       setInfo(newOrder);
       console.log(newOrder);
-      await axios.put(`/orders/${order._id}`, newOrder);
+      await axiosInstance.put(`/orders/${order._id}`, newOrder);
       setOpenMethod(false);
     } catch (error) {
       console.log(error);
@@ -94,7 +96,7 @@ const Card = ({ order, showProducts, index }) => {
       };
       setInfo(newOrder);
       console.log(newOrder);
-      await axios.put(`/orders/${order._id}`, newOrder);
+      await axiosInstance.put(`/orders/${order._id}`, newOrder);
       setOpenReciver(false);
     } catch (error) {
       console.log(error);
@@ -278,7 +280,7 @@ const Card = ({ order, showProducts, index }) => {
               <div
                 onClick={() => handleReciver(item)}
                 className="status"
-                key={item}
+                key={item._id}
               >
                 {item.firstName}
               </div>

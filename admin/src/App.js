@@ -46,9 +46,9 @@ function App() {
   const { darkMode } = useContext(DarkModeContext);
 
   const ProtectedRoute = ({ children }) => {
-    const { admin } = useContext(AuthContext);
+    const { user } = useContext(AuthContext);
 
-    if (!admin) {
+    if (!user) {
       return <Navigate to="/login" />;
     }
     

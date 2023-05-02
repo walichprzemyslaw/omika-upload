@@ -14,6 +14,8 @@ const NewProduct = ({ inputs, title }) => {
   const [normalPrice, setNormalPrice] = useState();
   const [largePrice, setLargePrice] = useState();
   const [ingredients, setIngredients] = useState([]);
+  const axiosInstance = axios.create({baseURL: process.env.REACT_APP_API_URL, withCredentials: true})
+
 
   // const { data, loading, error } = useFetch(`/ingredients`);
 
@@ -101,7 +103,7 @@ const NewProduct = ({ inputs, title }) => {
     data.append("file", file);
     data.append("upload_preset", "upload");
     try {
-      const uploadRes = await axios.post(
+      const uploadRes = await axiosInstance.post(
         "https://api.cloudinary.com/v1_1/dqknlkpku/image/upload",
         data
       );
@@ -114,7 +116,7 @@ const NewProduct = ({ inputs, title }) => {
         img: url,
       };
       console.log(newProduct);
-      await axios.post("/products", newProduct);
+      await axiosInstance.post("/products", newProduct);
       navigate("/products/");
     } catch (error) {
       console.log(error);

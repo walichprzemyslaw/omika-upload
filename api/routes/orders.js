@@ -8,6 +8,7 @@ import {
   getOrdersByDate,
   getOrdersByStatus,
   updateOrder,
+  getOnlinePaymentOptions
 } from "../controllers/order.js";
 import { verifyAdmin, verifyUser } from "../utils/verifyToken.js";
 
@@ -27,6 +28,9 @@ router.get("/today/:day/:month/:year/:status", getOrdersByStatus)
 
 // GET ORDERS BY USER ID
 router.get("/user/:id", getOrdersByUser)
+
+// GET ONLINE PAYMENT OPTIONS
+router.get("/onlinepayment", getOnlinePaymentOptions)
 
 // CREATE ORDER
 router.post("/", createOrder);

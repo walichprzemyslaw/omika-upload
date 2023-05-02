@@ -13,6 +13,8 @@ const EditUser = ({inputs, title}) => {
   const id = location.pathname.split("/")[2];
   const { data, loading, error } = useFetch(`/users/find/${id}`);
   const [info, setInfo] = useState();
+  const axiosInstance = axios.create({baseURL: process.env.REACT_APP_API_URL, withCredentials: true})
+
 
   useEffect(() => {
     setInfo(data);
@@ -27,7 +29,7 @@ const EditUser = ({inputs, title}) => {
   const handleClick = async (e) => {
     e.preventDefault();
     try {
-      await axios.put(`/users/${id}`, { ...info });
+      await axiosInstance.put(`/users/${id}`, { ...info });
       navigate("/users/");
     } catch (error) {
       console.log(error);

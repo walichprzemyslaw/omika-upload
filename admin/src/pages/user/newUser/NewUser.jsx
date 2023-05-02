@@ -11,6 +11,7 @@ const NewUser = ({ inputs, title }) => {
   const [info, setInfo] = useState({});
 
   const navigate = useNavigate();
+  const axiosInstance = axios.create({baseURL: process.env.REACT_APP_API_URL, withCredentials: true})
 
   const handleChange = (e) => {
     setInfo((prev) => ({ ...prev, [e.target.id]: e.target.value }));
@@ -32,7 +33,7 @@ const NewUser = ({ inputs, title }) => {
         // img: url,
       };
 
-      await axios.post("/auth/register", newUser);
+      await axiosInstance.post("/auth/register", newUser);
       navigate("/users/");
     } catch (error) {
       console.log(error);

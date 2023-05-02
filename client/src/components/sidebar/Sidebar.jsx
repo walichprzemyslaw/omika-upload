@@ -13,13 +13,15 @@ const Sidebar = () => {
   const [openPower, setOpenPower] = useState(false);
 
   const navigate = useNavigate();
+  const axiosInstance = axios.create({baseURL: process.env.REACT_APP_API_URL, withCredentials: true})
+
 
   const { user, loading, error, dispatch } = useContext(AuthContext);
 
   const handleLogout = async (e) =>{
     e.preventDefault();
     if (user){
-      const res = await axios.put("/auth/logout");
+      const res = await axiosInstance.put("/auth/logout");
       if (res.data) {
         dispatch({ type: "LOGOUT" });
         navigate("/");

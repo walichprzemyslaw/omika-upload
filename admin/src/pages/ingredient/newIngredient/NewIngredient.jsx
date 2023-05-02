@@ -15,6 +15,8 @@ const NewIngredient = ({ inputs, title }) => {
   const [category, setCategory] = useState("pizza");
   const [normalPrice, setNormalPrice] = useState();
   const [largePrice, setLargePrice] = useState();
+  const axiosInstance = axios.create({baseURL: process.env.REACT_APP_API_URL, withCredentials: true})
+
  
   let price;
   category === "pizza"
@@ -36,7 +38,7 @@ const NewIngredient = ({ inputs, title }) => {
     };
     console.log(newIngredient);
     try {
-      await axios.post("/ingredients", newIngredient);
+      await axiosInstance.post("/ingredients", newIngredient);
       navigate("/ingredients/");
     } catch (error) {
       console.log(error);

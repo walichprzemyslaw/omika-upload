@@ -7,6 +7,8 @@ import { useNavigate } from "react-router-dom";
 
 const NewEmployee = ({ inputs, title }) => {
   const [info, setInfo] = useState({});
+  const axiosInstance = axios.create({baseURL: process.env.REACT_APP_API_URL, withCredentials: true})
+
 
   const navigate = useNavigate();
 
@@ -17,7 +19,7 @@ const NewEmployee = ({ inputs, title }) => {
   const handleClick = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("/employees", { ...info });
+      await axiosInstance.post("/employees", { ...info });
       navigate("/employees/");
     } catch (error) {
       console.log(error);

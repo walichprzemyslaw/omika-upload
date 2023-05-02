@@ -141,6 +141,16 @@ export const createOrder = async (req, res, next) => {
     next(error);
   }
 };
+
+export const getOnlinePaymentOptions = async (req, res, next) => {
+  try {
+    const paymentOptions = `https://secure.tpay.com/groups-327331.js?json`;
+    const options = await axios.get(paymentOptions);
+    res.status(200).json(options.data);
+  } catch (error) {
+    next(error);
+  }
+};
 export const updateOrder = async (req, res, next) => {
   try {
     const updatedOrder = await Order.findByIdAndUpdate(

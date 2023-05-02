@@ -13,6 +13,8 @@ const EditEmployee = ({ inputs, title }) => {
   const id = location.pathname.split("/")[2];
   const { data, loading, error } = useFetch(`/employees/find/${id}`);
   const [info, setInfo] = useState();
+  const axiosInstance = axios.create({baseURL: process.env.REACT_APP_API_URL, withCredentials: true})
+
 
   useEffect(() => {
     setInfo(data);
@@ -27,7 +29,7 @@ const EditEmployee = ({ inputs, title }) => {
   const handleClick = async (e) => {
     e.preventDefault();
     try {
-      await axios.put(`/employees/${id}`, { ...info });
+      await axiosInstance.put(`/employees/${id}`, { ...info });
       navigate("/employees/");
     } catch (error) {
       console.log(error);

@@ -10,6 +10,8 @@ const Datatable = ({ columns, title }) => {
   const path = location.pathname.split("/")[1];
   const [list, setList] = useState([]);
   const { data, loading, error } = useFetch(`/${path}`);
+  const axiosInstance = axios.create({baseURL: process.env.REACT_APP_API_URL})
+
 
   console.log(list);
 
@@ -19,7 +21,7 @@ const Datatable = ({ columns, title }) => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`/${path}/${id}`);
+      await axiosInstance.delete(`/${path}/${id}`);
       setList(list.filter((item) => item._id !== id));
     } catch (err) {
       error.status(err.status).message(err.message);

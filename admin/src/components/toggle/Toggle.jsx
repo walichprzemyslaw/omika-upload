@@ -4,6 +4,8 @@ import axios from "axios";
 
 export const Toggle = ({ label, available, item, category, size }) => {
   const [toggled, setToggled] = useState(available);
+  const axiosInstance = axios.create({baseURL: process.env.REACT_APP_API_URL, withCredentials: true})
+
 
   const handleAvailable = async () => {
     try {
@@ -14,7 +16,7 @@ export const Toggle = ({ label, available, item, category, size }) => {
 
       console.log(newProduct);
       setToggled(!toggled);
-      await axios.put(`/${category}/${item._id}`, newProduct);
+      await axiosInstance.put(`/${category}/${item._id}`, newProduct);
     } catch (error) {
       console.log(error);
     }

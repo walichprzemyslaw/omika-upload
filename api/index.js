@@ -8,6 +8,7 @@ import productsRoute from "./routes/products.js";
 import employeesRoute from "./routes/employees.js";
 import ingredientsRoute from "./routes/ingredients.js";
 import cookieParser from "cookie-parser";
+import cors from "cors";
 
 const app = express();
 dotenv.config();
@@ -29,6 +30,13 @@ app.get("/", (req, res) => {
 //middlewares
 app.use(express.json());
 app.use(cookieParser());
+app.use(cors({
+  origin: "http://localhost:3000",
+  credentials: true,
+  allowedHeaders: "Content-Type, Authorization",
+  methods: "GET, POST, PUT, DELETE"
+}));
+
 
 app.use("/api/auth", authRoute);
 app.use("/api/users", usersRoute);

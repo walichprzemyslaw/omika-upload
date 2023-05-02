@@ -14,6 +14,8 @@ const EditProduct = ({ item, closeEditor }) => {
   const [largePrice, setLargePrice] = useState(item.price[1]);
   const [xLargePrice, setXLargePrice] = useState(item.price[2]);
   const [ingredients, setIngredients] = useState([...item.ingredients]);
+  const axiosInstance = axios.create({baseURL: process.env.REACT_APP_API_URL, withCredentials: true})
+
 
   const data = [
     "sos pomidorowy",
@@ -107,7 +109,7 @@ const EditProduct = ({ item, closeEditor }) => {
     try {
       let url = item.img;
       try {
-        const uploadRes = await axios.post(
+        const uploadRes = await axiosInstance.post(
           "https://api.cloudinary.com/v1_1/dqknlkpku/image/upload",
           data
         );
@@ -123,7 +125,7 @@ const EditProduct = ({ item, closeEditor }) => {
         img: url,
       };
       console.log(editedProduct);
-      await axios.put(`/products/${item._id}`, editedProduct);
+      await axiosInstance.put(`/products/${item._id}`, editedProduct);
       navigate("/products/");
     } catch (error) {
       console.log(error);

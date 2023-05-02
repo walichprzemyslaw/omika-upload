@@ -15,12 +15,14 @@ const Modal = ({ order, closeModal }) => {
   const { data, loading, error } = useFetch(
     `/employees/find/${order.paymentReciver}`
   );
+  const axiosInstance = axios.create({baseURL: process.env.REACT_APP_API_URL, withCredentials: true})
+
  
   const dispatch = useDispatch();
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`/orders/${id}`);
+      await axiosInstance.delete(`/orders/${id}`);
       closeModal(false);
     } catch (err) {
       error.status(err.status).message(err.message);

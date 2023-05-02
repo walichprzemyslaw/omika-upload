@@ -13,6 +13,8 @@ const EditOrder = ({ inputs, title }) => {
   const dispatch = useDispatch();
   const [openEdit, setOpenEdit] = useState(false);
   const location = useLocation();
+  const axiosInstance = axios.create({baseURL: process.env.REACT_APP_API_URL})
+
   const id = location.pathname.split("/")[2];
   const { data, loading, error } = useFetch(`/orders/find/${id}`);
 

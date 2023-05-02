@@ -359,6 +359,8 @@ const New = ({ closeNew }) => {
     deliveryTime: "jak najszybciej",
   });
 
+  const axiosInstance = axios.create({baseURL: process.env.REACT_APP_API_URL, withCredentials: true})
+
   const products = useSelector((state) => state.cart.products);
 
   const { data, loading, error } = useFetch(`/products/category/${category}`);
@@ -507,7 +509,7 @@ const New = ({ closeNew }) => {
         totalPrice,
       };
       console.log(newOrder);
-      await axios.post(`/orders/`, newOrder);
+      await axiosInstance.post(`/orders/`, newOrder);
       closeNew(false);
       navigate("/");
       dispatch(resetCart());

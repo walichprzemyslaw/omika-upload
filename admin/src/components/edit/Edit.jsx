@@ -361,6 +361,9 @@ const Edit = ({ order, closeEditor, closeModal }) => {
     error: employeeError,
   } = useFetch(`/employees`);
 
+  const axiosInstance = axios.create({baseURL: process.env.REACT_APP_API_URL, withCredentials: true})
+
+
   const products = useSelector((state) => state.cart.products);
 
   const getTimeRange = (startTime) => {
@@ -524,7 +527,7 @@ const Edit = ({ order, closeEditor, closeModal }) => {
         totalPrice,
       };
       console.log(newOrder);
-      await axios.put(`/orders/${order._id}`, newOrder);
+      await axiosInstance.put(`/orders/${order._id}`, newOrder);
       navigate("/");
       closeEditor(false);
         // closeModal(false);

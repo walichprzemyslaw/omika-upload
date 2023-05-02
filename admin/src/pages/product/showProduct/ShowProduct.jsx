@@ -15,6 +15,8 @@ const ShowProduct = ({ inputs, title }) => {
   const { data, loading, error } = useFetch(`/products/find/${id}`);
   const [openEditor, setOpenEditor] = useState(false);
   console.log(data);
+  const axiosInstance = axios.create({baseURL: process.env.REACT_APP_API_URL, withCredentials: true})
+
 
   return (
     <div className="show">
